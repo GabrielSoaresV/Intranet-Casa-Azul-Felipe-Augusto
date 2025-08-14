@@ -1,0 +1,24 @@
+  <app-navbar (trocarTela)="trocarTela($event)"></app-navbar>
+<div class="pageRegister">
+  <div class="sidebar-menu">
+      <ul>
+        <li (click)="selecionarForm('jovem')" [class.active]="formSelecionado === 'jovem'">Adicionar Jovem</li>
+        <li (click)="selecionarForm('empresa')" [class.active]="formSelecionado === 'empresa'">Adicionar Empresa</li>
+        <li (click)="selecionarForm('funcionario')" [class.active]="formSelecionado === 'funcionario'">Adicionar Funcionário</li>
+      </ul>
+    </div>
+  <div class="container-form-pai">
+      <div *ngIf="formSelecionado === 'jovem'">
+        <app-form-register-jovem (submitForm)="cadastrarJovem($event)"></app-form-register-jovem>
+      </div>
+
+      <div *ngIf="formSelecionado === 'empresa'">
+        <app-form-register-empresa></app-form-register-empresa>
+      </div>
+
+      <div *ngIf="formSelecionado === 'funcionario'">
+        <app-form-register-funcionario></app-form-register-funcionario>
+      </div>
+  </div>
+</div>
+

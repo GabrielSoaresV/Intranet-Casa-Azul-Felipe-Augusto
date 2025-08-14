@@ -1,0 +1,49 @@
+.pageRegister {
+  height: 90%;
+  width: 100%;
+  background: greenyellow;
+  display:flex;
+  border-radius: 20px;
+}
+
+.sidebar-menu {
+  width: 20%;
+  height: 100%;
+  background-color: #1e293b;
+  color: white;
+  padding: 20px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  z-index: 99;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.sidebar-menu li:hover,
+.sidebar-menu li.active {
+  background-color: #3a86ff;
+}
+
+.titulo {
+  margin-bottom: 2rem;
+}
+
+.container-form-pai {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+

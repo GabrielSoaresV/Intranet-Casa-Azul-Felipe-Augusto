@@ -1,0 +1,30 @@
+<app-navbar (trocarTela)="trocarTela($event)"></app-navbar>
+
+<div class="settings-container">
+  <h2>Configurações</h2>
+
+  <div class="setting-group">
+    <label for="theme">Tema:</label>
+    <select id="theme">
+      <option>Claro</option>
+      <option>Escuro</option>
+    </select>
+  </div>
+
+  <div class="setting-group">
+    <label for="language">Idioma:</label>
+    <select id="language">
+      <option>Português</option>
+      <option>Inglês</option>
+    </select>
+  </div>
+
+  <div class="setting-group">
+    <label>
+      <input type="checkbox" />
+      Notificações por e-mail
+    </label>
+  </div>
+
+  <button class="save-btn">Salvar Configurações</button>
+</div>

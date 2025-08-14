@@ -1,0 +1,11 @@
+/* Reset básico */
+ html, body {
+  height: 100%;
+  width: 100%;
+  background: rgb(206, 135, 206);
+}
+
+:root {
+  --navbar-height: 60px;
+  --searchbar-height: 70px;
+}
