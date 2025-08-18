@@ -1,14 +1,15 @@
 import { NgModule, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
+import { FormsModule } from '@angular/forms';
 import { App } from './app';
 import { PageLogin } from './pages/page-login/page-login';
 import { PageNavigation } from './pages/page-navigation/page-navigation';
 import { PageSettings } from './pages/page-settings/page-settings';
 import { SearchBar } from './pages/search-bar/search-bar';
 import { MainContainer } from './pages/main-container/main-container';
-import { TableEmpresas } from './pages/table-empresas/table-empresas';
+import { TableEmpresa } from './pages/table-empresas/table-empresas';
 import { TableJovens } from './pages/table-jovens/table-jovens';
 import { PageGestao } from './pages/page-gestao/page-gestao';
 import { ButtonEmpresas } from './componentes/button-empresas/button-empresas';
@@ -31,7 +32,7 @@ import { PageRegister } from './pages/page-register/page-register';
     PageSettings,
     SearchBar,
     MainContainer,
-    TableEmpresas,
+    TableEmpresa,
     TableJovens,
     PageGestao,
     ButtonEmpresas,
@@ -48,7 +49,9 @@ import { PageRegister } from './pages/page-register/page-register';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,    
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

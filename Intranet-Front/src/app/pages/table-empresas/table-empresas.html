@@ -1,1 +1,98 @@
-<p>table-empresas works!</p>
+<div class="layout d-flex flex-column vh-100">
+  <!-- Barra de pesquisa -->
+  <div class="search-bar p-3">
+  </div>
+
+  <!-- Tabela de empresas -->
+  <div class="table-container flex-grow-1 overflow-auto p-3">
+    <table class="table table-hover table-bordered">
+      <caption>Lista de Empresas</caption>
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>CNPJ</th>
+          <th>Empresa</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let empresa of empresas; let i = index">
+          <tr (click)="toggleDetalhes(i)">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ formatarCnpj(empresa.cnpj) }}</td>
+            <td>{{ empresa.nomeEmpresa }}</td>
+            <td>{{ empresa.emailEmpresa }}</td>
+            <td>{{ empresa.telefoneEmpresa }}</td>
+            <td class="text-start">
+              <button class="btn btn-primary btn-sm me-1" (click)="$event.stopPropagation(); confirmar(empresa)">Enviar</button>
+              <button class="btn btn-warning btn-sm me-1" (click)="$event.stopPropagation(); editarRegistro(empresa)">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation();">Excluir</button>
+            </td>
+          </tr>
+
+          <!-- Linha de detalhes expansível -->
+          <tr *ngIf="registroExpandido === i">
+            <td colspan="6">
+              <div class="p-3 bg-light border rounded d-flex gap-4">
+                <div><strong>Nome do Supervisor de RH:</strong><br>{{ empresa.rhNomeResponsavel || 'Não informado' }}</div>
+                <div><strong>Email do Supervisor de RH:</strong><br>{{ empresa.rhEmailResponsavel || 'Não informado' }}</div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Caso não haja empresas -->
+        <tr *ngIf="empresas.length === 0">
+          <td colspan="6" class="text-center">Nenhuma empresa cadastrada.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Modal de edição usando Bootstrap -->
+<div class="modal fade show" tabindex="-1" [ngClass]="{'d-block': registroEditando}" *ngIf="registroEditando">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edição de Registro - Empresa</h5>
+        <button type="button" class="btn-close" (click)="fecharModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="cnpj" class="form-label">CNPJ</label>
+            <input id="cnpj" type="text" class="form-control" [(ngModel)]="registroEditando.cnpj" name="cnpj">
+          </div>
+          <div class="mb-3">
+            <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
+            <input id="nomeEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.nomeEmpresa" name="nomeEmpresa">
+          </div>
+          <div class="mb-3">
+            <label for="emailEmpresa" class="form-label">Email da Empresa</label>
+            <input id="emailEmpresa" type="email" class="form-control" [(ngModel)]="registroEditando.emailEmpresa" name="emailEmpresa">
+          </div>
+          <div class="mb-3">
+            <label for="telefoneEmpresa" class="form-label">Telefone da Empresa</label>
+            <input id="telefoneEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneEmpresa" name="telefoneEmpresa">
+          </div>
+          <div class="mb-3">
+            <label for="rhNomeResponsavel" class="form-label">Nome do Supervisor de RH</label>
+            <input id="rhNomeResponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.rhNomeResponsavel" name="rhNomeResponsavel">
+          </div>
+          <div class="mb-3">
+            <label for="rhEmailResponsavel" class="form-label">Email do Supervisor de RH</label>
+            <input id="rhEmailResponsavel" type="email" class="form-control" [(ngModel)]="registroEditando.rhEmailResponsavel" name="rhEmailResponsavel">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
+        <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
