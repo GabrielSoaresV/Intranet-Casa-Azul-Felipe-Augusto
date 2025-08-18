@@ -12,3 +12,4 @@ export class BuscaService {
     this.textoBuscaSubject.next(texto);
   }
 }
+

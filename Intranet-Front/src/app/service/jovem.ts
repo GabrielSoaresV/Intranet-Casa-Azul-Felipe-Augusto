@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JovemAprendiz } from '../models/jovem-aprendiz.model';  // Importa a interface certa
+import { InterfaceJovem } from '../models/interface-jovem.model'; 
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,15 @@ export class JovemService {
 
   constructor(private http: HttpClient) {}
 
-  listar(): Observable<JovemAprendiz[]> {
-    return this.http.get<JovemAprendiz[]>(this.API);
+  listar(): Observable<InterfaceJovem[]> {
+    return this.http.get<InterfaceJovem[]>(this.API);
   }
-  
+
   excluir(matricula: string) {
     return this.http.delete(`${this.API}/${matricula}`);
   }
 
-  atualizarJovem(jovem: JovemAprendiz): Observable<JovemAprendiz> {
-    return this.http.put<JovemAprendiz>(`${this.API}/${encodeURIComponent(jovem.matricula)}`, jovem);
+  atualizarJovem(jovem: InterfaceJovem): Observable<InterfaceJovem> {
+    return this.http.put<InterfaceJovem>(`${this.API}/${jovem.matricula}`, jovem);
   }
 }
