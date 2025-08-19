@@ -49,7 +49,7 @@ import { PageRegister } from './pages/page-register/page-register';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,    
+    AppRoutingModule,
     HttpClientModule,
     FormsModule
   ],

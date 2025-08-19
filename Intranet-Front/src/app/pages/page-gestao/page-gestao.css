@@ -1,0 +1,21 @@
+.afastamento {
+    margin-top: 50px;
+}
+
+.top-table {
+  display: flex;           
+  flex-direction: row;     
+  gap: 1rem;        
+  align-items: center;        
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;           
+  flex-direction: row;     
+  gap: 1rem;        
+  align-items: center;        
+  justify-content: space-between;
+  margin-right: 15px;
+
+}

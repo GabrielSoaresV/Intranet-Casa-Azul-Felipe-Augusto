@@ -2,7 +2,7 @@
 
   <!-- Container da tabela -->
   <div class="table-container flex-grow-1 overflow-auto p-3">
-    <table class="table table-hover table">
+    <table class="table table-hover">
       <caption class="text-center fw-bold">Lista de Empresas</caption>
       <thead class="table-dark">
         <tr>
@@ -13,9 +13,8 @@
           <th class="text-center"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody>   
         <ng-container *ngFor="let empresa of empresas; let i = index">
-          
           <!-- Linha principal -->
           <tr (click)="toggleDetalhes(i)" class="align-middle">
             <td class="text-center">{{ empresa.nomeEmpresa }}</td>
@@ -28,6 +27,8 @@
               <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation(); excluir(empresa.cnpj)">Excluir</button>
             </td>
           </tr>
+
+          <!-- Linha expandida -->
           <tr *ngIf="registroExpandido === i">
             <td colspan="5" class="p-0">
               <div class="bg-light border rounded d-flex justify-content-between flex-wrap p-4" style="gap: 2rem;">
@@ -43,6 +44,7 @@
             </td>
           </tr>
         </ng-container>
+
         <tr *ngIf="empresas.length === 0">
           <td colspan="5" class="text-center">Nenhuma empresa cadastrada.</td>
         </tr>
@@ -51,49 +53,45 @@
   </div>
 </div>
 
+<!-- Modal Angular puro -->
+<div *ngIf="registroEditando" class="modal-backdrop" (click)="fecharModal()">
+  <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h5 class="modal-title"><strong>Editar Registro - Empresa</strong></h5>
+    </div>
 
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="cnpj" class="form-label">CNPJ</label>
+          <input id="cnpj" type="text" class="form-control" [(ngModel)]="registroEditando.cnpj" name="cnpj">
+        </div>
+        <div class="mb-3">
+          <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
+          <input id="nomeEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.nomeEmpresa" name="nomeEmpresa">
+        </div>
+        <div class="mb-3">
+          <label for="emailEmpresa" class="form-label">Email da Empresa</label>
+          <input id="emailEmpresa" type="email" class="form-control" [(ngModel)]="registroEditando.emailEmpresa" name="emailEmpresa">
+        </div>
+        <div class="mb-3">
+          <label for="telefoneEmpresa" class="form-label">Telefone da Empresa</label>
+          <input id="telefoneEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneEmpresa" name="telefoneEmpresa">
+        </div>
+        <div class="mb-3">
+          <label for="rhNomeResponsavel" class="form-label">Nome do Supervisor de RH</label>
+          <input id="rhNomeResponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.rhNomeResponsavel" name="rhNomeResponsavel">
+        </div>
+        <div class="mb-3">
+          <label for="rhEmailResponsavel" class="form-label">Email do Supervisor de RH</label>
+          <input id="rhEmailResponsavel" type="email" class="form-control" [(ngModel)]="registroEditando.rhEmailResponsavel" name="rhEmailResponsavel">
+        </div>
+      </form>
+    </div>
 
-<!-- Modal para adicionar novas empresas -->
-
-<div class="modal fade show" tabindex="-1" [ngClass]="{'d-block': registroEditando}" *ngIf="registroEditando">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edição de Registro - Empresa</h5>
-        <button type="button" class="btn-close" (click)="fecharModal()"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="cnpj" class="form-label">CNPJ</label>
-            <input id="cnpj" type="text" class="form-control" [(ngModel)]="registroEditando.cnpj" name="cnpj">
-          </div>
-          <div class="mb-3">
-            <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
-            <input id="nomeEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.nomeEmpresa" name="nomeEmpresa">
-          </div>
-          <div class="mb-3">
-            <label for="emailEmpresa" class="form-label">Email da Empresa</label>
-            <input id="emailEmpresa" type="email" class="form-control" [(ngModel)]="registroEditando.emailEmpresa" name="emailEmpresa">
-          </div>
-          <div class="mb-3">
-            <label for="telefoneEmpresa" class="form-label">Telefone da Empresa</label>
-            <input id="telefoneEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneEmpresa" name="telefoneEmpresa">
-          </div>
-          <div class="mb-3">
-            <label for="rhNomeResponsavel" class="form-label">Nome do Supervisor de RH</label>
-            <input id="rhNomeResponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.rhNomeResponsavel" name="rhNomeResponsavel">
-          </div>
-          <div class="mb-3">
-            <label for="rhEmailResponsavel" class="form-label">Email do Supervisor de RH</label>
-            <input id="rhEmailResponsavel" type="email" class="form-control" [(ngModel)]="registroEditando.rhEmailResponsavel" name="rhEmailResponsavel">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
-        <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
-      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
+      <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
     </div>
   </div>
 </div>

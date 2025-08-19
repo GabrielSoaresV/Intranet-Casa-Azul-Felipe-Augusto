@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button-empresas',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './button-empresas.css'
 })
 export class ButtonEmpresas {
+  @Output() mostrarTabela = new EventEmitter<void>();
 
+  clicouBotao() {
+    this.mostrarTabela.emit();
+  }
 }

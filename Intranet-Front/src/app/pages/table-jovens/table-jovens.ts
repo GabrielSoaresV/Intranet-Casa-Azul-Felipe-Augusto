@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { InterfaceEmpresa } from '../../models/interface-empresa.model';
-import { EmpresaService } from '../../service/empresa';
+import { InterfaceJovem } from '../../models/interface-jovem.model';
+import { JovemService } from '../../service/jovem';
 import { BuscaService } from '../../service/busca.service';
 import { Subscription } from 'rxjs';
 
@@ -11,14 +11,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./table-jovens.css']
 })
 export class TableJovens implements OnInit {
-  empresas: InterfaceEmpresa[] = [];
-  todasEmpresas: InterfaceEmpresa[] = [];
+  jovens: InterfaceJovem[] = [];
+  todosJovens: InterfaceJovem[] = [];
   registroExpandido: number | null = null;
-  registroEditando: InterfaceEmpresa | null = null;
+  registroEditando: InterfaceJovem | null = null;
   private buscaSubscription!: Subscription;
 
   constructor(
-    private empresaService: EmpresaService,
+    private jovemService: JovemService,
     private buscaService: BuscaService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -32,10 +32,10 @@ export class TableJovens implements OnInit {
   }
 
   carregarDados(): void {
-    this.empresaService.listar().subscribe({
+    this.jovemService.listar().subscribe({
       next: (dados) => {
-        this.todasEmpresas = dados;
-        this.empresas = dados;
+        this.todosJovens = dados;
+        this.jovens = dados;
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Erro ao carregar dados', err)
@@ -44,12 +44,12 @@ export class TableJovens implements OnInit {
 
   aplicarFiltro(texto: string): void {
     if (!texto) {
-      this.empresas = [...this.todasEmpresas];
+      this.jovens = [...this.todosJovens];
     } else {
       const busca = texto.toLowerCase();
-      this.empresas = this.todasEmpresas.filter(emp =>
-        emp.nomeEmpresa?.toLowerCase().includes(busca) ||
-        emp.cnpj?.toLowerCase().includes(busca)
+      this.jovens = this.todosJovens.filter(jovem =>
+        jovem.nome?.toLowerCase().includes(busca) ||
+        jovem.matricula?.toLowerCase().includes(busca)
       );
     }
     this.cdr.detectChanges();
@@ -59,41 +59,47 @@ export class TableJovens implements OnInit {
     this.registroExpandido = this.registroExpandido === index ? null : index;
   }
 
-  confirmar(empresa: InterfaceEmpresa) {
-    console.log('Enviar:', empresa);
+  confirmar(jovem: InterfaceJovem) {
+    console.log('Enviar:', jovem);
   }
 
-  editarRegistro(empresa: InterfaceEmpresa) {
-    this.registroEditando = { ...empresa };
+  editarRegistro(jovem: InterfaceJovem) {
+    console.log('função editarRegistro, chamada');
+    this.registroEditando = { ...jovem };
+  }
+
+  carregarRegistros(): void {
+    this.carregarDados();
   }
 
   salvarEdicao() {
-    if (!this.registroEditando) return;
-
-    this.empresaService.atualizarEmpresa(this.registroEditando).subscribe({
-      next: () => {
-        alert(`Alterações salvas com sucesso para ${this.registroEditando?.nomeEmpresa}!`);
-        this.fecharModal();
-        this.carregarDados(); // Atualiza a lista
-      },
-      error: (err) => {
-        console.error('Erro ao salvar edição:', err);
-        alert('Erro ao salvar alterações.');
-      }
-    });
+    if (this.registroEditando) {
+      this.jovemService.atualizarJovem(this.registroEditando).subscribe({
+        next: () => {
+          alert(`Alterações salvas com sucesso para ${this.registroEditando?.nome}!`);
+          this.fecharModal();
+          this.carregarRegistros();
+        },
+        error: (erro) => {
+          console.error('Erro ao atualizar:', erro);
+          alert('Erro ao salvar as alterações.');
+        }
+      });
+    }
   }
 
   fecharModal() {
     this.registroEditando = null;
   }
 
-  excluir(empresa: InterfaceEmpresa) {
-    if (confirm(`Confirma exclusão do registro ${empresa.cnpj}?`)) {
-      this.empresaService.excluir(empresa.cnpj).subscribe({
+  excluir(matricula: string): void {
+    if (confirm(`Confirma exclusão do registro ${matricula}?`)) {
+      this.jovemService.excluir(matricula).subscribe({
         next: () => {
+          this.jovens = this.jovens.filter(j => j.matricula !== matricula);
+          this.todosJovens = this.todosJovens.filter(j => j.matricula !== matricula);
+          this.cdr.detectChanges();
           alert('Registro excluído com sucesso!');
-          this.empresas = this.empresas.filter(emp => emp.cnpj !== empresa.cnpj);
-          this.todasEmpresas = this.todasEmpresas.filter(emp => emp.cnpj !== empresa.cnpj);
         },
         error: (err) => {
           console.error('Erro ao excluir registro', err);
@@ -102,14 +108,20 @@ export class TableJovens implements OnInit {
       });
     }
   }
+  getStatusClass(jovem: InterfaceJovem): string {
+    if (!jovem || !jovem.contratacao || jovem.periodoAvaliacao == null) return '';
+    
+    const hoje = new Date();
+    const dataContratacao = new Date(jovem.contratacao);
+    const periodoMeses = Number(jovem.periodoAvaliacao);
 
-  formatarCnpj(cnpj: string): string {
-    if (!cnpj) return '';
-    let v = cnpj.replace(/\D/g, '');
-    v = v.replace(/^(\d{2})(\d)/, '$1.$2');
-    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-    v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
-    v = v.replace(/(\d{4})(\d)/, '$1-$2');
-    return v;
+    const dataAvaliacao = new Date(dataContratacao);
+    dataAvaliacao.setMonth(dataContratacao.getMonth() + periodoMeses);
+
+    const diffDias = Math.ceil((dataAvaliacao.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDias <= 7) return 'status-vermelho';
+    if (diffDias <= 30) return 'status-amarelo';
+    return 'status-verde';
   }
 }

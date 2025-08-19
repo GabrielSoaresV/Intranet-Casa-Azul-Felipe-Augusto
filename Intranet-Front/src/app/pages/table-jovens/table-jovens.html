@@ -1,0 +1,115 @@
+<div class="layout d-flex flex-column vh-90">
+
+  <!-- Container da tabela -->
+  <div class="table-container flex-grow-1 overflow-auto p-3">
+    <table class="table table-hover tabela-registros">
+      <caption class="text-center fw-bold">Lista de Jovens</caption>
+      <thead class="table-dark">
+        <tr>
+          <th class="text-center"></th>
+          <th class="text-center">Nome</th>
+          <th class="text-center">Matrícula</th>
+          <th class="text-center">Contratação</th>
+          <th class="text-center">Rescisão</th>
+          <th class="text-center">Empresa</th>
+          <th class="text-center">Período</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let jovem of jovens; let i = index">
+          <!-- Linha principal -->
+          <tr (click)="toggleDetalhes(i)" class="align-middle">
+            <!-- Barra lateral de status -->
+            <td class="status-cell">
+              <div [ngClass]="getStatusClass(jovem)"></div>
+            </td>
+
+            <td class="text-center">{{ jovem.nome }}</td>
+            <td class="text-center">{{ jovem.matricula }}</td>
+            <td class="text-center">{{ jovem.contratacao | date:'dd/MM/yyyy' }}</td>
+            <td class="text-center">{{ jovem.rescisao | date:'dd/MM/yyyy' }}</td>
+            <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
+            <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
+            <td class="d-flex justify-content-center gap-3">
+              <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); confirmar(jovem)">Enviar</button>
+              <button class="btn btn-warning btn-sm" (click)="$event.stopPropagation(); editarRegistro(jovem)">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation(); excluir(jovem.matricula)">Excluir</button>
+            </td>
+          </tr>
+
+          <!-- Linha expandida -->
+          <tr *ngIf="registroExpandido === i">
+            <td colspan="8" class="p-0">
+              <div class="bg-light border rounded d-flex justify-content-between flex-wrap p-4" style="gap: 2rem;">
+                <div style="flex: 1 1 45%;">
+                  <strong>Nome do Responsável:</strong><br>
+                  {{ jovem.nomeresponsavel || 'Não informado' }}
+                </div>
+                <div style="flex: 1 1 45%;">
+                  <strong>Telefone do Responsável:</strong><br>
+                  {{ jovem.telefoneresponsavel || 'Não informado' }}
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <tr *ngIf="jovens.length === 0">
+          <td colspan="8" class="text-center">Nenhum jovem cadastrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Angular puro -->
+<div *ngIf="registroEditando" class="modal-backdrop" (click)="fecharModal()">
+  <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h5 class="modal-title"><strong>Editar Registro - Jovem</strong></h5>
+    </div>
+
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input id="nome" type="text" class="form-control" [(ngModel)]="registroEditando.nome" name="nome">
+        </div>
+        <div class="mb-3">
+          <label for="matricula" class="form-label">Matrícula</label>
+          <input id="matricula" type="text" class="form-control" [(ngModel)]="registroEditando.matricula" name="matricula">
+        </div>
+        <div class="mb-3">
+          <label for="contratacao" class="form-label">Data de Contratação</label>
+          <input id="contratacao" type="date" class="form-control" [(ngModel)]="registroEditando.contratacao" name="contratacao">
+        </div>
+        <div class="mb-3">
+          <label for="rescisao" class="form-label">Data de Rescisão</label>
+          <input id="rescisao" type="date" class="form-control" [(ngModel)]="registroEditando.rescisao" name="rescisao">
+        </div>
+        <div class="mb-3">
+          <label for="periodoAvaliacao" class="form-label">Período de Avaliação</label>
+          <input id="periodoAvaliacao" type="number" class="form-control" [(ngModel)]="registroEditando.periodoAvaliacao" name="periodoAvaliacao">
+        </div>
+        <div class="mb-3">
+          <label for="nomeresponsavel" class="form-label">Nome do Responsável</label>
+          <input id="nomeresponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.nomeresponsavel" name="nomeresponsavel">
+        </div>
+        <div class="mb-3">
+          <label for="telefoneresponsavel" class="form-label">Telefone do Responsável</label>
+          <input id="telefoneresponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneresponsavel" name="telefoneresponsavel">
+        </div>
+        <div class="mb-3">
+          <label for="observacoes" class="form-label">Observações</label>
+          <textarea id="observacoes" class="form-control" [(ngModel)]="registroEditando.observacoes" name="observacoes"></textarea>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
+      <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>

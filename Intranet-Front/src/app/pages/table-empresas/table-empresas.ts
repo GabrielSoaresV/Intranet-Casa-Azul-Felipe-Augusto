@@ -64,22 +64,28 @@ export class TableEmpresa implements OnInit {
   }
 
   editarRegistro(empresa: InterfaceEmpresa) {
+    console.log('função editarRegistro, chamada');
     this.registroEditando = { ...empresa };
   }
 
   carregarRegistros(): void {
+    console.log('função carregarRegistros, chamada');
     this.carregarDados();
   }
 
   salvarEdicao() {
+    console.log('função salvarEdicao, chamada');
     if (this.registroEditando) {
       this.empresaService.atualizarEmpresa(this.registroEditando).subscribe({
         next: () => {
-          alert('Alterações salvas!');
+          alert(`Alterações salvas com sucesso para ${this.registroEditando?.nomeEmpresa}!`);
           this.fecharModal();
-          this.carregarDados();
+          this.carregarRegistros();
         },
-        error: (err) => console.error('Erro ao atualizar', err)
+        error: (erro) => {
+          console.error('Erro ao atualizar:', erro);
+          alert('Erro ao salvar as alterações.');
+        }
       });
     }
   }

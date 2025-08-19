@@ -7,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrl: './page-gestao.css'
 })
 export class PageGestao {
+  tabelaAtiva: 'jovens' | 'empresas' = 'jovens'; // valor inicial
 
+  mostrarTabelaEmpresas() {
+    this.tabelaAtiva = 'empresas';
+  }
+
+  mostrarTabelaJovens() {
+    this.tabelaAtiva = 'jovens';
+  }
+
+  alternarTabela() {
+    this.tabelaAtiva = this.tabelaAtiva === 'jovens' ? 'empresas' : 'jovens';
+  }
 }
