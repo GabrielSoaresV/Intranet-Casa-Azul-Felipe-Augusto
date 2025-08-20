@@ -1,11 +1,6 @@
-.afastamento {
-    margin-top: 50px;
-}
-
 .top-table {
   display: flex;           
-  flex-direction: row;     
-  gap: 1rem;        
+  flex-direction: row;         
   align-items: center;        
   justify-content: space-between;
 }
