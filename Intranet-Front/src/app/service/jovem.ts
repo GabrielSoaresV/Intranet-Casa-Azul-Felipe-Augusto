@@ -22,4 +22,8 @@ export class JovemService {
   atualizarJovem(jovem: InterfaceJovem): Observable<InterfaceJovem> {
     return this.http.put<InterfaceJovem>(`${this.API}/${jovem.matricula}`, jovem);
   }
+
+  cadastrar(jovem: InterfaceJovem): Observable<InterfaceJovem> {
+    return this.http.post<InterfaceJovem>(this.API, jovem);
+  }
 }

@@ -31,15 +31,18 @@
           <!-- Linha expandida -->
           <tr *ngIf="registroExpandido === i">
             <td colspan="5" class="p-0">
-              <div class="bg-light border rounded d-flex justify-content-between flex-wrap p-4" style="gap: 2rem;">
-                <div style="flex: 1 1 45%; padding-left: 40rem;">
+              <div class="bg-light border rounded d-flex justify-content-center flex-wrap gap-4 p-4">
+
+                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
                   <strong>Nome do Supervisor de RH:</strong><br>
                   {{ empresa.rhNomeResponsavel || 'Não informado' }}
                 </div>
-                <div style="flex: 1 1 45%; padding-left: 20rem;">
+
+                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
                   <strong>Email do Supervisor de RH:</strong><br>
                   {{ empresa.rhEmailResponsavel || 'Não informado' }}
                 </div>
+
               </div>
             </td>
           </tr>

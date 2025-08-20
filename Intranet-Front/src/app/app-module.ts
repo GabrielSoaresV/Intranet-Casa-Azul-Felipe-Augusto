@@ -23,6 +23,10 @@ import { ButtonRegisterUser } from './componentes/button-register-user/button-re
 import { Navbar } from './componentes/navbar/navbar';
 import { Menubar } from './componentes/menubar/menubar';
 import { PageRegister } from './pages/page-register/page-register';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { CadastroJovem } from './pages/cadastro-jovem/cadastro-jovem';
+import { CadastroEmpresa } from './pages/cadastro-empresa/cadastro-empresa';
+import { CadastroUsuario } from './pages/cadastro-usuario/cadastro-usuario';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,10 @@ import { PageRegister } from './pages/page-register/page-register';
     ButtonRegisterUser,
     Navbar,
     Menubar,
-    PageRegister
+    PageRegister,
+    CadastroJovem,
+    CadastroEmpresa,
+    CadastroUsuario
   ],
   imports: [
     BrowserModule,
@@ -56,6 +63,7 @@ import { PageRegister } from './pages/page-register/page-register';
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
+    provideHttpClient(withFetch())  
   ],
   bootstrap: [App]
 })

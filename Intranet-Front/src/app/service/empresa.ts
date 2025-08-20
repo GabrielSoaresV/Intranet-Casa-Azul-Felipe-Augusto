@@ -22,7 +22,8 @@ export class EmpresaService {
   atualizarEmpresa(empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
     return this.http.put<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(empresa.cnpj)}`, empresa);
   }
+
+  cadastrarEmpresa(empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
+    return this.http.post<InterfaceEmpresa>(this.API, empresa);
+  }
 }
-
-
-

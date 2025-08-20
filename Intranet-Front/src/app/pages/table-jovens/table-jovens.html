@@ -6,7 +6,7 @@
       <caption class="text-center fw-bold">Lista de Jovens</caption>
       <thead class="table-dark">
         <tr>
-          <th class="text-center"></th>
+          <th></th>
           <th class="text-center">Nome</th>
           <th class="text-center">Matrícula</th>
           <th class="text-center">Contratação</th>
@@ -39,20 +39,41 @@
           </tr>
 
           <!-- Linha expandida -->
-          <tr *ngIf="registroExpandido === i">
-            <td colspan="8" class="p-0">
-              <div class="bg-light border rounded d-flex justify-content-between flex-wrap p-4" style="gap: 2rem;">
-                <div style="flex: 1 1 45%;">
-                  <strong>Nome do Responsável:</strong><br>
-                  {{ jovem.nomeresponsavel || 'Não informado' }}
-                </div>
-                <div style="flex: 1 1 45%;">
-                  <strong>Telefone do Responsável:</strong><br>
-                  {{ jovem.telefoneresponsavel || 'Não informado' }}
-                </div>
-              </div>
-            </td>
-          </tr>
+<tr *ngIf="registroExpandido === i">
+  <td colspan="8" class="p-0">
+    <div class="bg-light border rounded d-flex flex-wrap justify-content-center gap-4 p-4">
+
+      <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
+        <strong>Telefone do Jovem:</strong><br>
+        {{ jovem.telefone || 'Não informado' }}
+      </div>
+
+      <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
+        <strong>Email do Jovem:</strong><br>
+        {{ jovem.email || 'Não informado' }}
+      </div>
+
+      <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
+        <strong>Nome do Responsável:</strong><br>
+        {{ jovem.nomeresponsavel || 'Não informado' }}
+      </div>
+
+      <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
+        <strong>Telefone do Responsável:</strong><br>
+        {{ jovem.telefoneresponsavel || 'Não informado' }}
+      </div>
+
+      <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
+        <strong>Observações:</strong><br>
+        {{ jovem.observacoes || 'Não informado' }}
+      </div>
+
+    </div>
+  </td>
+</tr>
+
+
+
         </ng-container>
 
         <tr *ngIf="jovens.length === 0">

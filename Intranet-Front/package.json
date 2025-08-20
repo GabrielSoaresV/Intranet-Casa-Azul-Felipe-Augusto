@@ -31,6 +31,7 @@
     "@angular/ssr": "^20.1.0",
     "bootstrap": "^5.3.7",
     "express": "^5.1.0",
+    "ngx-mask": "^20.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

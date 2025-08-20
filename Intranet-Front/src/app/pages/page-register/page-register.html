@@ -1,106 +1,28 @@
-<!-- app-cadastro-jovem.component.html -->
-
 <div class="d-flex flex-column vh-100">
 
   <!-- Navbar superior -->
   <app-navbar></app-navbar>
 
-  <div class="d-flex flex-grow-1">
-    
-    <!-- Menu lateral esquerdo -->
-    <nav class="bg-light border-end p-3" style="width: 220px;">
-      <h5 class="mb-4">Menu</h5>
-      <div class="d-grid gap-2">
-        <button class="btn btn-primary" (click)="selecionarFormulario('jovem')">Cadastrar Jovem</button>
-        <button class="btn btn-secondary" (click)="selecionarFormulario('empresa')">Cadastrar Empresa</button>
-        <button class="btn btn-info" (click)="selecionarFormulario('usuario')">Cadastrar Usuário</button>
+  <!-- Linha principal abaixo da navbar -->
+  <div class="container-fluid flex-grow-1">
+    <div class="row h-100">
+
+      <!-- Menu lateral -->
+      <nav class="col-12 col-md-3 col-lg-2 bg-light border-end p-3 h-100">
+        <h5 class="mb-4">Menu</h5>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary" (click)="selecionarFormulario('jovem')">Cadastrar Jovem</button>
+          <button class="btn btn-secondary" (click)="selecionarFormulario('empresa')">Cadastrar Empresa</button>
+          <button class="btn btn-info" (click)="selecionarFormulario('usuario')">Cadastrar Usuário</button>
+        </div>
+      </nav>
+
+      <!-- Área de formulário -->
+      <div class="col-12 col-md-9 col-lg-10 p-4 bg-white overflow-auto">
+        <app-cadastro-jovem *ngIf="formSelecionado === 'jovem'"></app-cadastro-jovem>
+        <app-cadastro-empresa *ngIf="formSelecionado === 'empresa'"></app-cadastro-empresa>
+        <app-cadastro-usuario *ngIf="formSelecionado === 'usuario'"></app-cadastro-usuario>
       </div>
-    </nav>
-
-    <!-- Área de formulário -->
-    <div class="flex-grow-1 p-4 bg-white">
-      <h3 *ngIf="formSelecionado === 'jovem'">Cadastro de Jovem</h3>
-
-      <form *ngIf="formSelecionado === 'jovem'" (ngSubmit)="cadastrarJovem()" class="row g-3">
-
-        <!-- Nome -->
-        <div class="col-md-6">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" [(ngModel)]="jovem.nome" name="nome" required>
-        </div>
-
-        <!-- Matrícula -->
-        <div class="col-md-6">
-          <label for="matricula" class="form-label">Matrícula</label>
-          <input type="text" class="form-control" id="matricula" [(ngModel)]="jovem.matricula" name="matricula" required>
-        </div>
-
-        <!-- Data de Contratação -->
-        <div class="col-md-6">
-          <label for="contratacao" class="form-label">Data de Contratação</label>
-          <input type="date" class="form-control" id="contratacao" [(ngModel)]="jovem.contratacao" name="contratacao" required>
-        </div>
-
-        <!-- Data de Rescisão -->
-        <div class="col-md-6">
-          <label for="rescisao" class="form-label">Data de Rescisão</label>
-          <input type="date" class="form-control" id="rescisao" [(ngModel)]="jovem.rescisao" name="rescisao">
-        </div>
-
-        <!-- Período de Avaliação -->
-        <div class="col-md-6">
-          <label for="periodoAvaliacao" class="form-label">Período de Avaliação (meses)</label>
-          <input type="number" class="form-control" id="periodoAvaliacao" [(ngModel)]="jovem.periodoAvaliacao" name="periodoAvaliacao" required>
-        </div>
-
-        <!-- Empresa -->
-        <div class="col-md-6">
-          <label for="empresa" class="form-label">Empresa</label>
-          <select id="empresa" class="form-select" [(ngModel)]="jovem.empresa" name="empresa">
-            <option *ngFor="let emp of empresas" [ngValue]="emp">{{ emp.nomeEmpresa }}</option>
-          </select>
-        </div>
-
-        <!-- Nome do Responsável -->
-        <div class="col-md-6">
-          <label for="nomeresponsavel" class="form-label">Nome do Responsável</label>
-          <input type="text" class="form-control" id="nomeresponsavel" [(ngModel)]="jovem.nomeresponsavel" name="nomeresponsavel">
-        </div>
-
-        <!-- Telefone do Responsável -->
-        <div class="col-md-6">
-          <label for="telefoneresponsavel" class="form-label">Telefone do Responsável</label>
-          <input type="text" class="form-control" id="telefoneresponsavel" [(ngModel)]="jovem.telefoneresponsavel" name="telefoneresponsavel">
-        </div>
-
-        <!-- Email -->
-        <div class="col-md-6">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" [(ngModel)]="jovem.email" name="email">
-        </div>
-
-        <!-- Observações -->
-        <div class="col-12">
-          <label for="observacoes" class="form-label">Observações</label>
-          <textarea class="form-control" id="observacoes" [(ngModel)]="jovem.observacoes" name="observacoes" rows="3"></textarea>
-        </div>
-
-        <!-- Botão enviar -->
-        <div class="col-12 mt-3">
-          <button type="submit" class="btn btn-success">Cadastrar</button>
-        </div>
-      </form>
-
-      <!-- Placeholder para outros formulários -->
-      <div *ngIf="formSelecionado === 'empresa'">
-        <h3>Cadastro de Empresa</h3>
-        <!-- Formulário de empresa aqui -->
-      </div>
-      <div *ngIf="formSelecionado === 'usuario'">
-        <h3>Cadastro de Usuário</h3>
-        <!-- Formulário de usuário aqui -->
-      </div>
-
     </div>
   </div>
 </div>
