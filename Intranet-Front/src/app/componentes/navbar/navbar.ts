@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -8,11 +8,11 @@ import { filter } from 'rxjs/operators';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
-export class Navbar {
+export class Navbar implements OnInit {
   currentRoute: string = '';
 
   constructor(private router: Router) {
-    // Captura a rota atual sempre que ela mudar
+    // Atualiza rota sempre que mudar
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
@@ -20,14 +20,18 @@ export class Navbar {
     });
   }
 
+  ngOnInit(): void {
+    // Captura a rota no carregamento inicial (mesmo após F5)
+    this.currentRoute = this.router.url;
+  }
+
   irPara(pagina: string) {
     this.router.navigate([pagina]);
   }
 
-  // Função para verificar se o link deve ser exibido
   mostrarLink(pagina: string): boolean {
-    // Se a página atual for igual à página do link, retorna false
-    if (pagina === '' && this.currentRoute === '/') return false; // logout, opcional
+    // Se estiver na rota alvo, não mostra o link
+    if (pagina === '' && this.currentRoute === '/') return false; // logout
     return this.currentRoute !== `/${pagina}`;
   }
 }
