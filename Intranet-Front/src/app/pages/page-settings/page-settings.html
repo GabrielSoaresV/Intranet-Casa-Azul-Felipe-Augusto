@@ -1,1 +1,33 @@
-<app-navbar></app-navbar>
+<div class="d-flex flex-column vh-100">
+
+  <app-navbar></app-navbar>
+
+  <div class="container-fluid flex-grow-1">
+    <div class="row h-100">
+
+      <nav class="col-12 col-md-3 col-lg-2 bg-light border-end p-3 h-100">
+        <h5 class="mb-4">Configurações</h5>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary" (click)="selecionarSecao('email')">Email</button>
+          <button class="btn btn-secondary" (click)="selecionarSecao('servidor')">Servidor/BD</button>
+          <button class="btn btn-info" (click)="selecionarSecao('usuarios')">Usuários</button>
+          <button class="btn btn-warning" (click)="selecionarSecao('preferencias')">Preferências</button>
+          <button class="btn btn-danger" (click)="selecionarSecao('seguranca')">Segurança</button>
+        </div>
+      </nav>
+
+      <div class="col-12 col-md-9 col-lg-10 p-4 bg-white overflow-auto">
+
+        <app-email *ngIf="secaoAtiva === 'email'"></app-email>
+
+        <app-servidor *ngIf="secaoAtiva === 'servidor'"></app-servidor>
+
+        <app-usuarios *ngIf="secaoAtiva === 'usuarios'"></app-usuarios>
+
+        <app-preferencias *ngIf="secaoAtiva === 'preferencias'"></app-preferencias>
+
+        <app-seguranca *ngIf="secaoAtiva === 'seguranca'"></app-seguranca>
+      </div>
+    </div>
+  </div>
+</div>

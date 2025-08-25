@@ -1,0 +1,25 @@
+<form (ngSubmit)="salvarUsuario()" class="row g-3">
+  <h2 class="mb-4 text-primary text-center">Gerenciar Usuário</h2>
+
+  <div class="col-md-6">
+    <label for="nomeUsuario" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="nomeUsuario" [(ngModel)]="usuario.nome" name="nomeUsuario">
+  </div>
+
+  <div class="col-md-6">
+    <label for="emailUsuario" class="form-label">Email</label>
+    <input type="email" class="form-control" id="emailUsuario" [(ngModel)]="usuario.email" name="emailUsuario">
+  </div>
+
+  <div class="col-md-6">
+    <label for="perfil" class="form-label">Perfil</label>
+    <select class="form-control" id="perfil" [(ngModel)]="usuario.perfil" name="perfil">
+      <option value="admin">Administrador</option>
+      <option value="user">Usuário</option>
+    </select>
+  </div>
+
+  <div class="col-12 mt-3 text-center">
+    <button type="submit" class="btn btn-success">Salvar Usuário</button>
+  </div>
+</form>

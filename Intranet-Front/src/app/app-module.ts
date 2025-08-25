@@ -27,6 +27,11 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { CadastroJovem } from './pages/cadastro-jovem/cadastro-jovem';
 import { CadastroEmpresa } from './pages/cadastro-empresa/cadastro-empresa';
 import { CadastroUsuario } from './pages/cadastro-usuario/cadastro-usuario';
+import { Email } from './pages/componentes-settings/email/email';
+import { Preferencias } from './pages/componentes-settings/preferencias/preferencias';
+import { Seguranca } from './pages/componentes-settings/seguranca/seguranca';
+import { Servidor } from './pages/componentes-settings/servidor/servidor';
+import { Usuarios } from './pages/componentes-settings/usuarios/usuarios';
 
 @NgModule({
   declarations: [
@@ -52,7 +57,12 @@ import { CadastroUsuario } from './pages/cadastro-usuario/cadastro-usuario';
     PageRegister,
     CadastroJovem,
     CadastroEmpresa,
-    CadastroUsuario
+    CadastroUsuario,
+    Email,
+    Servidor,
+    Preferencias,
+    Seguranca,
+    Usuarios
   ],
   imports: [
     BrowserModule,

@@ -43,7 +43,6 @@ public class JovemController {
                     jovem.setNome(jovemAtualizado.getNome());
                     jovem.setContratacao(jovemAtualizado.getContratacao());
                     jovem.setRescisao(jovemAtualizado.getRescisao());
-                    jovem.setStatus(jovemAtualizado.getStatus());
                     jovem.setEmpresa(jovemAtualizado.getEmpresa());
                     jovem.setPeriodoAvaliacao(jovemAtualizado.getPeriodoAvaliacao());
                     jovem.setEmail(jovemAtualizado.getEmail());
