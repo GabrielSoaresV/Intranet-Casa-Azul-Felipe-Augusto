@@ -22,7 +22,7 @@
             <td class="text-center">{{ empresa.emailEmpresa }}</td>
             <td class="text-center">{{ empresa.telefoneEmpresa }}</td>
             <td class="d-flex justify-content-center gap-3">
-              <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); confirmar(empresa)">Enviar</button>
+              <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); confirmar(empresa)">Enviar para todos</button>
               <button class="btn btn-warning btn-sm" (click)="$event.stopPropagation(); editarRegistro(empresa)">Editar</button>
               <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation(); excluir(empresa.cnpj)">Excluir</button>
             </td>
