@@ -1,18 +1,17 @@
 <div class="layout d-flex flex-column vh-90">
-
   <div class="table-container flex-grow-1 overflow-auto p-3">
     <table class="table table-hover tabela-registros">
       <caption class="text-center fw-bold">Lista de Jovens</caption>
       <thead class="table-dark">
         <tr>
-          <th></th>
-          <th class="text-center">Nome</th>
-          <th class="text-center">Matrícula</th>
-          <th class="text-center">Contratação</th>
-          <th class="text-center">Rescisão</th>
-          <th class="text-center">Empresa</th>
-          <th class="text-center">Período</th>
-          <th></th>
+          <th style="width: 40px;"></th>
+          <th style="width: 200px;" class="text-center">Nome</th>
+          <th style="width: 120px;" class="text-center">Matrícula</th>
+          <th style="width: 120px;" class="text-center">Contratação</th>
+          <th style="width: 120px;" class="text-center">Rescisão</th>
+          <th style="width: 180px;" class="text-center">Empresa</th>
+          <th style="width: 100px;" class="text-center">Período</th>
+          <th style="width: 240px;" class="text-center">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -27,41 +26,32 @@
             <td class="text-center">{{ jovem.rescisao | date:'dd/MM/yyyy' }}</td>
             <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
             <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
-            <td class="d-flex justify-content-center gap-3">
+            <td class="d-flex justify-content-center gap-2">
               <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); confirmar(jovem)">Enviar</button>
+              <button class="btn btn-info btn-sm" (click)="$event.stopPropagation(); verAvaliacoes()">Avaliações</button>
               <button class="btn btn-warning btn-sm" (click)="$event.stopPropagation(); editarRegistro(jovem)">Editar</button>
               <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation(); excluir(jovem.matricula)">Excluir</button>
             </td>
           </tr>
 
-          <!-- infromações adicionais -->
+          <!-- informações adicionais -->
           <tr *ngIf="registroExpandido === i">
             <td colspan="8" class="p-0">
               <div class="bg-light border rounded d-flex flex-wrap justify-content-center gap-4 p-4">
-
-                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
-                  <strong>Telefone do Jovem:</strong><br>
-                  {{ jovem.telefone || 'Não informado' }}
+                <div class="flex-fill min-w-200 text-center">
+                  <strong>Telefone do Jovem:</strong><br>{{ jovem.telefone || 'Não informado' }}
                 </div>
-
-                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
-                  <strong>Email do Jovem:</strong><br>
-                  {{ jovem.email || 'Não informado' }}
+                <div class="flex-fill min-w-200 text-center">
+                  <strong>Email do Jovem:</strong><br>{{ jovem.email || 'Não informado' }}
                 </div>
-
-                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
-                  <strong>Nome do Responsável:</strong><br>
-                  {{ jovem.nomeresponsavel || 'Não informado' }}
+                <div class="flex-fill min-w-200 text-center">
+                  <strong>Nome do Responsável:</strong><br>{{ jovem.nomeresponsavel || 'Não informado' }}
                 </div>
-
-                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
-                  <strong>Telefone do Responsável:</strong><br>
-                  {{ jovem.telefoneresponsavel || 'Não informado' }}
+                <div class="flex-fill min-w-200 text-center">
+                  <strong>Telefone do Responsável:</strong><br>{{ jovem.telefoneresponsavel || 'Não informado' }}
                 </div>
-
-                <div class="flex-fill min-w-200 text-center" style="padding-left: 2rem;">
-                  <strong>Observações:</strong><br>
-                  {{ jovem.observacoes || 'Não informado' }}
+                <div class="flex-fill min-w-200 text-center">
+                  <strong>Observações:</strong><br>{{ jovem.observacoes || 'Não informado' }}
                 </div>
               </div>
             </td>

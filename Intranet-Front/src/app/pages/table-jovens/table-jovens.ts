@@ -124,4 +124,8 @@ export class TableJovens implements OnInit {
     if (diffDias <= 30) return 'status-amarelo';
     return 'status-verde';
   }
+
+  verAvaliacoes(){
+    console.log("verAvaliacoes chamada!");
+  }
 }

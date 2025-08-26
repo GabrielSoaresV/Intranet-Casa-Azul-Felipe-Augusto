@@ -1,12 +1,11 @@
 package com.projetoavaliacao.service;
 
-import com.projetoavaliacao.model.Associacao;
-import com.projetoavaliacao.model.JovemAprendiz;
-import com.projetoavaliacao.model.ModelAvaliacao;
+import com.projetoavaliacao.dto.AssociacaoDTO;
 import com.projetoavaliacao.repository.AssociacaoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AssociacaoService {
@@ -17,24 +16,34 @@ public class AssociacaoService {
         this.repository = repository;
     }
 
-    public Associacao associarAvaliacao(JovemAprendiz jovem, ModelAvaliacao avaliacao) {
-        // Aqui você pode colocar regra para limitar 4 avaliações por jovem
-        List<Associacao> avaliacoesExistentes = repository.findByJovem(jovem);
-        if (avaliacoesExistentes.size() >= 4) {
-            throw new RuntimeException("Este jovem já possui 4 avaliações.");
-        }
+    public List<AssociacaoDTO> listarTodasDTO() {
+        return repository.findAll().stream().map(a -> {
+            AssociacaoDTO dto = new AssociacaoDTO();
+            dto.setId(a.getId());
 
-        Associacao associacao = new Associacao();
-        associacao.setJovem(jovem);
-        associacao.setAvaliacao(avaliacao);
-        return repository.save(associacao);
-    }
+            AssociacaoDTO.JovemDTO jovemDto = new AssociacaoDTO.JovemDTO();
+            jovemDto.setMatricula(a.getJovem().getMatricula());
+            jovemDto.setNome(a.getJovem().getNome());
+            jovemDto.setEmail(a.getJovem().getEmail());
+            jovemDto.setNomeEmpresa(a.getJovem().getNomeEmpresa());
 
-    public List<Associacao> listarPorJovem(JovemAprendiz jovem) {
-        return repository.findByJovem(jovem);
-    }
+            AssociacaoDTO.EmpresaDTO empresaDto = new AssociacaoDTO.EmpresaDTO();
+            empresaDto.setCnpj(a.getJovem().getEmpresa().getCnpj());
+            empresaDto.setRhNomeResponsavel(a.getJovem().getEmpresa().getRhNomeResponsavel());
+            empresaDto.setRhEmailResponsavel(a.getJovem().getEmpresa().getRhEmailResponsavel());
 
-    public void deletar(Long id) {
-        repository.deleteById(id);
+            jovemDto.setEmpresa(empresaDto);
+            dto.setJovem(jovemDto);
+
+            AssociacaoDTO.AvaliacaoDTO avaliacaoDto = new AssociacaoDTO.AvaliacaoDTO();
+            avaliacaoDto.setIdAvaliacao(a.getAvaliacao().getIdAvaliacao());
+            avaliacaoDto.setAvaliacao(a.getAvaliacao().getAvaliacao());
+            avaliacaoDto.setDataAvaliacao(a.getAvaliacao().getDataAvaliacao());
+            avaliacaoDto.setNumeroAvaliacao(a.getAvaliacao().getNumeroAvaliacao());
+
+            dto.setAvaliacao(avaliacaoDto);
+
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

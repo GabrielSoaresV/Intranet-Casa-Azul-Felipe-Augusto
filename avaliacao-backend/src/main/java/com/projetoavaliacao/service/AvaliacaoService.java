@@ -1,34 +1,29 @@
 package com.projetoavaliacao.service;
 
-import com.projetoavaliacao.model.ModelAvaliacao;
+import com.projetoavaliacao.model.Avaliacoes;
 import com.projetoavaliacao.repository.AvaliacaoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AvaliacaoService {
 
-    private final AvaliacaoRepository repository;
+    private final AvaliacaoRepository repo;
 
-    public AvaliacaoService(AvaliacaoRepository repository) {
-        this.repository = repository;
+    public AvaliacaoService(AvaliacaoRepository repo) {
+        this.repo = repo;
     }
 
-    public List<ModelAvaliacao> listarTodas() {
-        return repository.findAll();
+    public List<Avaliacoes> listarTodos() {
+        return repo.findAll();
     }
 
-    public ModelAvaliacao salvar(ModelAvaliacao avaliacao) {
-        return repository.save(avaliacao);
+    public Avaliacoes salvar(Avaliacoes avaliacao) {
+        return repo.save(avaliacao);
     }
 
-    public Optional<ModelAvaliacao> buscarPorId(String id) {
-        return repository.findById(id);
-    }
-
-    public void deletar(String id) {
-        repository.deleteById(id);
+    public void excluir(Long id) {
+        repo.deleteById(id);
     }
 }
