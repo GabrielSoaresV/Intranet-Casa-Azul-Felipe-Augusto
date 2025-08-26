@@ -14,7 +14,7 @@ public class Associacao {
     private ModelAvaliacao avaliacao;
 
     @ManyToOne
-    @JoinColumn(name = "id_jovem") // use apenas este
+    @JoinColumn(name = "id_jovem") 
     private JovemAprendiz jovem;
 
     // Getters e Setters

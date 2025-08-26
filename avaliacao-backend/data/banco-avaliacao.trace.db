@@ -3493,3 +3493,20 @@ Create database AVALIACAO [42001-232]
 2025-08-21 10:08:48.173414-03:00 jdbc[50]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "Create [*]tableAVALIACAO"; expected "OR REPLACE, FORCE, VIEW, MATERIALIZED, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL TEMPORARY, GLOBAL TEMPORARY, TEMPORARY, TABLE, SYNONYM, UNIQUE, SPATIAL, INDEX"; SQL statement:
 Create tableAVALIACAO [42001-232]
+2025-08-25 13:37:59.037148-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOVEMAPRENDIZ" not found; SQL statement:
+SELECT * FROM JOVEMAPRENDIZ [42102-232]
+2025-08-25 13:37:59.050651-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MODELOAVALIACAO" not found; SQL statement:
+SELECT * FROM MODELOAVALIACAO [42102-232]
+2025-08-25 13:38:23.004171-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOVEMA_PRENDIZ" not found; SQL statement:
+SELECT * FROM JOVEMA_PRENDIZ [42102-232]
+2025-08-25 13:41:40.584607-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO MODEL_AVALIACAO (id_avaliacao, avaliacao, data_avaliacao)\000d\000aVALUES (1[*]AVA, 'Avaliação Inicial teste', '2025-08-20')"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
+INSERT INTO MODEL_AVALIACAO (id_avaliacao, avaliacao, data_avaliacao)
+VALUES (1AVA, 'Avaliação Inicial teste', '2025-08-20') [42001-232]
+2025-08-25 13:41:40.584607-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO MODEL_AVALIACAO (id_avaliacao, avaliacao, data_avaliacao)\000d\000aVALUES (2[*]AVA, 'Avaliação Intermediária teste', '2025-09-15')"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
+INSERT INTO MODEL_AVALIACAO (id_avaliacao, avaliacao, data_avaliacao)
+VALUES (2AVA, 'Avaliação Intermediária teste', '2025-09-15') [42001-232]

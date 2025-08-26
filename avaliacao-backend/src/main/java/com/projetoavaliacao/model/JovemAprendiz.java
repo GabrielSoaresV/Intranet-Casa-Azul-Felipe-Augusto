@@ -12,12 +12,10 @@ public class JovemAprendiz {
     private String nome;
     private LocalDate contratacao;
     private LocalDate rescisao;
-    private String status;
 
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "cnpj")
     private Empresa empresa;
-
     private String periodoAvaliacao;
     private String email;
     private String telefone;
@@ -25,7 +23,6 @@ public class JovemAprendiz {
     private String telefoneresponsavel;
     private String observacoes;
 
-    // Getter especial p/ acessar o nome da empresa 
     @Transient
     public String getNomeEmpresa() {
         return empresa != null ? empresa.getNomeEmpresa() : null;
@@ -43,9 +40,6 @@ public class JovemAprendiz {
 
     public LocalDate getRescisao() { return rescisao; }
     public void setRescisao(LocalDate rescisao) { this.rescisao = rescisao; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 
     public Empresa getEmpresa() { return empresa; }
     public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
