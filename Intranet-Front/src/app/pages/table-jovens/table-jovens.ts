@@ -3,6 +3,7 @@ import { InterfaceJovem } from '../../models/interface-jovem.model';
 import { JovemService } from '../../service/jovem';
 import { BuscaService } from '../../service/busca.service';
 import { Subscription } from 'rxjs';
+import { EmailService, Email } from '../../service/email.service';
 
 @Component({
   selector: 'app-table-jovens',
@@ -20,7 +21,8 @@ export class TableJovens implements OnInit {
   constructor(
     private jovemService: JovemService,
     private buscaService: BuscaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private emailService: EmailService
   ) {}
 
   ngOnInit(): void {
@@ -127,5 +129,19 @@ export class TableJovens implements OnInit {
 
   verAvaliacoes(){
     console.log("verAvaliacoes chamada!");
+  }
+
+  enviarEmail() {
+    console.log("enviando email...");
+    const email: Email = {
+      to: 'conta@ong.org',
+      subject: 'Teste Angular',
+      body: 'Esse é um email enviado via Angular + Spring Boot'
+    };
+
+    this.emailService.sendEmail(email).subscribe({
+      next: () => alert('Email enviado com sucesso!'),
+      error: (err) => alert('Erro ao enviar email: ' + err.message)
+    });
   }
 }

@@ -2,11 +2,11 @@ package com.projetoavaliacao.controller;
 
 import com.projetoavaliacao.model.Email;
 import com.projetoavaliacao.service.EmailService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/emails")
+@CrossOrigin(origins = "http://localhost:4200") // permite chamadas do Angular
 public class EmailController {
 
     private final EmailService emailService;
@@ -16,8 +16,7 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<String> sendEmail(@RequestBody Email email) {
+    public void sendEmail(@RequestBody Email email) {
         emailService.sendEmail(email);
-        return ResponseEntity.ok("Email enviado com sucesso!");
     }
 }

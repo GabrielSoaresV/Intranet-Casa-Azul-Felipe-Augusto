@@ -3,6 +3,6 @@ Content-Type: application/json
 
 {
   "to": "teste@gmail.com",
-  "subject": "teste email",
-  "body": "testando esse email"
+  "subject": "teste email 2",
+  "body": "testando outro email"
 }
