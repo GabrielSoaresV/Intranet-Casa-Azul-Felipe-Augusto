@@ -3,7 +3,8 @@ import { InterfaceJovem } from '../../models/interface-jovem.model';
 import { JovemService } from '../../service/jovem';
 import { BuscaService } from '../../service/busca.service';
 import { Subscription } from 'rxjs';
-import { EmailService, Email } from '../../service/email.service';
+import { EmailJovemDTO } from '../../models/interface-email-dto.model';
+import { EmailService } from '../../service/email.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -135,13 +136,21 @@ export class TableJovens implements OnInit {
   }
 
   enviarEmail(jovem: any) {
-    console.log('Chamando função enviarEmail...');
-    console.log('Dados do jovem que serão enviados para o backend:', jovem);
+    
+    const payload: EmailJovemDTO = {
+      nomeJovem: jovem.nome,
+      telefoneUsuario: jovem.telefone,
+      nomeUsuario: jovem.nomeresponsavel,
+      nomeOrientador: jovem.empresa.rhNomeResponsavel,
+      emailDestino: jovem.empresa.emailEmpresa
+    };
 
-    this.http.post(`http://localhost:8080/api/email/${jovem.matricula}`, {}, { responseType: 'text' })
-      .subscribe({
-        next: (res) => alert(res), 
-        error: (err: any) => alert('Erro ao enviar email: ' + err.message)
-      });
+    console.log('DTO enviado:', payload);
+
+    this.http.post(`http://localhost:8080/api/email/${jovem.matricula}`, payload, { responseType: 'text' })
+    .subscribe({
+      next: (res) => alert(res), 
+      error: (err: any) => alert('Erro ao enviar email: ' + err.message)
+    });
   }
 }

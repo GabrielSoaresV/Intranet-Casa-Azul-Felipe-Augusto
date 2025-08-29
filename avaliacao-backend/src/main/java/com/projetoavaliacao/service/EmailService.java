@@ -1,13 +1,12 @@
 package com.projetoavaliacao.service;
 
+import com.projetoavaliacao.dto.EmailJovemDTO;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import com.projetoavaliacao.model.Email;
 
 @Service
 public class EmailService {
@@ -20,32 +19,32 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public void sendEmail(Email email, String nomeJovem, String telefoneUsuario, String nomeUsuario, String nomeOrientador) {
+    // Recebe o DTO e envia email usando template HTML
+    public void sendEmail(EmailJovemDTO dto) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom("noreply@gmail.com");
-            helper.setTo(email.to());
-            helper.setSubject(email.subject());
+            helper.setTo(dto.getEmailDestino());
+            helper.setSubject("Formulário de Avaliação");
 
-            // Preenche variáveis do template
+            // Cria o contexto Thymeleaf com apenas os dados necessários
             Context context = new Context();
-            context.setVariable("nomeJovem", nomeJovem);
-            context.setVariable("telefoneUsuario", telefoneUsuario);
-            context.setVariable("nomeUsuario", nomeUsuario);
-            context.setVariable("nomeOrientador", nomeOrientador); 
+            context.setVariable("nomeJovem", dto.getNomeJovem());
+            context.setVariable("telefoneUsuario", dto.getTelefoneUsuario());
+            context.setVariable("nomeUsuario", dto.getNomeUsuario());
+            context.setVariable("nomeOrientador", dto.getNomeOrientador());
 
-            // Processa o HTML
+            // Processa o template HTML
             String htmlContent = templateEngine.process("email-avaliacao", context);
+            helper.setText(htmlContent, true); // true = HTML
 
-            helper.setText(htmlContent, true);
-
+            // Envia o email
             mailSender.send(message);
 
         } catch (Exception e) {
             throw new RuntimeException("Erro ao enviar email", e);
         }
     }
-
 }
