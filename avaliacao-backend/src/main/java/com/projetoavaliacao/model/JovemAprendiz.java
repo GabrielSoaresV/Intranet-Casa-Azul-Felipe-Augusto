@@ -16,7 +16,6 @@ public class JovemAprendiz {
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "cnpj")
     private Empresa empresa;
-
     private String periodoAvaliacao;
     private String email;
     private String telefone;
@@ -24,7 +23,6 @@ public class JovemAprendiz {
     private String telefoneresponsavel;
     private String observacoes;
 
-    // Getter especial p/ acessar o nome da empresa 
     @Transient
     public String getNomeEmpresa() {
         return empresa != null ? empresa.getNomeEmpresa() : null;

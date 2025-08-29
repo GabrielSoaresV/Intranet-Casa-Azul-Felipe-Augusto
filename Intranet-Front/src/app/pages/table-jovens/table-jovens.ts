@@ -3,6 +3,9 @@ import { InterfaceJovem } from '../../models/interface-jovem.model';
 import { JovemService } from '../../service/jovem';
 import { BuscaService } from '../../service/busca.service';
 import { Subscription } from 'rxjs';
+import { EmailJovemDTO } from '../../models/interface-email-dto.model';
+import { EmailService } from '../../service/email.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-table-jovens',
@@ -20,7 +23,10 @@ export class TableJovens implements OnInit {
   constructor(
     private jovemService: JovemService,
     private buscaService: BuscaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private emailService: EmailService,
+    private http: HttpClient
+
   ) {}
 
   ngOnInit(): void {
@@ -123,5 +129,28 @@ export class TableJovens implements OnInit {
     if (diffDias <= 7) return 'status-vermelho';
     if (diffDias <= 30) return 'status-amarelo';
     return 'status-verde';
+  }
+
+  verAvaliacoes(){
+    console.log("verAvaliacoes chamada!");
+  }
+
+  enviarEmail(jovem: any) {
+    
+    const payload: EmailJovemDTO = {
+      nomeJovem: jovem.nome,
+      telefoneUsuario: jovem.telefone,
+      nomeUsuario: jovem.nomeresponsavel,
+      nomeOrientador: jovem.empresa.rhNomeResponsavel,
+      emailDestino: jovem.empresa.emailEmpresa
+    };
+
+    console.log('DTO enviado:', payload);
+
+    this.http.post(`http://localhost:8080/api/email/${jovem.matricula}`, payload, { responseType: 'text' })
+    .subscribe({
+      next: (res) => alert(res), 
+      error: (err: any) => alert('Erro ao enviar email: ' + err.message)
+    });
   }
 }

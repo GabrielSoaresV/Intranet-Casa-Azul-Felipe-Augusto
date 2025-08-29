@@ -1,0 +1,20 @@
+<form (ngSubmit)="salvarSeguranca()" class="row g-3">
+  <h2 class="mb-4 text-primary text-center">Segurança</h2>
+
+  <div class="col-md-6">
+    <label for="senhaMinima" class="form-label">Senha Mínima</label>
+    <input type="number" class="form-control" id="senhaMinima" [(ngModel)]="seguranca.senhaMinima" name="senhaMinima">
+  </div>
+
+  <div class="col-md-6">
+    <label for="autenticacao2f" class="form-label">Autenticação 2F</label>
+    <select class="form-control" id="autenticacao2f" [(ngModel)]="seguranca.autenticacao2f" name="autenticacao2f">
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+  </div>
+
+  <div class="col-12 mt-3 text-center">
+    <button type="submit" class="btn btn-success">Salvar Segurança</button>
+  </div>
+</form>
