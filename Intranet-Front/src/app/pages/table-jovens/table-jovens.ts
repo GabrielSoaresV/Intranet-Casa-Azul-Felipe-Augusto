@@ -4,6 +4,7 @@ import { JovemService } from '../../service/jovem';
 import { BuscaService } from '../../service/busca.service';
 import { Subscription } from 'rxjs';
 import { EmailService, Email } from '../../service/email.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-table-jovens',
@@ -22,7 +23,9 @@ export class TableJovens implements OnInit {
     private jovemService: JovemService,
     private buscaService: BuscaService,
     private cdr: ChangeDetectorRef,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private http: HttpClient
+
   ) {}
 
   ngOnInit(): void {
@@ -131,17 +134,14 @@ export class TableJovens implements OnInit {
     console.log("verAvaliacoes chamada!");
   }
 
-  enviarEmail() {
-    console.log("enviando email...");
-    const email: Email = {
-      to: 'conta@ong.org',
-      subject: 'Teste Angular',
-      body: 'Esse é um email enviado via Angular + Spring Boot'
-    };
+  enviarEmail(jovem: any) {
+    console.log('Chamando função enviarEmail...');
+    console.log('Dados do jovem que serão enviados para o backend:', jovem);
 
-    this.emailService.sendEmail(email).subscribe({
-      next: () => alert('Email enviado com sucesso!'),
-      error: (err) => alert('Erro ao enviar email: ' + err.message)
-    });
+    this.http.post(`http://localhost:8080/api/email/${jovem.matricula}`, {}, { responseType: 'text' })
+      .subscribe({
+        next: (res) => alert(res), 
+        error: (err: any) => alert('Erro ao enviar email: ' + err.message)
+      });
   }
 }
