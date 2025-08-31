@@ -1,9 +1,87 @@
-<div class="container text-center mt-5">
-  <h1>Menu Principal</h1>
-  <div class="d-flex flex-column gap-3 mt-4">
-    <button class="btn btn-primary btn-lg" (click)="irPara('')">Login</button>
-    <button class="btn btn-success btn-lg" (click)="irPara('setting')">Setting</button>
-    <button class="btn btn-warning btn-lg" (click)="irPara('gestao')">Gestão</button>
-    <button class="btn btn-warning btn-lg" (click)="irPara('register')">Cadastro</button>
+<div class="container mt-5 text-center">
+  <h1 class="mb-5">Menu Principal</h1>
+
+  <div class="row justify-content-center cards-row">
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-login" (click)="irPara('')">
+        <div class="card-body">
+          <i class="bi bi-person-circle display-3 mb-3"></i>
+          <h3 class="card-title">Login</h3>
+          <p class="card-text">Acesse sua conta e edite dados do seu usuário </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-gestao" (click)="irPara('gestao')">
+        <div class="card-body">
+          <i class="bi bi-table display-3 mb-3"></i>
+          <h3 class="card-title">Gestão</h3>
+          <p class="card-text">Gerencie tabelas e dados de empresas e dos jovens aprendiz</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f1" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-bar-chart display-3 mb-3"></i>
+          <h3 class="card-title">Avaliação</h3>
+          <p class="card-text">Envie e acompanhe as Avaliações feitas pela empresa de cada jovem aprendiz</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f2" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-gear display-3 mb-3"></i>
+          <h3 class="card-title">Configurações</h3>
+          <p class="card-text">Configurações ou ajustes</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f3" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-chat-dots display-3 mb-3"></i>
+          <h3 class="card-title">Certificados</h3>
+          <p class="card-text">Gerar e enviar os certificados para os jovens aprendiz</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f4" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-people display-3 mb-3"></i>
+          <h3 class="card-title">Controle de Usuários</h3>
+          <p class="card-text">Adicione e edite permições de usuários da Intranet</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f5" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-calendar-event display-3 mb-3"></i>
+          <h3 class="card-title">...</h3>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card text-center card-hover bg-f6" (click)="confirmar()">
+        <div class="card-body">
+          <i class="bi bi-check2-square display-3 mb-3"></i>
+          <h3 class="card-title">...</h3>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

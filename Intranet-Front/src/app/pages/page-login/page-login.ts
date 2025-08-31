@@ -13,5 +13,9 @@ export class PageLogin {
   irParaNavigation() {
     this.router.navigate(['/navigation']);
   }
+  
+  confirmar() {
+    alert('⚠️ Esta função ainda está em desenvolvimento 😢');
+  }
 }
 

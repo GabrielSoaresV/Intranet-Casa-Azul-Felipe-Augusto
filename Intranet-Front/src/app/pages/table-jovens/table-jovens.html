@@ -27,8 +27,7 @@
             <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
             <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
             <td class="d-flex justify-content-center gap-2">
-              <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); confirmar(jovem)">Enviar</button>
-              <button class="btn btn-info btn-sm" (click)="$event.stopPropagation(); enviarEmail(jovem)">Avaliações</button>
+              <button class="btn btn-primary btn-sm" (click)="$event.stopPropagation(); enviarEmail(jovem)">Enviar</button>
               <button class="btn btn-warning btn-sm" (click)="$event.stopPropagation(); editarRegistro(jovem)">Editar</button>
               <button class="btn btn-danger btn-sm" (click)="$event.stopPropagation(); excluir(jovem.matricula)">Excluir</button>
             </td>

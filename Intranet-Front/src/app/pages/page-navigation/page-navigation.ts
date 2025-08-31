@@ -14,4 +14,8 @@ export class PageNavigation {
   irPara(pagina: string) {
     this.router.navigate([pagina]);
   }
+  
+  confirmar() {
+    alert('⚠️ Esta função ainda está em desenvolvimento 😢');
+  }
 }

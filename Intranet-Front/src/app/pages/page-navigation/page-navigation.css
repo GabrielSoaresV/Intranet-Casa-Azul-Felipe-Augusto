@@ -1,44 +1,49 @@
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #cce7ff;
-  font-family: Arial, sans-serif;
-  gap: 30px;
+.cards-row {
+  overflow: visible;
 }
 
-h1 {
-  color: #004080;
-}
-
-.botoes {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-button {
-  padding: 12px 24px;
-  font-size: 16px;
+/* Card base */
+.card-hover {
   cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  background-color: #007bff;
-  color: white;
-  transition: background-color 0.2s;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 280px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 25px;
+  margin: 15px;
+  color: white; /* texto branco */
 }
 
-button:hover {
-  background-color: #0056b3;
+/* Hover: levita */
+.card-hover:hover {
+  transform: translateY(-15px) rotateZ(1deg);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
 
-.logout {
-  margin-top: 40px;
-  background-color: #ff4d4d;
+/* Gradientes de fundo para cada card */
+.bg-login { background: linear-gradient(135deg, #eba48a, #FF6347); }
+.bg-gestao { background: linear-gradient(135deg, #57a2ee, #56c9f0); }
+.bg-f1 { background: linear-gradient(135deg, #69d369, #3CB371); }
+.bg-f2 { background: linear-gradient(135deg, #f77dba, #d84b96); }
+.bg-f3 { background: linear-gradient(135deg, #f1b84d, #fdbb69); }
+.bg-f4 { background: linear-gradient(135deg, #a961ec, #a23fcc); }
+.bg-f5 { background: linear-gradient(135deg, #3caca6, #3ecbce); }
+.bg-f6 { background: linear-gradient(135deg, #f1d94c, #f5c263); }
+
+/* Ícones e texto */
+.card i {
+  color: white; /* ícone branco */
 }
 
-.logout:hover {
-  background-color: #cc0000;
+.card-title {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.card-text {
+  font-size: 1.3rem;
 }

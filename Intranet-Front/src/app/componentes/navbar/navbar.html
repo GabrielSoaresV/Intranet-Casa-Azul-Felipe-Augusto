@@ -1,13 +1,13 @@
 <nav class="navbar navbar-inverse bg-dark navbar-expand-lg">
   <div class="container-fluid">
 
-    <a class="navbar-brand" (click)="irPara('navigation')">WebSiteName</a>
+    <a class="navbar-brand" (click)="irPara('navigation')">Casa Azul</a>
 
     <div class="d-flex ms-auto">
       <ul class="navbar-nav d-flex flex-row">
         
         <li class="nav-item me-3" *ngIf="mostrarLink('register')">
-          <a class="nav-link" (click)="irPara('register')">Register</a>
+          <a class="nav-link" (click)="irPara('register')">Cadastrar</a>
         </li>
 
         <li class="nav-item me-3" *ngIf="mostrarLink('gestao')">
@@ -15,7 +15,7 @@
         </li>
 
         <li class="nav-item me-3" *ngIf="mostrarLink('setting')">
-          <a class="nav-link" (click)="irPara('setting')">Setting</a>
+          <a class="nav-link" (click)="irPara('setting')">Configurações</a>
         </li>
 
         <li class="nav-item" *ngIf="mostrarLink('')">

@@ -59,8 +59,8 @@ export class TableEmpresa implements OnInit {
     this.registroExpandido = this.registroExpandido === index ? null : index;
   }
 
-  confirmar(empresa: InterfaceEmpresa) {
-    console.log('Enviar:', empresa);
+  confirmar() {
+    alert('⚠️ Esta função ainda está em desenvolvimento 😢');
   }
 
   editarRegistro(empresa: InterfaceEmpresa) {
