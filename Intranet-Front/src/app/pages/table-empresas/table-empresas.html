@@ -67,7 +67,7 @@
       <form>
         <div class="mb-3">
           <label for="cnpj" class="form-label">CNPJ</label>
-          <input id="cnpj" type="text" class="form-control" [(ngModel)]="registroEditando.cnpj" name="cnpj">
+          <input id="cnpj" type="text" class="form-control" [(ngModel)]="registroEditando.cnpj" name="cnpj" placeholder="Use apenas números">
         </div>
         <div class="mb-3">
           <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
@@ -79,7 +79,7 @@
         </div>
         <div class="mb-3">
           <label for="telefoneEmpresa" class="form-label">Telefone da Empresa</label>
-          <input id="telefoneEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneEmpresa" name="telefoneEmpresa">
+          <input id="telefoneEmpresa" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneEmpresa" name="telefoneEmpresa" (input)="formatarTelefone($event)">
         </div>
         <div class="mb-3">
           <label for="rhNomeResponsavel" class="form-label">Nome do Supervisor de RH</label>

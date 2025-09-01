@@ -82,6 +82,10 @@
           <input id="matricula" type="text" class="form-control" [(ngModel)]="registroEditando.matricula" name="matricula">
         </div>
         <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone Jovem</label>
+          <input id="telefone" type="text" class="form-control" [(ngModel)]="registroEditando.telefone" name="telefone" (input)="formatarTelefone($event)">
+        </div>
+        <div class="mb-3">
           <label for="contratacao" class="form-label">Data de Contratação</label>
           <input id="contratacao" type="date" class="form-control" [(ngModel)]="registroEditando.contratacao" name="contratacao">
         </div>
@@ -99,7 +103,7 @@
         </div>
         <div class="mb-3">
           <label for="telefoneresponsavel" class="form-label">Telefone do Responsável</label>
-          <input id="telefoneresponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneresponsavel" name="telefoneresponsavel">
+          <input id="telefoneresponsavel" type="text" class="form-control" [(ngModel)]="registroEditando.telefoneresponsavel" name="telefoneresponsavel" (input)="formatarTelefone($event)">
         </div>
         <div class="mb-3">
           <label for="observacoes" class="form-label">Observações</label>
@@ -107,6 +111,7 @@
         </div>
       </form>
     </div>
+
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
       <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>

@@ -120,4 +120,22 @@ export class TableEmpresa implements OnInit {
     v = v.replace(/(\d{4})(\d)/, '$1-$2');
     return v;
   }
+
+  formatarTelefone(event: any) {
+    let valor: string = event.target.value;
+
+    valor = valor.replace(/\D/g, '');
+
+    if (valor.length > 10) {
+      valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+    } else if (valor.length > 5) {
+      valor = valor.replace(/^(\d{2})(\d{4,5})(\d{0,4}).*/, '($1) $2-$3');
+    } else if (valor.length > 2) {
+      valor = valor.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+    } else {
+      valor = valor.replace(/^(\d*)/, '($1');
+    }
+
+    event.target.value = valor;
+  }
 }
