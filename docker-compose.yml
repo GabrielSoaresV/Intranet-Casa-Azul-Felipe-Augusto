@@ -1,0 +1,7 @@
+services:
+  intranet:
+    build: .
+    container_name: intranet-app
+    ports:
+      - "8080:8080"
+    restart: always
