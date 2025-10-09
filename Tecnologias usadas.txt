@@ -1,0 +1,13 @@
+Tecnologias usadas: 
+
+SpringBoot (Projeto Maven) 3.5.6				Dependências Spring:
+Java 21
+								Spring Web
+								Spring Security
+								Spring Data JPA
+								H2 Database
+								Lombok
+								Validation
+								Spring Boot DevTools
+ 
+
