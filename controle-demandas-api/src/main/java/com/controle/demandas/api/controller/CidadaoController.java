@@ -1,8 +1,9 @@
 package com.controle.demandas.api.controller;
 
 import com.controle.demandas.api.model.Cidadao;
-import com.controle.demandas.api.response.ApiResponse;
+import com.controle.demandas.api.response.SuccessResponse;
 import com.controle.demandas.api.service.CidadaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +18,26 @@ public class CidadaoController {
     private CidadaoService cidadaoService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Cidadao>> criar(@RequestBody Cidadao cidadao) {
-        return ResponseEntity.ok(cidadaoService.salvar(cidadao));
+    public ResponseEntity<SuccessResponse<Cidadao>> criar(@Valid @RequestBody Cidadao cidadao) {
+        Cidadao salvo = cidadaoService.salvar(cidadao);
+        return ResponseEntity.ok(new SuccessResponse<>("Cidadão cadastrado com sucesso!", salvo));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Cidadao>>> listar() {
-        return ResponseEntity.ok(cidadaoService.listarTodos());
+    public ResponseEntity<SuccessResponse<List<Cidadao>>> listar() {
+        List<Cidadao> cidadaos = cidadaoService.listarTodos();
+        return ResponseEntity.ok(new SuccessResponse<>("Lista de cidadãos recuperada com sucesso!", cidadaos));
     }
 
     @GetMapping("/{cpf}")
-    public ResponseEntity<ApiResponse<Cidadao>> buscar(@PathVariable String cpf) {
-        return ResponseEntity.ok(cidadaoService.buscarPorCpf(cpf));
+    public ResponseEntity<SuccessResponse<Cidadao>> buscar(@PathVariable String cpf) {
+        Cidadao cidadao = cidadaoService.buscarPorCpf(cpf);
+        return ResponseEntity.ok(new SuccessResponse<>("Cidadão encontrado com sucesso!", cidadao));
     }
 
     @DeleteMapping("/{cpf}")
-    public ResponseEntity<ApiResponse<Void>> excluir(@PathVariable String cpf) {
-        return ResponseEntity.ok(cidadaoService.excluir(cpf));
+    public ResponseEntity<SuccessResponse<Void>> excluir(@PathVariable String cpf) {
+        cidadaoService.excluir(cpf);
+        return ResponseEntity.ok(new SuccessResponse<>("Cidadão excluído com sucesso!", null));
     }
 }

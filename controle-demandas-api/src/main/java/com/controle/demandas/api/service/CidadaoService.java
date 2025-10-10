@@ -1,9 +1,8 @@
 package com.controle.demandas.api.service;
 
+import com.controle.demandas.api.exception.NotFoundException;
 import com.controle.demandas.api.model.Cidadao;
 import com.controle.demandas.api.repository.CidadaoRepository;
-import com.controle.demandas.api.exception.NotFound;
-import com.controle.demandas.api.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,27 +14,26 @@ public class CidadaoService {
     @Autowired
     private CidadaoRepository cidadaoRepository;
 
-    public ApiResponse<Cidadao> salvar(Cidadao cidadao) {
-        Cidadao salvo = cidadaoRepository.save(cidadao);
-        return new ApiResponse<>(true, "Cidadão salvo com sucesso!", salvo);
+    public Cidadao salvar(Cidadao cidadao) {
+        if (cidadaoRepository.existsById(cidadao.getCpf())) {
+            throw new IllegalArgumentException("CPF já cadastrado!");
+        }
+        return cidadaoRepository.save(cidadao);
     }
 
-    public ApiResponse<List<Cidadao>> listarTodos() {
-        List<Cidadao> cidadaos = cidadaoRepository.findAll();
-        return new ApiResponse<>(true, "Lista de cidadãos recuperada com sucesso!", cidadaos);
+    public List<Cidadao> listarTodos() {
+        return cidadaoRepository.findAll();
     }
 
-    public ApiResponse<Cidadao> buscarPorCpf(String cpf) {
-        Cidadao cidadao = cidadaoRepository.findById(cpf)
-                .orElseThrow(() -> new NotFound("Cidadão não encontrado com CPF: " + cpf));
-        return new ApiResponse<>(true, "Cidadão encontrado com sucesso!", cidadao);
+    public Cidadao buscarPorCpf(String cpf) {
+        return cidadaoRepository.findById(cpf)
+                .orElseThrow(() -> new NotFoundException("Cidadão não encontrado com CPF: " + cpf));
     }
 
-    public ApiResponse<Void> excluir(String cpf) {
+    public void excluir(String cpf) {
         if (!cidadaoRepository.existsById(cpf)) {
-            throw new NotFound("Cidadão não encontrado com CPF: " + cpf);
+            throw new NotFoundException("Cidadão não encontrado com CPF: " + cpf);
         }
         cidadaoRepository.deleteById(cpf);
-        return new ApiResponse<>(true, "Cidadão excluído com sucesso!", null);
     }
 }

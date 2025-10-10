@@ -1,8 +1,9 @@
 package com.controle.demandas.api.controller;
 
 import com.controle.demandas.api.model.Demanda;
-import com.controle.demandas.api.response.ApiResponse;
+import com.controle.demandas.api.response.SuccessResponse;
 import com.controle.demandas.api.service.DemandaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +18,32 @@ public class DemandaController {
     private DemandaService demandaService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Demanda>> criar(@RequestBody Demanda demanda) {
-        return ResponseEntity.ok(demandaService.salvar(demanda));
+    public ResponseEntity<SuccessResponse<Demanda>> criar(@Valid @RequestBody Demanda demanda) {
+        Demanda salvo = demandaService.salvar(demanda);
+        return ResponseEntity.ok(new SuccessResponse<>("Demanda criada com sucesso!", salvo));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Demanda>>> listar() {
-        return ResponseEntity.ok(demandaService.listarTodos());
+    public ResponseEntity<SuccessResponse<List<Demanda>>> listar() {
+        List<Demanda> demandas = demandaService.listarTodos();
+        return ResponseEntity.ok(new SuccessResponse<>("Lista de demandas recuperada com sucesso!", demandas));
     }
 
     @GetMapping("/cidadao/{cpf}")
-    public ResponseEntity<ApiResponse<List<Demanda>>> listarPorCidadao(@PathVariable String cpf) {
-        return ResponseEntity.ok(demandaService.listarPorCidadao(cpf));
+    public ResponseEntity<SuccessResponse<List<Demanda>>> listarPorCidadao(@PathVariable String cpf) {
+        List<Demanda> demandas = demandaService.listarPorCidadao(cpf);
+        return ResponseEntity.ok(new SuccessResponse<>("Demandas do cidadão recuperadas com sucesso!", demandas));
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<ApiResponse<Demanda>> alterarStatus(@PathVariable Long id, @RequestParam String status) {
-        return ResponseEntity.ok(demandaService.alterarStatus(id, status));
+    public ResponseEntity<SuccessResponse<Demanda>> alterarStatus(@PathVariable Long id, @RequestParam String status) {
+        Demanda atualizado = demandaService.alterarStatus(id, status);
+        return ResponseEntity.ok(new SuccessResponse<>("Status da demanda alterado com sucesso!", atualizado));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> excluir(@PathVariable Long id) {
-        return ResponseEntity.ok(demandaService.excluir(id));
+    public ResponseEntity<SuccessResponse<Void>> excluir(@PathVariable Long id) {
+        demandaService.excluir(id);
+        return ResponseEntity.ok(new SuccessResponse<>("Demanda excluída com sucesso!", null));
     }
 }
