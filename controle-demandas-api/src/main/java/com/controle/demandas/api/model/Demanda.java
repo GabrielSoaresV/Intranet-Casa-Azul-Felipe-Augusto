@@ -1,9 +1,10 @@
 package com.controle.demandas.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Data
@@ -16,17 +17,17 @@ public class Demanda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Título é obrigatório")
+    @NotBlank(message = "Título da demanda é obrigatório")
     private String titulo;
 
+    @NotBlank(message = "Descrição da demanda é obrigatória")
     private String descricao;
 
-    @NotBlank
-    @Builder.Default
-    private String status = "Aberta";
+    private String status;
 
     @ManyToOne
-    @JoinColumn(name = "cidadao_cpf")
+    @JoinColumn(name = "cidadao_cpf", nullable = false)
     @JsonBackReference
     private Cidadao cidadao;
+
 }

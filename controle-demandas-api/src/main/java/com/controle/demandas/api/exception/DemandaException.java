@@ -14,14 +14,14 @@ public class DemandaException {
         }
     }
 
-    public static class DemandaUnauthorizedException extends RuntimeException {
-        public DemandaUnauthorizedException(String message) {
+    public static class DemandaForbiddenException extends RuntimeException {
+        public DemandaForbiddenException(String message) {
             super(message);
         }
     }
 
-    public static class DemandaForbiddenException extends RuntimeException {
-        public DemandaForbiddenException(String message) {
+    public static class DemandaUnauthorizedException extends RuntimeException {
+        public DemandaUnauthorizedException(String message) {
             super(message);
         }
     }
