@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CidadaoRepository extends JpaRepository<Cidadao, String> {
+    boolean existsByCpf(String cpf);
 }
