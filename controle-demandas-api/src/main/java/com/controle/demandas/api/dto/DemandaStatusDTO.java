@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class DemandaStatusDTO {
     @NotBlank(message = "Ação de status é obrigatória")
-    private String acao; // valores esperados: "iniciar" ou "finalizar"
+    private String acao;
 }

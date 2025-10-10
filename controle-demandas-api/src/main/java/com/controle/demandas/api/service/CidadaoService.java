@@ -67,7 +67,6 @@ public class CidadaoService {
         return ResponseEntity.ok(ApiResponse.success("Cidadão atualizado com sucesso!", atualizado));
     }
 
-    // -------------------- Métodos de repositório --------------------
     public Cidadao salvar(Cidadao cidadao) {
         return cidadaoRepository.save(cidadao);
     }

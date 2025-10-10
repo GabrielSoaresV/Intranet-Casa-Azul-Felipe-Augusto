@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ----------------- VALIDAÇÃO DE CAMPOS -----------------
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         StringBuilder errors = new StringBuilder();
@@ -26,7 +25,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), errors.toString()));
     }
 
-    // ----------------- CIDADÃO -----------------
     @ExceptionHandler(CidadaoException.CidadaoNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleCidadaoNotFound(CidadaoException.CidadaoNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -51,7 +49,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
     }
 
-    // ----------------- DEMANDA -----------------
     @ExceptionHandler(DemandaException.DemandaNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleDemandaNotFound(DemandaException.DemandaNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -76,7 +73,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
     }
 
-    // ----------------- ERROS GENÉRICOS -----------------
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ApiResponse<Void>> handleResponseStatus(ResponseStatusException ex) {
         int status = ex.getStatusCode().value();

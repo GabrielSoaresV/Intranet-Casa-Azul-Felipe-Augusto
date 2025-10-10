@@ -15,7 +15,6 @@ public class DemandasCidadaoDTO {
     private String descricao;
     private String status;
 
-    // Dados do cidadão
     private String cpfCidadao;
     private String nomeCidadao;
     private String emailCidadao;

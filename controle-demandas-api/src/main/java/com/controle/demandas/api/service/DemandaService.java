@@ -24,8 +24,6 @@ public class DemandaService {
     @Autowired
     private CidadaoService cidadaoService;
 
-    // -------------------- CRUD --------------------
-
     public ResponseEntity<ApiResponse<Demanda>> criar(DemandaCreateDTO dto) {
         // Verifica se o cidadão existe
         Cidadao cidadao = cidadaoService.buscarPorCpf(dto.getCpfCidadao());
@@ -33,11 +31,10 @@ public class DemandaService {
             throw new DemandaException.DemandaNotFoundException("Cidadão não existe");
         }
 
-        // Cria a demanda
         Demanda demanda = Demanda.builder()
             .titulo(dto.getTitulo())
             .descricao(dto.getDescricao())
-            .status("Aberta") // aqui definimos o status inicial
+            .status("Aberta")
             .cidadao(cidadao)
             .build();
 
@@ -59,7 +56,6 @@ public class DemandaService {
 
         List<Demanda> demandas = demandaRepository.findByCidadaoCpf(cpf);
 
-        // Converter para DTO
         List<DemandasCidadaoDTO> listaDTO = demandas.stream().map(d ->
             DemandasCidadaoDTO.builder()
                 .id(d.getId())
@@ -85,15 +81,12 @@ public class DemandaService {
                 .orElseThrow(() -> new DemandaException.DemandaNotFoundException("Demanda não encontrada"));
     }
 
-    // Atualizar toda a demanda
     public ResponseEntity<ApiResponse<Demanda>> atualizarDemanda(Long id, DemandaCreateDTO dto) {
-        Demanda demanda = buscarPorId(id); // busca existente
+        Demanda demanda = buscarPorId(id);
 
-        // Atualiza os campos (não altera o status)
         demanda.setTitulo(dto.getTitulo());
         demanda.setDescricao(dto.getDescricao());
 
-        // Atualiza o cidadão se necessário
         Cidadao cidadao = cidadaoService.buscarPorCpf(dto.getCpfCidadao());
         if (cidadao == null) {
             throw new DemandaException.DemandaForbiddenException("Cidadão não existe");
@@ -104,13 +97,12 @@ public class DemandaService {
         return ResponseEntity.ok(ApiResponse.success("Demanda atualizada com sucesso!", atualizado));
     }
 
-        // Alterar apenas status
     public ResponseEntity<ApiResponse<Demanda>> alterarStatus(Long id, String acao) {
-        // Buscar demanda existente
+
         Demanda demanda = buscarPorId(id);
 
         switch (acao.toLowerCase()) {
-            case "atender": // antiga "iniciar"
+            case "atender":
                 if (demanda.getStatus().equals("Aberta") || demanda.getStatus().equals("Não Concluída")) {
                     demanda.setStatus("Em Andamento");
                 } else {
@@ -147,7 +139,6 @@ public class DemandaService {
                 throw new DemandaException.DemandaForbiddenException("Ação de status inválida");
         }
 
-        // Salvar alteração do status
         Demanda atualizado = demandaRepository.save(demanda);
         return ResponseEntity.ok(ApiResponse.success("Status da demanda alterado com sucesso!", atualizado));
     }
@@ -158,7 +149,6 @@ public class DemandaService {
         return ResponseEntity.ok(ApiResponse.success("Demanda excluída com sucesso!", null));
     }
 
-    // -------------------- Métodos auxiliares --------------------
     public boolean existePorTitulo(String titulo) {
         return demandaRepository.existsByTitulo(titulo);
     }
