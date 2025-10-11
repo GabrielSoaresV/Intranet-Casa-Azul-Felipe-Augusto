@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-3">
+  <div class="card shadow-sm p-3 bg-white rounded mt-3">
+    <app-cidadao-lista *ngIf="componenteAtivo === 'cidadaos'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-cidadao-lista>
+    <app-demanda-lista *ngIf="componenteAtivo === 'demandas'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-demanda-lista>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div *ngIf="carregando">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0" style="color: var(--primary-color)">Lista de Cidadãos</h4>
+    <button class="btn btn-outline-primary" (click)="irParaDemandas()">Ir para Demandas</button>
+  </div>
+
+  <div class="d-flex justify-content-center my-4">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <p class="text-center text-muted">Carregando cidadãos...</p>
+</div>
+
+<div *ngIf="!carregando">
+  <div *ngIf="cidadaos.length === 0" class="text-center text-muted mt-2">
+    Nenhum cidadão cadastrado.
+  </div>
+
+  <div *ngIf="cidadaos.length > 0">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h4 class="mb-0" style="color: var(--primary-color)">Lista de Cidadãos</h4>
+      <button class="btn btn-outline-primary btn-sm" (click)="irParaDemandas()">Ir para Demandas</button>
+    </div>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="cidadaos" class="mat-elevation-z2 w-100">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let c">{{ c.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let c">{{ c.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cpf">
+          <th mat-header-cell *matHeaderCellDef>CPF</th>
+          <td mat-cell *matCellDef="let c">{{ c.cpf }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-raised-button color="primary" class="me-2" (click)="editarCidadao(c)">Editar</button>
+            <button mat-raised-button color="warn" (click)="excluirCidadao(c.id)">Excluir</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['id','nome','cpf','acoes']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id','nome','cpf','acoes']"></tr>
+      </table>
+    </div>
+  </div>
+</div>
