@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+td, th {
+  text-align: center;
+  padding: 12px;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+button {
+  text-transform: none;
+}

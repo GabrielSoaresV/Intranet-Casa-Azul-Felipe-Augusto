@@ -1,0 +1,39 @@
+<div class="card shadow-sm p-4 bg-white rounded">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0" style="color: var(--primary-color)">Cadastrar Nova Demanda</h4>
+    <button class="btn btn-outline-primary btn-sm" (click)="irParaCidadaosForm()">Ir para Cidadãos</button>
+  </div>
+
+  <form (ngSubmit)="cadastrarDemanda()">
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título</label>
+      <input
+        type="text"
+        class="form-control"
+        id="titulo"
+        [(ngModel)]="titulo"
+        name="titulo"
+        placeholder="Digite o título da demanda"
+        required
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea
+        class="form-control"
+        id="descricao"
+        [(ngModel)]="descricao"
+        name="descricao"
+        placeholder="Digite a descrição da demanda"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+  </form>
+</div>
