@@ -15,6 +15,16 @@ import { PageHome } from './pages/page-home/page-home';
 import { CidadaoForm } from './components/cidadao-form/cidadao-form';
 import { FormsModule } from '@angular/forms';
 import { PageRegister } from './pages/page-register/page-register';
+import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { FilterCidadaoPipe } from './pipes/filter-cidadao-pipe';
+import { CidadaoEditar } from './components/modals/cidadao-editar/cidadao-editar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ListarDemandasCidadao } from './components/modals/listar-demandas-cidadao/listar-demandas-cidadao';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -26,7 +36,10 @@ import { PageRegister } from './pages/page-register/page-register';
     PageHome,
     CidadaoForm,
     DemandaForm,
-    PageRegister
+    PageRegister,
+    FilterCidadaoPipe,
+    CidadaoEditar,
+    ListarDemandasCidadao
   ],
   imports: [
     BrowserModule,
@@ -34,13 +47,20 @@ import { PageRegister } from './pages/page-register/page-register';
     CommonModule,
     MatTableModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
+    HttpClientModule,
     FormsModule,
-  ],
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatExpansionModule,
+    MatListModule,
+    MatProgressSpinnerModule
+],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [App]
 })

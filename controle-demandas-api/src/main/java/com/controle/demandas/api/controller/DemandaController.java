@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/demandas")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DemandaController {
 
     @Autowired
@@ -43,14 +44,13 @@ public class DemandaController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<ApiResponse<Demanda>> alterarStatus(@PathVariable Long id,
-                                                            @Valid @RequestBody DemandaStatusDTO dto) {
+                                                              @Valid @RequestBody DemandaStatusDTO dto) {
         return demandaService.alterarStatus(id, dto.getAcao());
     }
 
-    // Atualizar toda a demanda (titulo e descricao)
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Demanda>> atualizarDemanda(@PathVariable Long id,
-                                                                @Valid @RequestBody DemandaCreateDTO dto) {
+                                                                 @Valid @RequestBody DemandaCreateDTO dto) {
         return demandaService.atualizarDemanda(id, dto);
     }
 

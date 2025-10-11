@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class PageHome {
-  componenteAtivo: 'cidadaos' | 'demandas' = 'demandas';
+  componenteAtivo: 'demandas' | 'cidadaos' = 'cidadaos';
 
   onComponenteSelecionado(tipo: 'cidadaos' | 'demandas') {
     this.componenteAtivo = tipo;

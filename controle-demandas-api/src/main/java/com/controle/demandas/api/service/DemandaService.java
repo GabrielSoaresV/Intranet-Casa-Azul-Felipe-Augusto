@@ -25,7 +25,7 @@ public class DemandaService {
     private CidadaoService cidadaoService;
 
     public ResponseEntity<ApiResponse<Demanda>> criar(DemandaCreateDTO dto) {
-        // Verifica se o cidadão existe
+        
         Cidadao cidadao = cidadaoService.buscarPorCpf(dto.getCpfCidadao());
         if (cidadao == null) {
             throw new DemandaException.DemandaNotFoundException("Cidadão não existe");

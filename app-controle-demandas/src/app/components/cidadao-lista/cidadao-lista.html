@@ -1,55 +1,42 @@
-<div *ngIf="carregando">
+<div class="card p-3" style="background-color: white; border: none;">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0" style="color: var(--primary-color)">Lista de Cidadãos</h4>
+    <h4 style="color: var(--primary-color)">Lista de Cidadãos</h4>
     <button class="btn btn-outline-primary" (click)="irParaDemandas()">Ir para Demandas</button>
   </div>
 
-  <div class="d-flex justify-content-center my-4">
-    <mat-spinner></mat-spinner>
+  <div class="mb-3">
+    <input type="text" class="form-control form-control-sm" placeholder="Pesquisar por cidadão..." [(ngModel)]="filtrarCidadao">
   </div>
 
-  <p class="text-center text-muted">Carregando cidadãos...</p>
-</div>
-
-<div *ngIf="!carregando">
-  <div *ngIf="cidadaos.length === 0" class="text-center text-muted mt-2">
-    Nenhum cidadão cadastrado.
+  <div *ngIf="carregando" class="d-flex flex-column justify-content-center align-items-center my-4">
+    <mat-spinner></mat-spinner><p class="text-center text-muted mt-2">Carregando cidadãos...</p>
   </div>
 
-  <div *ngIf="cidadaos.length > 0">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <h4 class="mb-0" style="color: var(--primary-color)">Lista de Cidadãos</h4>
-      <button class="btn btn-outline-primary btn-sm" (click)="irParaDemandas()">Ir para Demandas</button>
-    </div>
+  <div *ngIf="!carregando">
+    <div *ngIf="cidadaos.length === 0" class="text-center text-muted mt-2">Nenhum cidadão cadastrado.</div>
 
-    <div class="table-responsive">
-      <table mat-table [dataSource]="cidadaos" class="mat-elevation-z2 w-100">
-
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let c">{{ c.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let c">{{ c.nome }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="cpf">
-          <th mat-header-cell *matHeaderCellDef>CPF</th>
-          <td mat-cell *matCellDef="let c">{{ c.cpf }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let c">
-            <button mat-raised-button color="primary" class="me-2" (click)="editarCidadao(c)">Editar</button>
-            <button mat-raised-button color="warn" (click)="excluirCidadao(c.id)">Excluir</button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['id','nome','cpf','acoes']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['id','nome','cpf','acoes']"></tr>
+    <div *ngIf="cidadaos.length > 0" class="table-responsive">
+      <table class="table table-hover" style="background-color: white;">
+        <thead style="background-color: white;">
+          <tr>
+            <th>CPF</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of cidadaos | filterCidadao:filtrarCidadao">
+            <td>{{ formatarCPF(c.cpf) }}</td>
+            <td>{{ c.nome }}</td>
+            <td>{{ c.email }}</td>
+            <td class="text-center">
+              <button class="btn btn-primary btn-sm me-1" (click)="editarCidadao(c)">Editar</button>
+              <button class="btn btn-danger btn-sm me-1" (click)="excluirCidadao(c.cpf)">Excluir</button>
+              <button class="btn btn-success btn-sm" (click)="verDemandas(c)">Demandas</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>

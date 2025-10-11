@@ -6,8 +6,7 @@ import { PageRegister } from './pages/page-register/page-register';
 const routes: Routes = [
   { path: '', redirectTo: 'pagehome', pathMatch: 'full' },
   { path: 'pagehome', component: PageHome },
-  { path: 'pageregister', component: PageRegister },
-  { path: '**', redirectTo: 'pagehome' }
+  { path: 'pageregister', component: PageRegister }
 ];
 
 

@@ -1,3 +1,0 @@
-2025-10-09 16:44:57.650553-03:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "CPF CHARACTER VARYING(11)": "'123456783904' (12)"; SQL statement:
-insert into cidadao (email,nome,cpf) values (?,?,?) [22001-232]

@@ -1,0 +1,30 @@
+.custom-modal .mat-dialog-container {
+  max-width: 90vw;       /* largura máxima */
+  width: 90vw;           /* largura padrão */
+  max-height: 85vh;      /* altura máxima */
+  height: auto;          /* altura se adapta ao conteúdo */
+  padding: 20px;
+  overflow-y: auto;      /* scroll vertical se precisar */
+}
+
+.mat-list-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.bg-status-aberta {
+  background-color: #1976d2; /* azul */
+  color: white;
+}
+
+.bg-status-concluida {
+  background-color: #28a745; /* verde */
+  color: white;
+}
+
+.bg-status-andamento {
+  background-color: #fd7e14; /* laranja */
+  color: white;
+}

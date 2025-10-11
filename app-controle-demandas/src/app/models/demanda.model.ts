@@ -1,9 +1,9 @@
-import { Cidadao } from './cidadao.model';
+import { CidadaoModel } from './cidadao.model';
 
-export interface Demanda {
+export interface DemandaModel {
   id: number;
   titulo: string;
   descricao: string;
   status: string;
-  cidadao: Cidadao;
+  cidadao: CidadaoModel;
 }

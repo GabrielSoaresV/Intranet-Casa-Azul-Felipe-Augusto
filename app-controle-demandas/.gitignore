@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /bazel-out
+/data/banco-teste.mv.db
+/data/banco-teste.trace.db
 
 # Node
 /node_modules

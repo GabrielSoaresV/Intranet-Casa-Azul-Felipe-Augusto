@@ -26,4 +26,5 @@ Java 21
 								Spring Boot DevTools
  
 
->>>>>>> Fluxo-Demandas
+>>>>>>>DevExtreme angular
+

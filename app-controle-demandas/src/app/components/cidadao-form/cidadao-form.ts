@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { CidadaoService } from '../../services/cidadao';
+import { CidadaoModel } from '../../models/cidadao.model';
 
 @Component({
   selector: 'app-cidadao-form',
@@ -16,17 +18,20 @@ export class CidadaoForm {
   nome: string = '';
   cpf: string = '';
   email: string = '';
+  
+  constructor(private cidadaoService: CidadaoService) { }
 
   cadastrarCidadao() {
-    if (!this.email.includes('@') || !this.email.includes('.')) {
-      console.warn('Email digitado pode ser inválido:', this.email);
-    } else {
-      console.log('Novo cidadão cadastrado:', {
-        nome: this.nome,
-        cpf: this.cpf.replace(/\D/g, ''),
-        email: this.email
-      });
-    }
+    const novoCidadao: CidadaoModel = {
+      nome: this.nome,
+      cpf: this.cpf.replace(/\D/g, ''), 
+      email: this.email
+    };
+
+    this.cidadaoService.criar(novoCidadao).subscribe({
+      next: (res) => console.log('Cidadão cadastrado:', res),
+      error: (err) => console.error('Erro ao cadastrar cidadão:', err)
+    });
   }
 
   aplicarMascaraCPF(event: Event) {

@@ -1,0 +1,12 @@
+::ng-deep .dx-treelist {
+  background-color: white;
+}
+
+::ng-deep .dx-treelist-rowsview td {
+  vertical-align: middle;
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 2px 6px;
+}
