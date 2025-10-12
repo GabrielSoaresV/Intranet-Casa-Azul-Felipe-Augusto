@@ -2,7 +2,7 @@
 
 <div class="container mt-3">
   <div class="card shadow-sm p-3 bg-white rounded mt-3">
-    <app-cidadao-lista *ngIf="componenteAtivo === 'cidadaos'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-cidadao-lista>
-    <app-demanda-lista *ngIf="componenteAtivo === 'demandas'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-demanda-lista>
+    <app-cidadao-list *ngIf="componenteAtivo === 'cidadaos-list'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-cidadao-list>
+    <app-demanda-list *ngIf="componenteAtivo === 'demandas-list'"(componenteSelecionado)="onComponenteSelecionado($event)"></app-demanda-list>
   </div>
 </div>

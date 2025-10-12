@@ -8,8 +8,6 @@ import java.util.List;
 
 @Repository
 public interface DemandaRepository extends JpaRepository<Demanda, Long> {
-
-    List<Demanda> findByCidadaoCpf(String cpf);
-
     boolean existsByTitulo(String titulo);
+    List<Demanda> findByCidadaoCpf(String cpf);
 }

@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class PageHome {
-  componenteAtivo: 'demandas' | 'cidadaos' = 'cidadaos';
+  componenteAtivo: 'demandas-list' | 'cidadaos-list' = 'demandas-list';
 
-  onComponenteSelecionado(tipo: 'cidadaos' | 'demandas') {
-    this.componenteAtivo = tipo;
+  onComponenteSelecionado(valor: 'demandas-list' | 'cidadaos-list') {
+    this.componenteAtivo = valor;
   }
 }

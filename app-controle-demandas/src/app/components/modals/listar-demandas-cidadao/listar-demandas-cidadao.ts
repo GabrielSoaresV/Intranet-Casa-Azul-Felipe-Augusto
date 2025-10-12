@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DemandaService } from '../../../services/demanda';
-import { DemandaModel } from '../../../models/demanda.model';
-import { CidadaoModel } from '../../../models/cidadao.model';
+import { InterfaceDemanda } from '../../../models/demanda.model';
+import { InterfaceCidadao } from '../../../models/cidadao.model';
 
 @Component({
   selector: 'app-listar-demandas-cidadao',
@@ -12,13 +12,13 @@ import { CidadaoModel } from '../../../models/cidadao.model';
 })
 export class ListarDemandasCidadao implements OnInit {
 
-  demandas: DemandaModel[] = [];
-  demandaSelecionada: DemandaModel | null = null;
+  demandas: InterfaceDemanda[] = [];
+  demandaSelecionada: InterfaceDemanda | null = null;
 
   constructor(
     private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<ListarDemandasCidadao>,
-    @Inject(MAT_DIALOG_DATA) public cidadao: CidadaoModel,
+    @Inject(MAT_DIALOG_DATA) public cidadao: InterfaceCidadao,
     private demandaService: DemandaService
   ) {}
 
@@ -36,7 +36,7 @@ export class ListarDemandasCidadao implements OnInit {
     });
   }
 
-  selecionarDemanda(demanda: DemandaModel) {
+  selecionarDemanda(demanda: InterfaceDemanda) {
     this.demandaSelecionada = this.demandaSelecionada === demanda ? null : demanda;
   }
 
