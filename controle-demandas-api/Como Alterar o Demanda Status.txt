@@ -1,13 +1,11 @@
-[
-    // Atender a demanda: inicia o atendimento da demanda Aberta ou Não Concluída, muda o status para "Em Andamento"
-    { "acao": "atender" },
+"atender" → altera de "Aberta" ou "Não Concluída" para "Em Andamento"
 
-    // Finalizar a demanda: conclui a demanda que está Em Andamento, muda o status para "Concluída"
-    { "acao": "finalizar" },
+"finalizar" → altera de "Em Andamento" para "Concluída"
 
-    // Cancelar a demanda: cancela a demanda que está Aberta, muda o status para "Cancelada"
-    { "acao": "cancelar" },
+"cancelar" → altera de "Aberta" para "Cancelada"
 
-    // Não concluída: marca a demanda que está Em Andamento como Não Concluída
-    { "acao": "nao_concluida" }
-]
+"devolver" → altera de "Em Andamento" para "Não Concluída"
+
+{
+  "status": "finalizar"
+}

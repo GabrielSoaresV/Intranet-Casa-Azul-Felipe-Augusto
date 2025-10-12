@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './page-register.css'
 })
 export class PageRegister {
-  componenteAtivo: 'cidadaos-form' | 'demandas-form' = 'demandas-form';
+  componenteAtivo: 'cidadaos-form' | 'demandas-form' = 'cidadaos-form';
 
   onComponenteSelecionado(tipo: 'cidadaos-form' | 'demandas-form') {
     this.componenteAtivo = tipo;

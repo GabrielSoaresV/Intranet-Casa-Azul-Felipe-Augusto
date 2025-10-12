@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CidadaoModel } from '../../../models/cidadao.model';
+import { CidadaoUpdateDTO } from '../../../dtos/dto-cidadaos/cidadao-update.dto';
 import { CidadaoService } from '../../../services/cidadao';
+
 @Component({
   selector: 'app-cidadao-editar',
   standalone: false,
@@ -10,18 +11,23 @@ import { CidadaoService } from '../../../services/cidadao';
 })
 export class CidadaoEditar {
 
-  cidadao: CidadaoModel;
+  cidadao: { cpf: string; nome: string; email: string };
 
   constructor(
     public dialogRef: MatDialogRef<CidadaoEditar>,
-    @Inject(MAT_DIALOG_DATA) public data: CidadaoModel,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private cidadaoService: CidadaoService
   ) {
-    this.cidadao = { ...data }; 
-  } 
+    this.cidadao = { cpf: data.cpf, nome: data.nome, email: data.email };
+  }
 
   salvar() {
-    this.cidadaoService.atualizar(this.cidadao.cpf, this.cidadao).subscribe({
+    const atualizado: CidadaoUpdateDTO = {
+      nome: this.cidadao.nome,
+      email: this.cidadao.email
+    };
+
+    this.cidadaoService.atualizar(this.cidadao.cpf, atualizado).subscribe({
       next: () => {
         alert('✅ Cidadão atualizado com sucesso!');
         this.dialogRef.close(true);
@@ -32,8 +38,7 @@ export class CidadaoEditar {
       }
     });
   }
-
   cancelar() {
-    this.dialogRef.close(false); 
+    this.dialogRef.close(false);
   }
 }

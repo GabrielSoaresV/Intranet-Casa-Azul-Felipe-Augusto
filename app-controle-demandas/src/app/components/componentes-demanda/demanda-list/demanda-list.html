@@ -1,0 +1,59 @@
+<div class="card p-3" style="background-color: white; border: none;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 style="color: var(--primary-color)">Lista de Demandas</h4>
+    <button mat-stroked-button color="primary" (click)="irParaCidadaosList()">
+      Ir para Cidadãos
+    </button>
+  </div>
+
+  <!-- Barra de pesquisa -->
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Filtrar por título, descrição ou status..."
+      [(ngModel)]="filtrarDemanda"
+    />
+  </div>
+
+  <!-- Spinner de carregamento -->
+  <div *ngIf="carregando" class="text-center my-4">
+    <mat-spinner></mat-spinner>
+    <p class="text-muted mt-2">Carregando demandas...</p>
+  </div>
+
+  <!-- Lista de demandas -->
+  <div *ngIf="!carregando">
+    <div *ngIf="(demandas | filterDemandaPipe: filtrarDemanda).length === 0" class="text-center text-muted mt-2">
+      Nenhuma demanda encontrada.
+    </div>
+
+    <div *ngIf="(demandas | filterDemandaPipe: filtrarDemanda).length > 0" class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Status</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of demandas | filterDemandaPipe: filtrarDemanda">
+            <td>{{ d.id }}</td>
+            <td>{{ d.titulo }}</td>
+            <td>{{ statusTexto(d.status) }}</td>
+            <td class="text-center">
+              <button mat-mini-fab color="primary" class="me-1" (click)="editarDemanda(d)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="warn" class="me-1" (click)="excluirDemanda(d.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

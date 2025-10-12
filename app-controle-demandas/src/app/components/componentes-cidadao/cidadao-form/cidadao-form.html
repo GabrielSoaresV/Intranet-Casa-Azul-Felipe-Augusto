@@ -1,0 +1,50 @@
+<div class="card shadow-sm p-4 bg-white rounded">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0" style="color: var(--primary-color)">Cadastrar Novo Cidadão</h4>
+    <button class="btn btn-outline-primary btn-sm" (click)="irParaDemandasForm()">Ir para Demandas</button>
+  </div>
+
+  <form (ngSubmit)="cadastrarCidadao()">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        name="nome"
+        placeholder="Digite o nome do cidadão"
+        required
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="cpf" class="form-label">CPF</label>
+      <input
+        type="text"
+        class="form-control"
+        id="cpf"
+        [value]="cidadao.cpf"
+        (input)="aplicarMascaraCPF($event)"
+        placeholder="Digite o CPF do cidadão"
+        maxlength="14"
+        required
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Digite o email do cidadão"
+        required
+      >
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+  </form>
+</div>
