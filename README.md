@@ -87,12 +87,14 @@ Controle de Demandas de Cidadãos/
 │           └─ com/controle/demandas/api/
 │
 └─ README.md
-
+---
 
 ## Como rodar o projeto
 
 ### Frontend (Angular)
+'''
 1. Abra o terminal na pasta `app-controle-demandas`
+'''
 2. Instale as dependências:
 ```bash
 npm install
