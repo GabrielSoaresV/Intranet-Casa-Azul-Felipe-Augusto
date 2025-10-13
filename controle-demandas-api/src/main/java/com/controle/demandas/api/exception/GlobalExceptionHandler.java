@@ -1,84 +1,52 @@
 package com.controle.demandas.api.exception;
 
 import com.controle.demandas.api.response.ApiResponse;
+
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        StringBuilder errors = new StringBuilder();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.append(error.getField())
-                  .append(": ")
-                  .append(error.getDefaultMessage())
-                  .append("; ");
-        }
+        String errors = ex.getBindingResult().getFieldErrors().stream()
+                        .map(err -> err.getField() + ": " + err.getDefaultMessage())
+                        .collect(Collectors.joining("; "));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), errors.toString()));
+                            .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), errors));
     }
 
-    @ExceptionHandler(CidadaoException.CidadaoNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleCidadaoNotFound(CidadaoException.CidadaoNotFoundException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNotFound(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
     }
 
-    @ExceptionHandler(CidadaoException.CidadaoDuplicatedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleCidadaoDuplicated(CidadaoException.CidadaoDuplicatedException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(HttpStatus.CONFLICT.value(), ex.getMessage()));
-    }
-
-    @ExceptionHandler(CidadaoException.CidadaoUnauthorizedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleCidadaoUnauthorized(CidadaoException.CidadaoUnauthorizedException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage()));
-    }
-
-    @ExceptionHandler(CidadaoException.CidadaoForbiddenException.class)
-    public ResponseEntity<ApiResponse<Void>> handleCidadaoForbidden(CidadaoException.CidadaoForbiddenException ex) {
+    @ExceptionHandler({DemandaException.DemandaForbiddenException.class, 
+                       CidadaoException.CidadaoForbiddenException.class})
+    public ResponseEntity<ApiResponse<Void>> handleForbidden(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ApiResponse.error(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
     }
 
-    @ExceptionHandler(DemandaException.DemandaNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDemandaNotFound(DemandaException.DemandaNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
-    }
-
-    @ExceptionHandler(DemandaException.DemandaDuplicatedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDemandaDuplicated(DemandaException.DemandaDuplicatedException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(HttpStatus.CONFLICT.value(), ex.getMessage()));
-    }
-
-    @ExceptionHandler(DemandaException.DemandaUnauthorizedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDemandaUnauthorized(DemandaException.DemandaUnauthorizedException ex) {
+    @ExceptionHandler({DemandaException.DemandaUnauthorizedException.class, 
+                       CidadaoException.CidadaoUnauthorizedException.class})
+    public ResponseEntity<ApiResponse<Void>> handleUnauthorized(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage()));
     }
 
-    @ExceptionHandler(DemandaException.DemandaForbiddenException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDemandaForbidden(DemandaException.DemandaForbiddenException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(ApiResponse.error(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
-    }
-
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ApiResponse<Void>> handleResponseStatus(ResponseStatusException ex) {
-        int status = ex.getStatusCode().value();
-        String message = ex.getReason() != null ? ex.getReason() : "Erro inesperado";
-        return ResponseEntity.status(status)
-                .body(ApiResponse.error(status, message));
+    @ExceptionHandler({DemandaException.DemandaDuplicatedException.class,
+                       CidadaoException.CidadaoDuplicatedException.class})
+    public ResponseEntity<ApiResponse<Void>> handleConflict(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiResponse.error(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

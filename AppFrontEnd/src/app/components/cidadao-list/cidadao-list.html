@@ -1,29 +1,49 @@
 <h4>Lista de Cidadãos</h4>
 
-<table class="table table-bordered" *ngIf="!carregando">
-  <thead>
-    <tr>
-      <th>CPF</th>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cidadao of cidadaos">
-      <td>{{ cidadao.cpf }}</td>
-      <td>{{ cidadao.nome }}</td>
-      <td>{{ cidadao.email }}</td>
-      <td>
-        <button class="btn btn-sm btn-info" (click)="abrirModalDemandas(cidadao)">Demandas</button>
-        <button class="btn btn-sm btn-primary me-1" (click)="navegarPara('cidadao-form')">Editar</button>
-        <button class="btn btn-sm btn-danger me-1" (click)="excluir(cidadao)">Excluir</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- Wrapper centralizado -->
+<div class="d-flex justify-content-center" style="width: 100%; padding: 1rem;">
+  <div class="mat-elevation-z8" *ngIf="!carregando" style="width: 80%; border-radius: 8px; padding: 1rem;">
 
-<div *ngIf="carregando">Carregando...</div>
+    <table mat-table [dataSource]="cidadaos" class="full-width-table">
+
+      <!-- CPF Column -->
+      <ng-container matColumnDef="cpf">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 16px;">CPF</th>
+        <td mat-cell *matCellDef="let cidadao" style="padding-left: 16px; padding-right: 16px;">{{ cidadao.cpf }}</td>
+      </ng-container>
+
+      <!-- Nome Column -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 16px;">Nome</th>
+        <td mat-cell *matCellDef="let cidadao" style="padding-left: 16px; padding-right: 16px;">{{ cidadao.nome }}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 16px;">Email</th>
+        <td mat-cell *matCellDef="let cidadao" style="padding-left: 16px; padding-right: 16px;">{{ cidadao.email }}</td>
+      </ng-container>
+
+      <!-- Ações Column (apenas Demandas) -->
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 16px;">Ações</th>
+        <td mat-cell *matCellDef="let cidadao" style="padding-left: 16px; padding-right: 16px;">
+          <button mat-mini-fab color="primary" aria-label="Demandas" (click)="abrirModalDemandas(cidadao)">
+            <mat-icon>assignment</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row -->
+      <tr mat-header-row *matHeaderRowDef="['cpf', 'nome', 'email', 'acoes']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['cpf', 'nome', 'email', 'acoes'];"></tr>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="carregando" class="mt-2 d-flex justify-content-center">
+  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+</div>
 
 <!-- Modal de demandas -->
 <app-cidadao-demandas-modal 

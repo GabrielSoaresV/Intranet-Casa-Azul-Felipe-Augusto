@@ -28,48 +28,56 @@ public class CidadaoController {
             @Valid @RequestBody CidadaoCreateDTO dto) {
         Cidadao criado = cidadaoService.criar(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.created("Cidadão cadastrado com sucesso!", cidadaoService.mapToSearchDTO(criado)));
+                .body(ApiResponse.created(
+                        "Cidadão cadastrado com sucesso!", 
+                        cidadaoService.mapToSearchDTO(criado)
+                ));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CidadaoSearchDTO>>> listarTodos() {
         List<CidadaoSearchDTO> listaDTO = cidadaoService.listarTodosCidadaos();
-        return ResponseEntity.ok(ApiResponse.success("Lista de cidadãos recuperada com sucesso!", listaDTO));
+        return ResponseEntity.ok(ApiResponse.success(
+                "Lista de cidadãos recuperada com sucesso!", 
+                listaDTO
+        ));
     }
 
     @GetMapping("/{cpf}")
     public ResponseEntity<ApiResponse<CidadaoSearchDTO>> buscarPorCpf(@PathVariable String cpf) {
         CidadaoSearchDTO dto = cidadaoService.buscarPorCpf(cpf);
-        return ResponseEntity.ok(ApiResponse.success("Cidadão encontrado com sucesso!", dto));
+        return ResponseEntity.ok(ApiResponse.success(
+                "Cidadão encontrado com sucesso!", 
+                dto
+        ));
     }
 
     @PutMapping("/{cpf}")
     public ResponseEntity<ApiResponse<CidadaoSearchDTO>> atualizar(
             @PathVariable String cpf,
             @Valid @RequestBody CidadaoUpdateDTO dto) {
-
-        try {
-            Cidadao atualizado = cidadaoService.atualizarCidadao(cpf, dto);
-            return ResponseEntity.ok(
-                    ApiResponse.success("Cidadão atualizado com sucesso!", 
-                                        cidadaoService.mapToSearchDTO(atualizado))
-            );
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                                            "Erro ao atualizar cidadão: " + e.getMessage()));
-        }
+        Cidadao atualizado = cidadaoService.atualizarCidadao(cpf, dto);
+        return ResponseEntity.ok(ApiResponse.success(
+                "Cidadão atualizado com sucesso!", 
+                cidadaoService.mapToSearchDTO(atualizado)
+        ));
     }
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<ApiResponse<Void>> excluir(@PathVariable String cpf) {
         cidadaoService.excluirCidadao(cpf);
-        return ResponseEntity.ok(ApiResponse.success("Cidadão excluído com sucesso!", null));
+        return ResponseEntity.ok(ApiResponse.success(
+                "Cidadão excluído com sucesso!", 
+                null
+        ));
     }
 
     @GetMapping("/{cpf}/nome")
-    public ResponseEntity<String> identificarNome(@PathVariable String cpf) {
+    public ResponseEntity<ApiResponse<String>> identificarNome(@PathVariable String cpf) {
         String nome = cidadaoService.identificarNome(cpf);
-        return ResponseEntity.ok(nome);
+        return ResponseEntity.ok(ApiResponse.success(
+                "Nome identificado com sucesso!", 
+                nome
+        ));
     }
 }

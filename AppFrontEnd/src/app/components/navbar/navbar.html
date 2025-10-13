@@ -1,0 +1,42 @@
+<mat-toolbar color="primary" class="toolbar-container">
+  <span class="toolbar-title">Sistema de Gestão</span>
+
+  <span class="spacer"></span>
+
+  <div class="toolbar-buttons">
+    <button mat-button color="accent" (click)="selecionarComponente('cidadaos-list')">
+      Lista de Cidadãos
+    </button>
+    <button mat-button color="accent" (click)="selecionarComponente('cidadao-form')">
+      Cadastro de Cidadão
+    </button>
+    <button mat-button color="accent" (click)="selecionarComponente('demandas-list')">
+      Lista de Demandas
+    </button>
+    <button mat-button color="accent" (click)="selecionarComponente('demanda-form')">
+      Cadastro de Demanda
+    </button>
+  </div>
+</mat-toolbar>
+
+<!-- CSS sugerido -->
+<style>
+.toolbar-container {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.toolbar-title {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.spacer {
+  flex: 1 1 auto; /* empurra os botões para a direita */
+}
+
+.toolbar-buttons button {
+  margin-left: 8px; /* espaçamento entre botões */
+}
+</style>

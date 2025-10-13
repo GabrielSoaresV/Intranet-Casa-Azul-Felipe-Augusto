@@ -20,13 +20,11 @@ export class CidadaoDemandasModal implements OnInit, OnChanges {
   constructor(private demandaService: DemandaService) {}
 
   ngOnInit(): void {
-    // Opcional: inicializa spinner
     this.carregando = true;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cpf'] && this.cpf) {
-      // Aguarda 200ms para mostrar o spinner antes de carregar
       this.carregando = true;
       setTimeout(() => {
         this.carregarDemandas();
@@ -37,7 +35,6 @@ export class CidadaoDemandasModal implements OnInit, OnChanges {
   carregarDemandas(): void {
     this.demandaService.listarPorCidadao(this.cpf).subscribe({
       next: (res: any) => {
-        console.log('Retorno das demandas do cidadão:', res);
         this.demandas = res.data || [];
         this.demandas.forEach(d => this.demandasExpandidas[d.id] = false);
         this.carregando = false;

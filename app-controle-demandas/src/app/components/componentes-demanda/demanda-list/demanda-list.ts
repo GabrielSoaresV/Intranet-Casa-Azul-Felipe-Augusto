@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DemandaEditar } from '../../modals/demanda-editar/demanda-editar';
+import { DemandaSearchDTO } from '../../../dtos/dto-demandas/demanda-search.dto';
 
 @Component({
   selector: 'app-demanda-list',
@@ -26,7 +27,6 @@ export class DemandaList implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit chamado');
     this.carregarDemandas();
   }
 
@@ -39,8 +39,7 @@ export class DemandaList implements OnInit {
 
     this.demandaService.listar().subscribe({
       next: (res) => {
-        console.log('Resposta do service listar:', res); // mostra o envelope completo
-        this.demandas = res.data; // ⚠️ pega o array dentro de data
+        this.demandas = res.data;
         this.carregando = false;
         this.cdr.detectChanges();
       },
@@ -89,7 +88,55 @@ export class DemandaList implements OnInit {
     });
   }
 
-  // Método para formatar CPF
+  alterarStatus(demanda: DemandaSearchDTO, acao: 'atender' | 'finalizar' | 'cancelar' | 'devolver') {
+    switch (acao) {
+      case 'atender':
+        demanda.status = 'Em Andamento';
+        break;
+      case 'finalizar':
+        demanda.status = 'Concluída';
+        break;
+      case 'cancelar':
+        demanda.status = 'Cancelada';
+        break;
+      case 'devolver':
+        demanda.status = 'Não Concluída';
+        break;
+    }
+
+    this.demandaService.alterarStatus(demanda.id, { status: acao }).subscribe({
+      next: () => {},
+      error: (err) => {
+        if (err.status === 403) {
+          console.error(err.error?.message || 'Ação não permitida para esta demanda.');
+          this.carregarDemandas();
+        } else {
+          console.error('Erro ao alterar status:', err);
+          this.carregarDemandas();
+        }
+      }
+    });
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'Aberta':
+        return 'blue';
+      case 'Não Concluída':
+        return 'orange';
+      case 'Em Andamento':
+        return 'blue';
+      case 'Concluída':
+        return 'green';
+      case 'Cancelada':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  }
+  displayedColumns: string[] = ['id', 'titulo', 'descricao', 'status', 'acoes'];
+
+
   formatarCPF(cpf: string): string {
     if (!cpf) return '';
     return cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
@@ -114,23 +161,20 @@ export class DemandaList implements OnInit {
 statusClasse(status: string): string {
   switch (status.toLowerCase()) {
     case 'aberta':
-      return 'bg-primary'; // azul
+      return 'bg-primary';
     case 'não concluida':
-      return 'bg-secondary'; // cinza escuro
+      return 'bg-secondary'; 
     case 'em andamento':
-      return 'bg-warning text-dark'; // amarelo
+      return 'bg-warning text-dark';
     case 'concluída':
-      return 'bg-success'; // verde
+      return 'bg-success';
     case 'cancelada':
-      return 'bg-danger'; // vermelho
+      return 'bg-danger'; 
     default:
-      return 'bg-secondary'; // padrão cinza
+      return 'bg-secondary'; 
   }
 }
 
 visualizarDemanda() {
-  console.log('Visualizar demanda:');
 }
-
-
 }

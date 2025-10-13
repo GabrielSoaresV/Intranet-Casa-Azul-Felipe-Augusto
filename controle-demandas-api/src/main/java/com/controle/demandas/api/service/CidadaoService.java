@@ -1,7 +1,7 @@
 package com.controle.demandas.api.service;
-
 import com.controle.demandas.api.dtoCidadaos.*;
 import com.controle.demandas.api.exception.CidadaoException;
+import com.controle.demandas.api.exception.NotFoundException;
 import com.controle.demandas.api.model.Cidadao;
 import com.controle.demandas.api.repository.CidadaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class CidadaoService {
 
     public Cidadao buscarPorCpfEntity(String cpf) {
         return cidadaoRepository.findById(cpf)
-                .orElseThrow(() -> new CidadaoException.CidadaoNotFoundException("Cidadão não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Cidadão não encontrado"));
     }
 
     public Cidadao atualizarCidadao(String cpf, CidadaoUpdateDTO dto) {

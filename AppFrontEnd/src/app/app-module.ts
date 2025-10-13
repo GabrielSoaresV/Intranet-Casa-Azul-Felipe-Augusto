@@ -15,6 +15,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Navbar } from './components/navbar/navbar';
 
 @NgModule({
   declarations: [
@@ -23,6 +32,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     CidadaoForm,
     CidadaoList,
     DemandaForm,
+    Navbar,
     DemandaList,
     CidadaoDemandasModal
   ],
@@ -34,8 +44,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDialogModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
-  ],
+    MatExpansionModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule,
+    MatTableModule,
+    MatSnackBarModule
+],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),

@@ -2,6 +2,7 @@ package com.controle.demandas.api.service;
 
 import com.controle.demandas.api.dtoDemandas.*;
 import com.controle.demandas.api.exception.DemandaException;
+import com.controle.demandas.api.exception.NotFoundException;
 import com.controle.demandas.api.model.Cidadao;
 import com.controle.demandas.api.model.Demanda;
 import com.controle.demandas.api.repository.DemandaRepository;
@@ -48,7 +49,7 @@ public class DemandaService {
 
     public Demanda buscarPorIdEntity(Long id) {
         return demandaRepository.findById(id)
-                .orElseThrow(() -> new DemandaException.DemandaNotFoundException("Demanda não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Demanda não encontrada"));
     }
 
     public DemandaSearchDTO buscarPorId(Long id) {

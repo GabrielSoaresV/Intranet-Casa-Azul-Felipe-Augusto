@@ -6,7 +6,6 @@
     </button>
   </div>
 
-  <!-- Barra de pesquisa -->
   <div class="mb-3">
     <input
       type="text"
@@ -16,13 +15,11 @@
     />
   </div>
 
-  <!-- Spinner de carregamento -->
   <div *ngIf="carregando" class="text-center my-4">
     <mat-spinner></mat-spinner>
     <p class="text-muted mt-2">Carregando demandas...</p>
   </div>
 
-  <!-- Lista de demandas -->
   <div *ngIf="!carregando">
     <div *ngIf="(demandas | filterDemandaPipe: filtrarDemanda).length === 0" class="text-center text-muted mt-2">
       Nenhuma demanda encontrada.
@@ -34,6 +31,7 @@
           <tr>
             <th>ID</th>
             <th>Título</th>
+            <th>Descrição</th>
             <th>Status</th>
             <th class="text-center">Ações</th>
           </tr>
@@ -42,10 +40,15 @@
           <tr *ngFor="let d of demandas | filterDemandaPipe: filtrarDemanda">
             <td>{{ d.id }}</td>
             <td>{{ d.titulo }}</td>
-            <td>{{ statusTexto(d.status) }}</td>
-            <td class="text-center">
-              <button mat-mini-fab color="primary" class="me-1" (click)="editarDemanda(d)">
-                <mat-icon>edit</mat-icon>
+            <td>{{ d.descricao | slice:0:50 }}{{ d.descricao.length > 50 ? '…' : '' }}</td>
+            <td>
+              <span class="badge {{ statusClasse(d.status) }}">
+                {{ statusTexto(d.status) }}
+              </span>
+            </td>
+            <td class="text-center px-2">
+              <button mat-mini-fab color="accent" class="me-1">
+                <mat-icon>assignment_turned_in</mat-icon>
               </button>
               <button mat-mini-fab color="warn" class="me-1" (click)="excluirDemanda(d.id)">
                 <mat-icon>delete</mat-icon>

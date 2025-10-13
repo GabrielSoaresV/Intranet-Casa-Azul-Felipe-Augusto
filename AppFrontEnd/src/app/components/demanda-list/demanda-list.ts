@@ -106,4 +106,6 @@ export class DemandaList implements OnInit {
         return 'gray';
     }
   }
+  displayedColumns: string[] = ['id', 'titulo', 'descricao', 'status', 'acoes'];
+
 }

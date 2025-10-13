@@ -1,48 +1,69 @@
 <h4>Lista de Demandas</h4>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Título</th>
-      <th>Descrição</th>
-      <th>Status</th>
-      <th>Alterar Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let demanda of demandas">
-      <td>{{ demanda.id }}</td>
-      <td>{{ demanda.titulo }}</td>
-      <td>{{ demanda.descricao }}</td>
-      <td>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="demandas" class="full-width-table">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let demanda">{{ demanda.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="titulo">
+      <th mat-header-cell *matHeaderCellDef>Título</th>
+      <td mat-cell *matCellDef="let demanda">{{ demanda.titulo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricao">
+      <th mat-header-cell *matHeaderCellDef>Descrição</th>
+      <td mat-cell *matCellDef="let demanda">{{ demanda.descricao }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let demanda">
         <span [style.color]="getStatusColor(demanda.status)">
           {{ demanda.status }}
         </span>
       </td>
-      <td>
-        <!-- Botões para Aberta -->
+    </ng-container>
+
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef>Alterar Status</th>
+      <td mat-cell *matCellDef="let demanda">
         <ng-container *ngIf="demanda.status === 'Aberta'">
-          <button class="btn btn-sm btn-success me-1" (click)="alterarStatus(demanda, 'atender')">Atender</button>
-          <button class="btn btn-sm btn-warning" (click)="alterarStatus(demanda, 'cancelar')">Cancelar</button>
+          <button mat-mini-fab color="primary" class="me-1" (click)="alterarStatus(demanda, 'atender')">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="alterarStatus(demanda, 'cancelar')">
+            <mat-icon>cancel</mat-icon>
+          </button>
         </ng-container>
 
-        <!-- Botões para Não Concluída -->
         <ng-container *ngIf="demanda.status === 'Não Concluída'">
-          <button class="btn btn-sm btn-success me-1" (click)="alterarStatus(demanda, 'atender')">Atender</button>
+          <button mat-mini-fab color="primary" (click)="alterarStatus(demanda, 'atender')">
+            <mat-icon>check</mat-icon>
+          </button>
         </ng-container>
 
-        <!-- Botões para Em Andamento -->
         <ng-container *ngIf="demanda.status === 'Em Andamento'">
-          <button class="btn btn-sm btn-success me-1" (click)="alterarStatus(demanda, 'finalizar')">Concluir</button>
-          <button class="btn btn-sm btn-warning" (click)="alterarStatus(demanda, 'devolver')">Devolver</button>
+          <button mat-mini-fab color="primary" class="me-1" (click)="alterarStatus(demanda, 'finalizar')">
+            <mat-icon>done_all</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="alterarStatus(demanda, 'devolver')">
+            <mat-icon>undo</mat-icon>
+          </button>
         </ng-container>
 
-        <!-- Botão excluir para Concluída ou Cancelada -->
         <ng-container *ngIf="demanda.status === 'Concluída' || demanda.status === 'Cancelada'">
-          <button class="btn btn-sm btn-danger" (click)="excluir(demanda)">Excluir</button>
+          <button mat-mini-fab color="warn" (click)="excluir(demanda)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </ng-container>
       </td>
-    </tr>
-  </tbody>
-</table>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
