@@ -66,4 +66,10 @@ public class CidadaoController {
         cidadaoService.excluirCidadao(cpf);
         return ResponseEntity.ok(ApiResponse.success("Cidadão excluído com sucesso!", null));
     }
+
+    @GetMapping("/{cpf}/nome")
+    public ResponseEntity<String> identificarNome(@PathVariable String cpf) {
+        String nome = cidadaoService.identificarNome(cpf);
+        return ResponseEntity.ok(nome);
+    }
 }

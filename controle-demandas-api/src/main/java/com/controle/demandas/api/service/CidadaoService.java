@@ -72,4 +72,9 @@ public class CidadaoService {
                 .email(c.getEmail())
                 .build();
     }
+
+    public String identificarNome(String cpf) {
+        Cidadao cidadao = buscarPorCpfEntity(cpf);
+        return cidadao.getNome();
+    }
 }
