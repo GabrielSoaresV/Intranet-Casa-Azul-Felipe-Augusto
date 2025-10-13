@@ -87,15 +87,18 @@ Controle de Demandas de Cidadãos/
 │           └─ com/controle/demandas/api/
 │
 └─ README.md
----
+```
 ## Como rodar o projeto
 
 ### Frontend (Angular)
+
+1. Abra o terminal na pasta 
+```bash 
+`app-controle-demandas`
 ```
-1. Abra o terminal na pasta ```bash `app-controle-demandas` 
-2. Instale as dependências: ```bash `npm install`
-3. Entre no diretorio: ```bash `cd src/app` 
-4. Inicie o servidor: ```bash `ng serve`
+2. Instale as dependências: ```bash `npm install` ```
+3. Entre no diretorio: ```bash `cd src/app` ```
+4. Inicie o servidor: ```bash `ng serve` ```
 5. Acesse em no navegador `http://localhost:4200`
 
 ### Backend (Spring Boot)
