@@ -90,6 +90,14 @@ Controle de Demandas de Cidadãos/
 ```
 ## Como rodar o projeto
 
+### Backend (Spring Boot)
+1. Abra o terminal da pasta do projeto `controle-demandas-api`
+2. Compile e rode o projeto:
+```bash
+mvn spring-boot:run
+```
+3. O servidor vai rodar em `http://localhost:8080`
+
 ### Frontend (Angular)
 
 1. Abra o terminal da pasta do projeto.  
@@ -107,15 +115,6 @@ Controle de Demandas de Cidadãos/
 `ng serve` 
 ```
 5. Acesse em no navegador `http://localhost:4200`
-
-### Backend (Spring Boot)
-1. Abra o terminal na pasta `controle-denabdas-api`
-2. Compile e rode o projeto:
-```bash
-mvn spring-boot:run
-```
-3. O servidor vai rodar em `http://localhost:8080`
-
 ---
 
 ## Funcionalidades principais
