@@ -92,10 +92,8 @@ Controle de Demandas de Cidadãos/
 
 ### Frontend (Angular)
 
-1. Abra o terminal na pasta 
-```bash 
+1. Abra o terminal da pasta do projeto.  
 `app-controle-demandas`
-```
 2. Instale as dependências: ```bash `npm install` ```
 3. Entre no diretorio: ```bash `cd src/app` ```
 4. Inicie o servidor: ```bash `ng serve` ```
