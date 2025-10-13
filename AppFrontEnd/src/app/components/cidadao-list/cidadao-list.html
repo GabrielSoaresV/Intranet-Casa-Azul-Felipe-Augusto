@@ -1,0 +1,34 @@
+<h4>Lista de Cidadãos</h4>
+
+<table class="table table-bordered" *ngIf="!carregando">
+  <thead>
+    <tr>
+      <th>CPF</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cidadao of cidadaos">
+      <td>{{ cidadao.cpf }}</td>
+      <td>{{ cidadao.nome }}</td>
+      <td>{{ cidadao.email }}</td>
+      <td>
+        <button class="btn btn-sm btn-info" (click)="abrirModalDemandas(cidadao)">Demandas</button>
+        <button class="btn btn-sm btn-primary me-1" (click)="navegarPara('cidadao-form')">Editar</button>
+        <button class="btn btn-sm btn-danger me-1" (click)="excluir(cidadao)">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="carregando">Carregando...</div>
+
+<!-- Modal de demandas -->
+<app-cidadao-demandas-modal 
+  *ngIf="modalAberto" 
+  [cpf]="cpfModal" 
+  [nome]="nomeModal"
+  (fechar)="fecharModal()">
+</app-cidadao-demandas-modal>

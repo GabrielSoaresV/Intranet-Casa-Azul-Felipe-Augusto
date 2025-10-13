@@ -1,0 +1,36 @@
+<div class="container mt-3">
+
+  <!-- Menu de navegação -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Controle de Demandas</h3>
+    <div class="btn-group">
+      <button class="btn btn-outline-primary" (click)="onComponenteSelecionado('cidadaos-list')">Cidadãos</button>
+      <button class="btn btn-outline-primary" (click)="onComponenteSelecionado('cidadao-form')">Novo Cidadão</button>
+      <button class="btn btn-outline-primary" (click)="onComponenteSelecionado('demandas-list')">Demandas</button>
+      <button class="btn btn-outline-primary" (click)="onComponenteSelecionado('demanda-form')">Nova Demanda</button>
+    </div>
+  </div>
+
+  <!-- Área de carregamento dos componentes -->
+  <div class="card shadow-sm p-3 bg-white rounded mt-3">
+    <app-cidadao-list
+      *ngIf="componenteAtivo === 'cidadaos-list'"
+      (componenteSelecionado)="onComponenteSelecionado($event)">
+    </app-cidadao-list>
+
+    <app-cidadao-form
+      *ngIf="componenteAtivo === 'cidadao-form'"
+      (componenteSelecionado)="onComponenteSelecionado($event)">
+    </app-cidadao-form>
+
+    <app-demanda-list
+      *ngIf="componenteAtivo === 'demandas-list'"
+      (componenteSelecionado)="onComponenteSelecionado($event)">
+    </app-demanda-list>
+
+    <app-demanda-form
+      *ngIf="componenteAtivo === 'demanda-form'"
+      (componenteSelecionado)="onComponenteSelecionado($event)">
+    </app-demanda-form>
+  </div>
+</div>

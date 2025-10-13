@@ -1,0 +1,21 @@
+<h4>Cadastro / Edição de Cidadão</h4>
+
+<form>
+  <div class="mb-3">
+    <label>CPF</label>
+    <input type="text" class="form-control" [(ngModel)]="cidadao.cpf" name="cpf">
+  </div>
+
+  <div class="mb-3">
+    <label>Nome</label>
+    <input type="text" class="form-control" [(ngModel)]="cidadao.nome" name="nome">
+  </div>
+
+  <div class="mb-3">
+    <label>Email</label>
+    <input type="email" class="form-control" [(ngModel)]="cidadao.email" name="email">
+  </div>
+
+  <button type="button" class="btn btn-primary me-2" (click)="salvar()">Salvar</button>
+  <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+</form>
