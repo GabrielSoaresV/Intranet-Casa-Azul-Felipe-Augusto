@@ -9,5 +9,4 @@ public class ControleDemandasApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ControleDemandasApiApplication.class, args);
 	}
-
 }
