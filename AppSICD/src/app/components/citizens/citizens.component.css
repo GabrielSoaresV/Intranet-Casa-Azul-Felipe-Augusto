@@ -1,0 +1,273 @@
+.citizens-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.citizens-header {
+  margin-bottom: 32px;
+}
+
+.citizens-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 48px;
+  color: #718096;
+  font-size: 16px;
+}
+
+.citizens-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.citizen-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.citizen-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.citizen-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.citizen-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.citizen-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 4px 0;
+}
+
+.citizen-email {
+  font-size: 14px;
+  color: #718096;
+  margin: 0 0 4px 0;
+}
+
+.citizen-cpf {
+  font-size: 13px;
+  color: #a0aec0;
+  margin: 0;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px;
+  color: #a0aec0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 24px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-size: 32px;
+  color: #a0aec0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.close-button:hover {
+  background: #f7fafc;
+  color: #4a5568;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.citizen-details {
+  background: #f7fafc;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item strong {
+  color: #2d3748;
+}
+
+.demands-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 16px 0;
+}
+
+.loading-demands {
+  text-align: center;
+  padding: 32px;
+  color: #718096;
+}
+
+.demands-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demand-item {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.demand-status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  height: fit-content;
+}
+
+.demand-status.pending {
+  background: #fef5e7;
+  color: #f39c12;
+}
+
+.demand-status.in_progress {
+  background: #e8f4fd;
+  color: #3498db;
+}
+
+.demand-status.completed {
+  background: #eafaf1;
+  color: #27ae60;
+}
+
+.demand-status.cancelled {
+  background: #fadbd8;
+  color: #e74c3c;
+}
+
+.demand-content {
+  flex: 1;
+}
+
+.demand-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 4px 0;
+}
+
+.demand-content p {
+  font-size: 14px;
+  color: #718096;
+  margin: 0 0 8px 0;
+  line-height: 150%;
+}
+
+.demand-date {
+  font-size: 12px;
+  color: #a0aec0;
+}
+
+.empty-demands {
+  text-align: center;
+  padding: 32px;
+  color: #a0aec0;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .citizens-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+  }
+}

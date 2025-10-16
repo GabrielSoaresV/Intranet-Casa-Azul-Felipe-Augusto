@@ -1,0 +1,70 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Criar Conta</h1>
+      <p>Preencha os dados para se cadastrar</p>
+    </div>
+
+    <form (ngSubmit)="onRegister()" class="register-form">
+      <div class="form-group">
+        <label for="name">Nome Completo</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Seu nome completo"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="seu@email.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Criando conta...' : 'Criar Conta' }}
+      </button>
+
+      <div class="login-link">
+        Já tem uma conta? <a routerLink="/login">Faça login</a>
+      </div>
+    </form>
+  </div>
+</div>
