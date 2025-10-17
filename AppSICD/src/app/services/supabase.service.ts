@@ -12,8 +12,8 @@ export class SupabaseService {
 
   constructor() {
     this.supabase = createClient(
-      'https://unspbabuezjxhvrmmmhz.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuc3BiYWJ1ZXpqeGh2cm1tbWh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MzYwMzIsImV4cCI6MjA3NjAxMjAzMn0.9BwCgStcxq3jhrjB0yXzbNk_pY4g39Omk3y5cO0kknI'
+      'https://kwttwrlohpqatwaypspd.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3dHR3cmxvaHBxYXR3YXlwc3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjEzMDQsImV4cCI6MjA3NjE5NzMwNH0._y98WK3EKsZtNjWiqqusvMjWRvA3vgxirq1OTYRz5Y4'
     );
 
     this.supabase.auth.onAuthStateChange((event, session) => {

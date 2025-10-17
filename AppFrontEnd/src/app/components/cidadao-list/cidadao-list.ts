@@ -33,7 +33,7 @@ export class CidadaoList implements OnInit {
         this.carregando = false;
         this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erro ao carregar cidadãos:', err);
         this.carregando = false;
       }
