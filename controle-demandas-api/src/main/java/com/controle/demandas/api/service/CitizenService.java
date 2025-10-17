@@ -32,8 +32,6 @@ public class CitizenService {
         c.setName(updates.getName());
         c.setEmail(updates.getEmail());
         c.setPhone(updates.getPhone());
-        c.setCpf(updates.getCpf());
-        c.setAddress(updates.getAddress());
         return citizenRepository.save(c);
     }
 

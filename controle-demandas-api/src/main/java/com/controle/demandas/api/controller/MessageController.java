@@ -22,6 +22,6 @@ public class MessageController {
 
     @PostMapping("/demand/{demandId}")
     public ResponseEntity<Message> sendMessage(@PathVariable String demandId, @RequestBody Message msg) {
-        return ResponseEntity.ok(messageService.sendMessage(demandId, msg.getMessage(), msg.getUser().getId()));
+        return ResponseEntity.ok(messageService.sendMessage(demandId, msg.getMessage(), msg.getUser().getCpf()));
     }
 }

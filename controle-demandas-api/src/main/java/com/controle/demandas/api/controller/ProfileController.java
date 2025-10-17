@@ -2,46 +2,109 @@ package com.controle.demandas.api.controller;
 
 import com.controle.demandas.api.model.Profile;
 import com.controle.demandas.api.service.ProfileService;
+import com.controle.demandas.api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/profiles")
+@CrossOrigin(origins = "*") // Apenas para teste
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
 
-    // Helper para pegar o userId do usuário logado
-    private String getLoggedInUserId() {
-        // Aqui você implementa a lógica para pegar o ID do usuário logado
-        // Exemplo: a partir de um token JWT
-        return "user-id-exemplo"; 
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    /** 🔹 Retorna CPF do usuário logado */
+    private String getLoggedInCpf() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Usuário não autenticado.");
+        }
+        return authentication.getName();
     }
 
+    /** 🔹 Helper para respostas padronizadas */
+    private ResponseEntity<Map<String, Object>> response(String message, Object data) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", message);
+        body.put("data", data);
+        return ResponseEntity.ok(body);
+    }
+
+    /** 🔹 Login - retorna JWT e role */
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Profile credentials) {
+        Profile profile = profileService.authenticate(credentials.getCpf(), credentials.getPassword());
+        String token = jwtUtil.generateToken(profile.getCpf(), profile.getRole().name());
+        Map<String, Object> data = Map.of(
+                "token", token,
+                "role", profile.getRole()
+        );
+        return response("Login realizado com sucesso.", data);
+    }
+
+    /** 🔹 Obter perfil do usuário logado */
     @GetMapping("/me")
-    public ResponseEntity<Profile> getCurrent() {
-        String userId = getLoggedInUserId();
-        return ResponseEntity.ok(profileService.getCurrentProfile(userId));
+    public ResponseEntity<Map<String, Object>> getCurrentProfile() {
+        String cpf = getLoggedInCpf();
+        Profile profile = profileService.getByCpf(cpf);
+        return response("Perfil obtido com sucesso.", profile);
     }
 
+    /** 🔹 Atualizar perfil do usuário logado */
     @PutMapping("/me")
-    public ResponseEntity<Profile> updateCurrent(@RequestBody Profile updates) {
-        String userId = getLoggedInUserId();
-        return ResponseEntity.ok(profileService.updateProfile(userId, updates));
+    public ResponseEntity<Map<String, Object>> updateCurrentProfile(@RequestBody Profile updates) {
+        String cpf = getLoggedInCpf();
+        Profile updated = profileService.update(cpf, updates);
+        return response("Perfil atualizado com sucesso.", updated);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Profile>> getAll() {
-        return ResponseEntity.ok(profileService.getAllProfiles());
-    }
-
+    /** 🔹 Criar novo perfil (somente ADMIN) */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Profile> create(@RequestBody Profile profile) {
-        return ResponseEntity.ok(profileService.criar(profile));
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Profile profile) {
+        Profile created = profileService.create(profile);
+        URI uri = URI.create("/api/profiles/" + created.getCpf());
+        Map<String, Object> body = Map.of(
+                "message", "Perfil criado com sucesso.",
+                "data", created
+        );
+        return ResponseEntity.created(uri).body(body);
     }
 
+    /** 🔹 Listar todos os perfis (somente ADMIN) */
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAll() {
+        List<Profile> profiles = profileService.getAll();
+        return response("Perfis listados com sucesso.", profiles);
+    }
+
+    /** 🔹 Buscar perfil por CPF (somente ADMIN) */
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{cpf}")
+    public ResponseEntity<Map<String, Object>> getByCpf(@PathVariable String cpf) {
+        Profile profile = profileService.getByCpf(cpf);
+        return response("Perfil encontrado.", profile);
+    }
+
+    /** 🔹 Deletar perfil por CPF (somente ADMIN) */
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable String cpf) {
+        profileService.delete(cpf);
+        return response("Perfil deletado com sucesso.", null);
+    }
 }

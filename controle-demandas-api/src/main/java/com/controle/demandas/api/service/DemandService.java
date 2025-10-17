@@ -72,7 +72,7 @@ public class DemandService {
         demanda.setStatus(Demand.Status.IN_PROGRESS);
         demanda.setUpdatedAt(Instant.now());
 
-        criarHistorico(id, DemandHistory.Action.ASSIGNED, null, null, "Atribuído ao usuário " + user.getId());
+        criarHistorico(id, DemandHistory.Action.ASSIGNED, null, null, "Atribuído ao usuário " + user.getCpf());
 
         return demandRepository.save(demanda);
     }
