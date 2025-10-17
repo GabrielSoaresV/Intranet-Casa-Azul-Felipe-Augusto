@@ -1,8 +1,9 @@
 package com.controle.demandas.api.controller;
 
 import com.controle.demandas.api.model.Profile;
+import com.controle.demandas.api.security.JwtUtil;
 import com.controle.demandas.api.service.ProfileService;
-import com.controle.demandas.api.util.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

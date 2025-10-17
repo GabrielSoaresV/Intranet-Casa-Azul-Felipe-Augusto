@@ -1,19 +1,16 @@
-package com.controle.demandas.api.util;
+package com.controle.demandas.api.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    // 🔹 Gera uma chave segura de 256 bits para HS256
-    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    private final String SECRET_KEY = "u8K3p9v2QxR4t7WzY5nB1sE6hJ0kL8mP"; // só para testes
     private final long EXPIRATION_TIME = 86400000; // 24h
 
     public String generateToken(String cpf, String role) {
@@ -22,12 +19,15 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key) // usa a chave segura
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
                 .compact();
     }
 
-    // 🔹 Getter para a chave, caso precise validar tokens em outro lugar
-    public SecretKey getKey() {
-        return key;
+    public Claims parseToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
