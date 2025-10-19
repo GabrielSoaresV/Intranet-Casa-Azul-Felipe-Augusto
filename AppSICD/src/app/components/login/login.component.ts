@@ -1,29 +1,27 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { SupabaseService } from '../../services/supabase.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email = '';
+  login = '';      // <-- substitui email por login
   password = '';
   loading = false;
   errorMessage = '';
 
-  constructor(
-    private supabase: SupabaseService,
-    private router: Router
-  ) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
-  async onLogin() {
-    if (!this.email || !this.password) {
+  onLogin() {
+    if (!this.login || !this.password) {
       this.errorMessage = 'Por favor, preencha todos os campos';
       return;
     }
@@ -31,18 +29,18 @@ export class LoginComponent {
     this.loading = true;
     this.errorMessage = '';
 
-    try {
-      const { error } = await this.supabase.signIn(this.email, this.password);
-
-      if (error) {
-        this.errorMessage = 'Email ou senha inválidos';
-      } else {
+    this.auth.login(this.login, this.password).subscribe({
+      next: () => {
         this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'CPF/Email ou senha inválidos';
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       }
-    } catch (error) {
-      this.errorMessage = 'Erro ao fazer login. Tente novamente.';
-    } finally {
-      this.loading = false;
-    }
+    });
   }
 }
