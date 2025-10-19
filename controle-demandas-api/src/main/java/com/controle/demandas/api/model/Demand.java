@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.Instant;
 
 @Entity
+@Table(name = "demands")
 public class Demand {
 
     @Id
@@ -12,8 +13,15 @@ public class Demand {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    // 🔹 Agora, quem cria a demanda é um Profile (ex-citizen)
     @ManyToOne(optional = false)
-    private Citizen citizen;
+    @JoinColumn(name = "creator_cpf", referencedColumnName = "cpf")
+    private Profile creator;
+
+    // 🔹 Quem atende a demanda (funcionário, atendente, etc.)
+    @ManyToOne
+    @JoinColumn(name = "assigned_user_cpf", referencedColumnName = "cpf")
+    private Profile assignedUser;
 
     private String title;
     private String description;
@@ -26,21 +34,41 @@ public class Demand {
 
     private String category;
 
-    @ManyToOne
-    private Profile assignedUser;
-
-    @ManyToOne(optional = false)
-    private Profile createdBy;
-
     private Instant createdAt = Instant.now();
     private Instant updatedAt = Instant.now();
 
-    // getters e setters
+    @ManyToOne
+    @JoinColumn(name = "created_by_id")
+    private Profile createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "updated_by_id")
+    private Profile updatedBy;
+
+    // 🔹 Enum de status
+    public enum Status {
+        PENDING,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELLED
+    }
+
+    // 🔹 Enum de prioridade
+    public enum Priority {
+        LOW,
+        MEDIUM,
+        HIGH
+    }
+
+    // Getters e setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public Citizen getCitizen() { return citizen; }
-    public void setCitizen(Citizen citizen) { this.citizen = citizen; }
+    public Profile getCreator() { return creator; }
+    public void setCreator(Profile creator) { this.creator = creator; }
+
+    public Profile getAssignedUser() { return assignedUser; }
+    public void setAssignedUser(Profile assignedUser) { this.assignedUser = assignedUser; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -57,28 +85,24 @@ public class Demand {
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
-    public Profile getAssignedUser() { return assignedUser; }
-    public void setAssignedUser(Profile assignedUser) { this.assignedUser = assignedUser; }
-
-    public Profile getCreatedBy() { return createdBy; }
-    public void setCreatedBy(Profile createdBy) { this.createdBy = createdBy; }
-
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 
-    public enum Status {
-        PENDING,
-        IN_PROGRESS,
-        COMPLETED,
-        CANCELLED
+    public Profile getCreatedBy() { return createdBy; }
+    public void setCreatedBy(Profile createdBy) { this.createdBy = createdBy; }
+
+    @PrePersist
+    public void prePersist() {
+        Instant now = Instant.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 
-    public enum Priority {
-        LOW,
-        MEDIUM,
-        HIGH
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = Instant.now();
     }
 }

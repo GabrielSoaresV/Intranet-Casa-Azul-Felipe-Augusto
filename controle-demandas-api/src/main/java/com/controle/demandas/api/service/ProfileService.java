@@ -66,8 +66,9 @@ public class ProfileService {
     }
 
     /** Autenticação (login) */
-    public Profile authenticate(String cpf, String rawPassword) {
-        Profile profile = getByCpf(cpf);
+    public Profile authenticate(String login, String rawPassword) {
+        Profile profile = profileRepository.findByCpfOrEmail(login, login)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
         if (!passwordEncoder.matches(rawPassword, profile.getPassword())) {
             throw new IllegalArgumentException("CPF ou senha incorretos.");

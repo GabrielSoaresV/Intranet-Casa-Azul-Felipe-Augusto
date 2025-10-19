@@ -3,8 +3,11 @@ package com.controle.demandas.api.controller;
 import com.controle.demandas.api.model.Demand;
 import com.controle.demandas.api.model.Profile;
 import com.controle.demandas.api.service.DemandService;
+import com.controle.demandas.api.service.ProfileService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,38 +20,54 @@ public class DemandController {
     @Autowired
     private DemandService demandService;
 
+    @Autowired
+    private ProfileService profileService; 
+
     @GetMapping
+    @PreAuthorize("hasRole('ATTENDANT')")
     public ResponseEntity<List<Demand>> getAll() {
         return ResponseEntity.ok(demandService.listarTodas());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ATTENDANT')")
     public ResponseEntity<Demand> getById(@PathVariable String id) {
         return ResponseEntity.ok(demandService.buscarPorId(id));
     }
 
-    @GetMapping("/citizen/{citizenId}")
-    public ResponseEntity<List<Demand>> getByCitizen(@PathVariable String citizenId) {
-        return ResponseEntity.ok(demandService.buscarPorCidadao(citizenId));
+    @GetMapping("/creator/{cpf}")
+    @PreAuthorize("hasRole('ATTENDANT')")
+    public ResponseEntity<List<Demand>> getByCreator(@PathVariable String cpf) {
+        return ResponseEntity.ok(demandService.buscarPorCriador(cpf));
     }
 
     @PostMapping
-    public ResponseEntity<Demand> create(@RequestBody Demand demand) {
-        return ResponseEntity.ok(demandService.criar(demand));
+    @PreAuthorize("hasRole('CITIZEN')")
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Demand demand) {
+        Demand nova = demandService.criar(demand);
+        Map<String, Object> body = Map.of(
+            "message", "Demanda criada com sucesso.",
+            "data", nova
+        );
+        return ResponseEntity.ok(body);
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ATTENDANT')")
     public ResponseEntity<Demand> updateStatus(@PathVariable String id,
-                                               @RequestParam String status,
-                                               @RequestParam(required = false) String notes) {
-        // Converte string para enum antes de chamar o service
-        return ResponseEntity.ok(demandService.atualizarStatus(id, Demand.Status.valueOf(status), notes));
+                                            @RequestParam String status) {
+        // Remove o 'notes', porque o service não recebe mais
+        return ResponseEntity.ok(demandService.atualizarStatus(id, Demand.Status.valueOf(status)));
     }
 
     @PutMapping("/{id}/assign")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Demand> assign(@PathVariable String id,
-                                        @RequestBody Map<String, String> body) {
+                                         @RequestBody Map<String, String> body) {
         String userId = body.get("userId");
-        return ResponseEntity.ok(demandService.atribuirDemanda(id, userId));
+
+        // ✅ usa o método getByCpf do ProfileService
+        Profile usuarioDesignado = profileService.getByCpf(userId);
+        return ResponseEntity.ok(demandService.atribuirDemanda(id, usuarioDesignado));
     }
 }

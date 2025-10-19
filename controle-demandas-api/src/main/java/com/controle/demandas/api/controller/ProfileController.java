@@ -46,8 +46,12 @@ public class ProfileController {
 
     /** 🔹 Login - retorna JWT e role */
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Profile credentials) {
-        Profile profile = profileService.authenticate(credentials.getCpf(), credentials.getPassword());
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credentials) {
+        String login = credentials.get("login"); // CPF ou email
+        String password = credentials.get("password");
+
+        Profile profile = profileService.authenticate(login, password);
+
         String token = jwtUtil.generateToken(profile.getCpf(), profile.getRole().name());
         Map<String, Object> data = Map.of(
                 "token", token,
@@ -66,6 +70,7 @@ public class ProfileController {
 
     /** 🔹 Atualizar perfil do usuário logado */
     @PutMapping("/me")
+    @PreAuthorize("hasRole('CITIZEN')")
     public ResponseEntity<Map<String, Object>> updateCurrentProfile(@RequestBody Profile updates) {
         String cpf = getLoggedInCpf();
         Profile updated = profileService.update(cpf, updates);
@@ -73,8 +78,8 @@ public class ProfileController {
     }
 
     /** 🔹 Criar novo perfil (somente ADMIN) */
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Profile profile) {
         Profile created = profileService.create(profile);
         URI uri = URI.create("/api/profiles/" + created.getCpf());
@@ -86,24 +91,24 @@ public class ProfileController {
     }
 
     /** 🔹 Listar todos os perfis (somente ADMIN) */
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getAll() {
         List<Profile> profiles = profileService.getAll();
         return response("Perfis listados com sucesso.", profiles);
     }
 
     /** 🔹 Buscar perfil por CPF (somente ADMIN) */
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{cpf}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getByCpf(@PathVariable String cpf) {
         Profile profile = profileService.getByCpf(cpf);
         return response("Perfil encontrado.", profile);
     }
 
     /** 🔹 Deletar perfil por CPF (somente ADMIN) */
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{cpf}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable String cpf) {
         profileService.delete(cpf);
         return response("Perfil deletado com sucesso.", null);

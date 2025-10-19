@@ -13,7 +13,13 @@ public class DemandHistoryService {
     @Autowired
     private DemandHistoryRepository historyRepository;
 
+    // Busca histórico de uma demanda específica
     public List<DemandHistory> getHistoryByDemand(String demandId) {
         return historyRepository.findByDemandIdOrderByCreatedAtDesc(demandId);
+    }
+
+    // Cria um registro de histórico
+    public DemandHistory criarHistorico(DemandHistory historico) {
+        return historyRepository.save(historico);
     }
 }

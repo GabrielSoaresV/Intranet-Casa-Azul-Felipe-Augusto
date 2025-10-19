@@ -11,5 +11,7 @@ public interface ProfileRepository extends JpaRepository<Profile, String> {
 
     boolean existsByEmail(String email);
 
-    Optional<Profile> findByEmail(String email);
+    Optional<Profile> findByCpf(String cpf);
+    
+    Optional<Profile> findByCpfOrEmail(String cpf, String email);
 }
