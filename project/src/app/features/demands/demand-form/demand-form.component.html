@@ -1,0 +1,66 @@
+<div class="demand-form-container">
+  <h2>Nova Demanda</h2>
+
+  <form [formGroup]="demandForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Título *</label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="Digite o título da demanda"
+        [class.error]="demandForm.get('title')?.invalid && demandForm.get('title')?.touched"
+      />
+      <div class="error-message" *ngIf="demandForm.get('title')?.invalid && demandForm.get('title')?.touched">
+        <span *ngIf="demandForm.get('title')?.errors?.['required']">Título é obrigatório</span>
+        <span *ngIf="demandForm.get('title')?.errors?.['minlength']">Título deve ter no mínimo 3 caracteres</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descrição *</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Descreva sua demanda em detalhes"
+        rows="5"
+        [class.error]="demandForm.get('description')?.invalid && demandForm.get('description')?.touched"
+      ></textarea>
+      <div class="error-message" *ngIf="demandForm.get('description')?.invalid && demandForm.get('description')?.touched">
+        <span *ngIf="demandForm.get('description')?.errors?.['required']">Descrição é obrigatória</span>
+        <span *ngIf="demandForm.get('description')?.errors?.['minlength']">Descrição deve ter no mínimo 10 caracteres</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="priority">Prioridade *</label>
+        <select id="priority" formControlName="priority">
+          <option value="LOW">Baixa</option>
+          <option value="MEDIUM">Média</option>
+          <option value="HIGH">Alta</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <input
+          id="category"
+          type="text"
+          formControlName="category"
+          placeholder="Ex: Infraestrutura, Atendimento, etc."
+        />
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="saving">
+        {{ saving ? 'Criando...' : 'Criar Demanda' }}
+      </button>
+    </div>
+  </form>
+</div>

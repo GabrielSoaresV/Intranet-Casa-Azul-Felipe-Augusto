@@ -1,0 +1,73 @@
+<div class="demand-list-container">
+  <div class="header">
+    <h1>Demandas</h1>
+    <button class="btn-create" (click)="openCreateModal()" *ngIf="canCreateDemand()">
+      + Nova Demanda
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por título ou descrição..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onFilterChange()"
+      />
+    </div>
+
+    <div class="filter-group">
+      <select [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()">
+        <option value="ALL">Todos os Status</option>
+        <option value="PENDING">Pendente</option>
+        <option value="IN_PROGRESS">Em Andamento</option>
+        <option value="COMPLETED">Concluída</option>
+        <option value="CANCELLED">Cancelada</option>
+      </select>
+
+      <select [(ngModel)]="filterPriority" (ngModelChange)="onFilterChange()">
+        <option value="ALL">Todas as Prioridades</option>
+        <option value="LOW">Baixa</option>
+        <option value="MEDIUM">Média</option>
+        <option value="HIGH">Alta</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Carregando demandas...</div>
+
+  <div class="demands-grid" *ngIf="!loading">
+    <div class="demand-card" *ngFor="let demand of filteredDemands" (click)="viewDemand(demand.id)">
+      <div class="demand-header">
+        <h3>{{ demand.title }}</h3>
+        <span class="badge badge-priority" [class]="'priority-' + demand.priority.toLowerCase()">
+          {{ getPriorityLabel(demand.priority) }}
+        </span>
+      </div>
+
+      <p class="demand-description">{{ demand.description }}</p>
+
+      <div class="demand-meta">
+        <span class="badge badge-status" [class]="'status-' + demand.status.toLowerCase()">
+          {{ getStatusLabel(demand.status) }}
+        </span>
+        <span class="demand-creator">{{ demand.creator.name }}</span>
+      </div>
+
+      <div class="demand-footer" *ngIf="demand.createdAt">
+        <small>Criada em {{ demand.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredDemands.length === 0">
+      <p>Nenhuma demanda encontrada</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showCreateModal" (click)="closeCreateModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeCreateModal()">&times;</button>
+    <app-demand-form (demandCreated)="onDemandCreated()"></app-demand-form>
+  </div>
+</div>

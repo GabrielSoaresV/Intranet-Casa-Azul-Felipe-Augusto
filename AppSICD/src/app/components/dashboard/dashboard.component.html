@@ -1,8 +1,10 @@
 <app-navbar></app-navbar>
 
 <div class="dashboard-container">
+  <!-- Cabeçalho -->
   <div class="dashboard-header">
     <h1>Demandas</h1>
+
     <div class="filter-buttons">
       <button
         [class.active]="selectedStatus === 'all'"
@@ -31,21 +33,23 @@
     </div>
   </div>
 
+  <!-- Loading -->
   <div class="loading" *ngIf="loading">
     Carregando demandas...
   </div>
 
-  <div class="demands-grid" *ngIf="!loading">
+  <!-- Lista de demandas -->
+  <div class="demands-grid" *ngIf="!loading && filteredDemands.length > 0">
     <div
       *ngFor="let demand of filteredDemands"
       class="demand-card"
       (click)="viewDemand(demand.id)"
     >
       <div class="demand-header">
-        <span class="demand-status" [class]="demand.status">
+        <span class="demand-status" [ngClass]="demand.status.toLowerCase()">
           {{ getStatusText(demand.status) }}
         </span>
-        <span class="demand-priority" [class]="demand.priority">
+        <span class="demand-priority" [ngClass]="demand.priority.toLowerCase()">
           {{ getPriorityText(demand.priority) }}
         </span>
       </div>
@@ -54,17 +58,18 @@
       <p class="demand-description">{{ demand.description }}</p>
 
       <div class="demand-footer">
-        <div class="demand-citizen">
-          <strong>Cidadão:</strong> {{ demand.citizen?.name }}
+        <div class="demand-creator">
+          <strong>Criador:</strong> {{ demand.creator?.name || 'Desconhecido' }}
         </div>
         <div class="demand-date">
-          {{ formatDate(demand.created_at) }}
+          {{ formatDate(demand.createdAt) }}
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="empty-state" *ngIf="filteredDemands.length === 0">
-      <p>Nenhuma demanda encontrada</p>
-    </div>
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!loading && filteredDemands.length === 0">
+    <p>Nenhuma demanda encontrada</p>
   </div>
 </div>

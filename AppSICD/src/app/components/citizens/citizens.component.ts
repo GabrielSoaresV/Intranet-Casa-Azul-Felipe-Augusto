@@ -1,54 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { CitizensService } from '../../services/citizens.service';
+import { ProfileService } from '../../services/profile.service';
 import { DemandsService } from '../../services/demands.service';
-import { Citizen, Demand } from '../../models/types';
+import { Profile, Demand } from '../../models/types';
+import { firstValueFrom } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http'; // ✅ importa HttpClientModule
 
 @Component({
   selector: 'app-citizens',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, HttpClientModule], // ✅ adiciona HttpClientModule
   templateUrl: './citizens.component.html',
   styleUrls: ['./citizens.component.css']
 })
 export class CitizensComponent implements OnInit {
-  citizens: Citizen[] = [];
+  profiles: Profile[] = [];
   loading = true;
   showModal = false;
-  selectedCitizen: Citizen | null = null;
-  citizenDemands: Demand[] = [];
+  selectedProfile: Profile | null = null;
+  profileDemands: Demand[] = [];
   loadingDemands = false;
 
   constructor(
-    private citizensService: CitizensService,
+    private profileService: ProfileService,
     private demandsService: DemandsService
   ) {}
 
   async ngOnInit() {
-    await this.loadCitizens();
+    await this.loadProfiles();
   }
 
-  async loadCitizens() {
+  async loadProfiles() {
+    this.loading = true;
     try {
-      this.loading = true;
-      this.citizens = await this.citizensService.getAllCitizens();
+      this.profiles = await firstValueFrom(this.profileService.getAll());
     } catch (error) {
-      console.error('Erro ao carregar cidadãos:', error);
+      console.error('Erro ao carregar perfis:', error);
     } finally {
       this.loading = false;
     }
   }
 
-  async viewCitizen(citizen: Citizen) {
-    this.selectedCitizen = citizen;
+  async viewProfile(profile: Profile) {
+    this.selectedProfile = profile;
     this.showModal = true;
     this.loadingDemands = true;
 
     try {
-      this.citizenDemands = await this.demandsService.getDemandsByCitizen(citizen.id);
+      this.profileDemands = await firstValueFrom(this.demandsService.getDemandsByCreator(profile.cpf));
     } catch (error) {
-      console.error('Erro ao carregar demandas:', error);
+      console.error('Erro ao carregar demandas do perfil:', error);
     } finally {
       this.loadingDemands = false;
     }
@@ -56,16 +58,16 @@ export class CitizensComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
-    this.selectedCitizen = null;
-    this.citizenDemands = [];
+    this.selectedProfile = null;
+    this.profileDemands = [];
   }
 
   getStatusText(status: string): string {
     const statusMap: Record<string, string> = {
-      'pending': 'Pendente',
-      'in_progress': 'Em Andamento',
-      'completed': 'Concluída',
-      'cancelled': 'Cancelada'
+      pending: 'Pendente',
+      in_progress: 'Em Andamento',
+      completed: 'Concluída',
+      cancelled: 'Cancelada'
     };
     return statusMap[status] || status;
   }

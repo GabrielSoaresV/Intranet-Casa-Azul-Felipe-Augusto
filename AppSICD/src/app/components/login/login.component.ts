@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { ProfileService } from '../../services/profile.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { HttpClientModule } from '@angular/common/http'; // ✅ importa HttpClientModule
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule], // ✅ adiciona HttpClientModule
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  login = '';      // <-- substitui email por login
+  login = '';
   password = '';
   loading = false;
   errorMessage = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private profileService: ProfileService, private router: Router) {}
 
   onLogin() {
     if (!this.login || !this.password) {
@@ -29,18 +30,15 @@ export class LoginComponent {
     this.loading = true;
     this.errorMessage = '';
 
-    this.auth.login(this.login, this.password).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'CPF/Email ou senha inválidos';
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
+    this.profileService.login(this.login, this.password)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: () => this.router.navigate(['/dashboard']),
+        error: (err) => {
+          console.error('Erro no login:', err);
+          if (err.status === 401) this.errorMessage = 'CPF/Email ou senha inválidos';
+          else this.errorMessage = 'Erro ao conectar ao servidor';
+        }
+      });
   }
 }

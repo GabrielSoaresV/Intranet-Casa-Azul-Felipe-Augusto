@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { SupabaseService } from '../../services/supabase.service';
 import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../models/types';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -16,30 +15,25 @@ export class NavbarComponent implements OnInit {
   profile: Profile | null = null;
   menuOpen = false;
 
-  constructor(
-    private supabase: SupabaseService,
-    private profileService: ProfileService,
-    private router: Router
-  ) {}
+  constructor(private profileService: ProfileService, private router: Router) {}
 
-  async ngOnInit() {
-    await this.loadProfile();
+  ngOnInit() {
+    this.loadProfile();
   }
 
-  async loadProfile() {
-    try {
-      this.profile = await this.profileService.getCurrentProfile();
-    } catch (error) {
-      console.error('Erro ao carregar perfil:', error);
-    }
+  loadProfile() {
+    this.profileService.getCurrentProfile().subscribe({
+      next: profile => this.profile = profile,
+      error: err => console.error('Erro ao carregar perfil:', err)
+    });
   }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  async logout() {
-    await this.supabase.signOut();
-    this.router.navigate(['/login']);
+  logout() {
+    this.profileService.logout();
+    this.router.navigate(['/login']); // redireciona para login
   }
 }

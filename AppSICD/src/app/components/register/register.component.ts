@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-register',
@@ -19,10 +18,7 @@ export class RegisterComponent {
   loading = false;
   errorMessage = '';
 
-  constructor(
-    private supabase: SupabaseService,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   async onRegister() {
     if (!this.name || !this.email || !this.password || !this.confirmPassword) {
@@ -44,13 +40,12 @@ export class RegisterComponent {
     this.errorMessage = '';
 
     try {
-      const { error } = await this.supabase.signUp(this.email, this.password, this.name);
-
-      if (error) {
-        this.errorMessage = 'Erro ao criar conta. Tente outro email.';
-      } else {
-        this.router.navigate(['/dashboard']);
-      }
+      console.log('Simulação de registro de usuário:', {
+        name: this.name,
+        email: this.email
+      });
+      // Simula sucesso
+      this.router.navigate(['/dashboard']);
     } catch (error) {
       this.errorMessage = 'Erro ao criar conta. Tente novamente.';
     } finally {

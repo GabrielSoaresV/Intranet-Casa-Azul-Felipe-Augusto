@@ -1,57 +1,57 @@
+// Profile.ts
 export interface Profile {
-  id: string;
+  cpf: string; // chave primária do backend
   name: string;
   email: string;
-  role: 'admin' | 'attendant';
-  avatar_url?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Citizen {
-  id: string;
-  name: string;
-  email: string;
+  password?: string; // incluído para login/CRUD
   phone?: string;
-  cpf: string;
-  address?: string;
-  created_at: string;
-  created_by?: string;
+  role: 'ADMIN' | 'ATTENDANT' | 'CITIZEN';
+  avatarUrl?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
+// Demand.ts
 export interface Demand {
   id: string;
-  citizen_id: string;
+  creatorCpf: string; // relacionamento com Profile (creator)
+  assignedUserCpf?: string; // relacionamento com Profile (assignedUser)
   title: string;
   description: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-  priority: 'low' | 'medium' | 'high';
-  category: string;
-  assigned_to?: string;
-  created_at: string;
-  updated_at: string;
-  created_by?: string;
-  citizen?: Citizen;
-  assigned_user?: Profile;
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  category?: string;
+  createdAt: string;
+  updatedAt: string;
+  createdByCpf?: string; // quem criou o registro
+  updatedByCpf?: string; // quem atualizou o registro
+  creator?: Profile;
+  assignedUser?: Profile;
 }
 
+// Message.ts
 export interface Message {
   id: string;
-  demand_id: string;
-  user_id: string;
+  demandId: string;
+  userCpf: string;
   message: string;
-  created_at: string;
+  createdAt: string;
   user?: Profile;
+  demand?: Demand;
 }
 
+// DemandHistory.ts
 export interface DemandHistory {
   id: string;
-  demand_id: string;
-  user_id: string;
-  action: 'created' | 'updated' | 'assigned' | 'completed' | 'cancelled';
-  old_status?: string;
-  new_status?: string;
+  demandId: string;
+  userCpf?: string; // usuário principal
+  performedByCpf?: string; // usuário que realizou a ação
+  action: 'CREATED' | 'UPDATED' | 'ASSIGNED' | 'COMPLETED' | 'CANCELLED';
+  oldStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  newStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   notes?: string;
-  created_at: string;
+  createdAt: string;
   user?: Profile;
+  performedBy?: Profile;
+  demand?: Demand;
 }

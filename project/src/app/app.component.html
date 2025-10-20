@@ -1,0 +1,19 @@
+<div class="app-container">
+  <nav class="navbar" *ngIf="isAuthenticated">
+    <div class="nav-brand">
+      <h2>Sistema de Demandas</h2>
+    </div>
+    <div class="nav-menu">
+      <a routerLink="/demands" routerLinkActive="active">Demandas</a>
+      <a routerLink="/profile" routerLinkActive="active">Perfil</a>
+      <button class="btn-logout" (click)="logout()">Sair</button>
+    </div>
+    <div class="nav-user" *ngIf="currentUser">
+      <span>{{ currentUser.name }} ({{ currentUser.role }})</span>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -41,7 +41,7 @@ public class Profile {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "createdAt", nullable = false, updatable = false)
     private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)

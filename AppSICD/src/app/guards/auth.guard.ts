@@ -1,17 +1,21 @@
-import { inject } from '@angular/core';
-import { Router, CanActivateFn } from '@angular/router';
-import { SupabaseService } from '../services/supabase.service';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
 
-export const authGuard: CanActivateFn = async (route, state) => {
-  const supabase = inject(SupabaseService);
-  const router = inject(Router);
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
 
-  const user = supabase.getCurrentUser();
+  constructor(private router: Router) {}
 
-  if (!user) {
-    router.navigate(['/login']);
-    return false;
+  canActivate(): boolean {
+    const token = localStorage.getItem('authToken'); // verifica se existe token
+    if (token) {
+      return true; // permite acesso
+    } else {
+      console.log('Usuário não logado, redirecionando...');
+      this.router.navigate(['/login']);
+      return false; // bloqueia acesso
+    }
   }
-
-  return true;
-};
+}

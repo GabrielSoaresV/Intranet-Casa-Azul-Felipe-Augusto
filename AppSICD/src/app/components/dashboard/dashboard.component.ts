@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { DemandsService } from '../../services/demands.service';
 import { Demand } from '../../models/types';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,9 +29,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async loadDemands() {
+    this.loading = true;
     try {
-      this.loading = true;
-      this.demands = await this.demandsService.getAllDemands();
+      this.demands = await firstValueFrom(this.demandsService.getAllDemands());
       this.filterDemands();
     } catch (error) {
       console.error('Erro ao carregar demandas:', error);
@@ -56,26 +57,32 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/demand', demandId]);
   }
 
+  // ===================== PLACEHOLDERS =====================
   getStatusText(status: string): string {
-    const statusMap: Record<string, string> = {
-      'pending': 'Pendente',
-      'in_progress': 'Em Andamento',
-      'completed': 'Concluída',
-      'cancelled': 'Cancelada'
-    };
-    return statusMap[status] || status;
+    console.log('getStatusText chamado');
+    return status; // Placeholder
   }
 
   getPriorityText(priority: string): string {
-    const priorityMap: Record<string, string> = {
-      'low': 'Baixa',
-      'medium': 'Média',
-      'high': 'Alta'
-    };
-    return priorityMap[priority] || priority;
+    console.log('getPriorityText chamado');
+    return priority; // Placeholder
   }
 
   formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('pt-BR');
+    console.log('formatDate chamado');
+    return date; // Placeholder
+  }
+
+  goBack() {
+    console.log('goBack chamado');
+  }
+
+  assignToMe() {
+    console.log('assignToMe chamado');
+  }
+
+  newMessage: string = '';
+  sendMessage() {
+    console.log('sendMessage chamado', this.newMessage);
   }
 }

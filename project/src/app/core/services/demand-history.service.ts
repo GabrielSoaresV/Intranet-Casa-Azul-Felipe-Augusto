@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DemandHistory } from '../../shared/models/demand-history.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DemandHistoryService {
+  private apiUrl = '/api/history';
+
+  constructor(private http: HttpClient) {}
+
+  getHistoryByDemand(demandId: string): Observable<DemandHistory[]> {
+    return this.http.get<DemandHistory[]>(`${this.apiUrl}/demand/${demandId}`);
+  }
+}

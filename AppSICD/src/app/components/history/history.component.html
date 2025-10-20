@@ -10,24 +10,21 @@
   </div>
 
   <div class="history-timeline" *ngIf="!loading">
-    <div
-      *ngFor="let item of allHistory"
-      class="timeline-item"
-    >
+    <div *ngFor="let item of allHistory" class="timeline-item">
       <div class="timeline-marker" [class]="getActionClass(item.action)"></div>
       <div class="timeline-content">
         <div class="timeline-header">
           <span class="action-badge" [class]="getActionClass(item.action)">
             {{ getActionText(item.action) }}
           </span>
-          <span class="timeline-date">{{ formatDateTime(item.created_at) }}</span>
+          <span class="timeline-date">{{ formatDateTime(item.createdAt) }}</span>
         </div>
 
         <div class="timeline-body">
           <div class="user-info">
             <strong>{{ item.user?.name || 'Usuário' }}</strong>
-            <span *ngIf="item.old_status && item.new_status">
-              alterou o status de <strong>{{ item.old_status }}</strong> para <strong>{{ item.new_status }}</strong>
+            <span *ngIf="item.oldStatus && item.newStatus">
+              alterou o status de <strong>{{ item.oldStatus }}</strong> para <strong>{{ item.newStatus }}</strong>
             </span>
           </div>
 

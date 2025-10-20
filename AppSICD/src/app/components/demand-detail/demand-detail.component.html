@@ -41,7 +41,7 @@
 
           <div class="info-item">
             <strong>Data de Criação:</strong>
-            <p>{{ formatDate(demand.created_at) }}</p>
+            <p>{{ formatDate(demand.createdAt) }}</p>
           </div>
 
           <div class="info-item" *ngIf="demand.assigned_user">
@@ -100,7 +100,7 @@
             <div class="message-content">
               <div class="message-header">
                 <strong>{{ message.user?.name || 'Usuário' }}</strong>
-                <span class="message-time">{{ formatTime(message.created_at) }}</span>
+                <span class="message-time">{{ formatTime(message.createdAt) }}</span>
               </div>
               <p>{{ message.message }}</p>
             </div>

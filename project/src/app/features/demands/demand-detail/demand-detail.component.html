@@ -1,0 +1,134 @@
+<div class="demand-detail-container" *ngIf="demand">
+  <div class="header">
+    <button class="btn-back" (click)="goBack()">← Voltar</button>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="toggleHistory()">
+        {{ showHistory ? 'Ocultar Histórico' : 'Ver Histórico' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="main-content">
+      <div class="demand-info">
+        <div class="demand-title-row">
+          <h1>{{ demand.title }}</h1>
+          <span class="badge badge-priority" [class]="'priority-' + demand.priority.toLowerCase()">
+            {{ getPriorityLabel(demand.priority) }}
+          </span>
+        </div>
+
+        <div class="demand-meta">
+          <div class="meta-item">
+            <strong>Status:</strong>
+            <span class="badge badge-status" [class]="'status-' + demand.status.toLowerCase()">
+              {{ getStatusLabel(demand.status) }}
+            </span>
+          </div>
+          <div class="meta-item">
+            <strong>Criado por:</strong> {{ demand.creator.name }}
+          </div>
+          <div class="meta-item" *ngIf="demand.assignedUser">
+            <strong>Atribuído a:</strong> {{ demand.assignedUser.name }}
+          </div>
+          <div class="meta-item" *ngIf="demand.createdAt">
+            <strong>Data:</strong> {{ demand.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+          </div>
+        </div>
+
+        <div class="demand-description">
+          <h3>Descrição</h3>
+          <p>{{ demand.description }}</p>
+        </div>
+      </div>
+
+      <div class="management-panel" *ngIf="canManageDemand()">
+        <h3>Gerenciar Demanda</h3>
+
+        <div class="management-actions">
+          <div class="action-group">
+            <label>Atualizar Status:</label>
+            <div class="button-group">
+              <button class="btn-status" (click)="updateStatus('PENDING')" [disabled]="demand.status === 'PENDING'">
+                Pendente
+              </button>
+              <button class="btn-status" (click)="updateStatus('IN_PROGRESS')" [disabled]="demand.status === 'IN_PROGRESS'">
+                Em Andamento
+              </button>
+              <button class="btn-status" (click)="updateStatus('COMPLETED')" [disabled]="demand.status === 'COMPLETED'">
+                Concluída
+              </button>
+              <button class="btn-status" (click)="updateStatus('CANCELLED')" [disabled]="demand.status === 'CANCELLED'">
+                Cancelada
+              </button>
+            </div>
+          </div>
+
+          <div class="action-group" *ngIf="attendants.length > 0">
+            <label>Atribuir a:</label>
+            <select (change)="assignToAttendant($any($event.target).value)">
+              <option value="">Selecione um atendente</option>
+              <option *ngFor="let attendant of attendants" [value]="attendant.cpf">
+                {{ attendant.name }} ({{ attendant.role }})
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="messages-section">
+        <h3>Mensagens</h3>
+
+        <div class="messages-list">
+          <div class="message-item" *ngFor="let message of messages">
+            <div class="message-header">
+              <strong>{{ message.user.name }}</strong>
+              <small *ngIf="message.createdAt">{{ message.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+            </div>
+            <p>{{ message.message }}</p>
+          </div>
+
+          <div class="empty-messages" *ngIf="messages.length === 0">
+            Nenhuma mensagem ainda
+          </div>
+        </div>
+
+        <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
+          <textarea
+            formControlName="message"
+            placeholder="Digite sua mensagem..."
+            rows="3"
+          ></textarea>
+          <button type="submit" class="btn-send" [disabled]="sendingMessage || messageForm.invalid">
+            {{ sendingMessage ? 'Enviando...' : 'Enviar Mensagem' }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="history-sidebar" *ngIf="showHistory">
+      <h3>Histórico de Alterações</h3>
+      <div class="history-list">
+        <div class="history-item" *ngFor="let item of history">
+          <div class="history-action">
+            <strong>{{ getActionLabel(item.action) }}</strong>
+          </div>
+          <div class="history-details">
+            <span *ngIf="item.performedBy">Por: {{ item.performedBy.name }}</span>
+            <span *ngIf="item.createdAt">{{ item.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <p *ngIf="item.notes" class="history-notes">{{ item.notes }}</p>
+          <div *ngIf="item.oldStatus && item.newStatus" class="history-status-change">
+            {{ getStatusLabel(item.oldStatus) }} → {{ getStatusLabel(item.newStatus) }}
+          </div>
+        </div>
+
+        <div class="empty-history" *ngIf="history.length === 0">
+          Nenhum histórico disponível
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">Carregando detalhes da demanda...</div>

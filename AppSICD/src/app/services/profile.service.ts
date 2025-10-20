@@ -1,50 +1,67 @@
 import { Injectable } from '@angular/core';
-import { SupabaseService } from './supabase.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Profile } from '../models/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  constructor(private supabase: SupabaseService) {}
+  private baseUrl = 'http://localhost:8080/api/profiles';
+  private tokenKey = 'authToken';
 
-  async getCurrentProfile(): Promise<Profile | null> {
-    const user = this.supabase.getCurrentUser();
-    if (!user) return null;
+  constructor(private http: HttpClient) {}
 
-    const { data, error } = await this.supabase.client
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (error) throw error;
-    return data;
-  }
-
-  async updateProfile(updates: Partial<Profile>): Promise<Profile> {
-    const user = this.supabase.getCurrentUser();
-    const { data, error } = await this.supabase.client
-      .from('profiles')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
+  /** Login - retorna JWT e role */
+  login(login: string, password: string): Observable<{ token: string; role: string }> {
+    return this.http.post<any>(`${this.baseUrl}/login`, { login, password }).pipe(
+      map(res => {
+        if (res.data?.token) {
+          localStorage.setItem(this.tokenKey, res.data.token);
+        }
+        return res.data;
       })
-      .eq('id', user?.id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
+    );
   }
 
-  async getAllProfiles(): Promise<Profile[]> {
-    const { data, error } = await this.supabase.client
-      .from('profiles')
-      .select('*')
-      .order('name');
+  /** Obter JWT armazenado */
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
 
-    if (error) throw error;
-    return data || [];
+  /** Logout */
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  /** Obter perfil do usuário logado */
+  getCurrentProfile(): Observable<Profile> {
+    return this.http.get<any>(`${this.baseUrl}/me`).pipe(map(res => res.data));
+  }
+
+  /** Atualizar perfil do usuário logado */
+  updateCurrentProfile(updates: Partial<Profile>): Observable<Profile> {
+    return this.http.put<any>(`${this.baseUrl}/me`, updates).pipe(map(res => res.data));
+  }
+
+  /** Criar novo perfil (ADMIN) */
+  create(profile: Profile): Observable<Profile> {
+    return this.http.post<any>(this.baseUrl, profile).pipe(map(res => res.data));
+  }
+
+  /** Listar todos os perfis (ADMIN) */
+  getAll(): Observable<Profile[]> {
+    return this.http.get<any>(this.baseUrl).pipe(map(res => res.data));
+  }
+
+  /** Buscar perfil por CPF (ADMIN) */
+  getByCpf(cpf: string): Observable<Profile> {
+    return this.http.get<any>(`${this.baseUrl}/${cpf}`).pipe(map(res => res.data));
+  }
+
+  /** Deletar perfil por CPF (ADMIN) */
+  delete(cpf: string): Observable<void> {
+    return this.http.delete<any>(`${this.baseUrl}/${cpf}`).pipe(map(() => undefined));
   }
 }
