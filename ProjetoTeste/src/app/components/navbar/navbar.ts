@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { ProfileService } from '../../core/services/profile.service';
+import { Profile } from '../../models/profile.model';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: false,
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.css'
+})
+export class Navbar {
+profile: Profile | null = null;
+  menuOpen = false;
+
+  constructor(private profileService: ProfileService, private router: Router) {}
+
+  ngOnInit() {
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.profileService.getCurrentProfile().subscribe({
+      next: profile => this.profile = profile,
+      error: err => console.error('Erro ao carregar perfil:', err)
+    });
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  logout() {
+    this.profileService.logout();
+    this.router.navigate(['/login']);
+  }
+}

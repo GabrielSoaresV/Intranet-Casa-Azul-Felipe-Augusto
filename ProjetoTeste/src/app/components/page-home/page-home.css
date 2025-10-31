@@ -1,0 +1,6 @@
+.table-wrapper {
+  width: 90%;            /* 80% da tela */
+  margin: 0 auto;        /* centraliza horizontalmente */
+  padding: 2rem 0;       /* espaçamento superior e inferior */
+  min-height: 100vh;     /* ocupa pelo menos toda a altura da tela */
+}
