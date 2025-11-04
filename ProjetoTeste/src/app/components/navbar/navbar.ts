@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../core/services/profile.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar {
-profile: Profile | null = null;
+export class Navbar implements OnInit {
+  profile: Profile | null = null;
   menuOpen = false;
 
   constructor(private profileService: ProfileService, private router: Router) {}
@@ -21,7 +21,7 @@ profile: Profile | null = null;
 
   loadProfile() {
     this.profileService.getCurrentProfile().subscribe({
-      next: profile => this.profile = profile,
+      next: profile => (this.profile = profile),
       error: err => console.error('Erro ao carregar perfil:', err)
     });
   }
@@ -33,5 +33,15 @@ profile: Profile | null = null;
   logout() {
     this.profileService.logout();
     this.router.navigate(['/login']);
+  }
+
+  /** 🔹 Retorna avatar real ou gera automaticamente */
+  getAvatarUrl(profile: Profile | null): string {
+    if (profile?.avatarUrl) {
+      return profile.avatarUrl; // ✅ Usa imagem real salva no banco
+    }
+
+    const name = encodeURIComponent(profile?.name || 'Usuário');
+    return `https://ui-avatars.com/api/?name=${name}&background=667eea&color=fff&bold=true`;
   }
 }

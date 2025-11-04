@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+
+<div class="profile-container max-w-lg mx-auto mt-10 bg-white rounded-2xl shadow-md p-6">
+  <!-- 🔹 Cabeçalho -->
+  <div class="profile-header mb-6 text-center">
+    <h1 class="text-2xl font-semibold text-gray-800">Meu Perfil</h1>
+  </div>
+
+  <!-- 🔹 Carregando -->
+  <div class="loading text-center text-gray-500" *ngIf="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p class="mt-3">Carregando perfil...</p>
+  </div>
+
+  <!-- 🔹 Conteúdo do Perfil -->
+  <div class="profile-card" *ngIf="!loading && profile">
+    <!-- Avatar -->
+    <div class="profile-avatar-section flex flex-col items-center mb-6">
+      <img
+        [src]="avatarUrl"
+        alt="{{ profile.name }}"
+        class="profile-avatar-img"
+      />
+
+      <h2 class="mt-3 text-xl font-semibold text-gray-800">{{ profile.name }}</h2>
+      <p class="profile-role text-sm text-gray-500 uppercase tracking-wide">
+        {{ getRoleText(profile.role) }}
+      </p>
+    </div>
+
+    <!-- Informações -->
+    <div class="profile-info space-y-3">
+      <div class="info-row flex justify-between border-b border-gray-100 pb-2">
+        <label class="font-medium text-gray-600">Nome:</label>
+        <span class="text-gray-800">{{ profile.name }}</span>
+      </div>
+
+      <div class="info-row flex justify-between border-b border-gray-100 pb-2">
+        <label class="font-medium text-gray-600">Email:</label>
+        <span class="text-gray-800">{{ profile.email }}</span>
+      </div>
+
+      <div class="info-row flex justify-between border-b border-gray-100 pb-2">
+        <label class="font-medium text-gray-600">Função:</label>
+        <span class="text-gray-800">{{ getRoleText(profile.role) }}</span>
+      </div>
+
+      <div class="info-row flex justify-between border-b border-gray-100 pb-2">
+        <label class="font-medium text-gray-600">Membro desde:</label>
+        <span class="text-gray-800">
+          {{ profile.createdAt ? formatDate(profile.createdAt) : '-' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,11 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 import { PageLogin } from './components/page-login/page-login';
+import { PageProfile } from './components/profile/profile';
 import { PageHome } from './components/page-home/page-home';
+import { DemandHistoryList } from './components/demand-history/demand-history';
+import { ProfilesList } from './components/profiles-list/profiles-list';
+
 import { Navbar } from './components/navbar/navbar';
 import { TableDemands } from './components/table-demands/table-demands';
 
@@ -18,6 +22,7 @@ import { TableDemands } from './components/table-demands/table-demands';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
@@ -25,7 +30,10 @@ import { MatIconModule } from '@angular/material/icon';
     AppComponent,
     PageLogin,
     PageHome,
+    PageProfile,
+    ProfilesList,
     Navbar,
+    DemandHistoryList,
     TableDemands
   ],
   imports: [
@@ -38,6 +46,7 @@ import { MatIconModule } from '@angular/material/icon';
     AppRoutingModule,
     MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule
   ],

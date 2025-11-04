@@ -7,7 +7,7 @@ import { DemandHistory } from '../../models/demand-history.model';
   providedIn: 'root'
 })
 export class DemandHistoryService {
-  private apiUrl = '/api/history';
+  private apiUrl = 'http://localhost:8080/api/history';
 
   constructor(private http: HttpClient) {}
 

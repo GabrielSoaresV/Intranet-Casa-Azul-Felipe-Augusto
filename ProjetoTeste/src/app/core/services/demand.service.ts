@@ -34,4 +34,15 @@ export class DemandService {
   assignDemand(id: string, userId: string): Observable<Demand> {
     return this.http.put<Demand>(`${this.apiUrl}/${id}/assign`, { userId });
   }
+
+  searchDemands(filters: any) {
+  const params = new URLSearchParams();
+
+  if (filters.term) params.append('term', filters.term);
+  if (filters.status) params.append('status', filters.status);
+  if (filters.priority) params.append('priority', filters.priority);
+
+  return this.http.get<Demand[]>(`${this.apiUrl}/search?${params.toString()}`);
+}
+
 }

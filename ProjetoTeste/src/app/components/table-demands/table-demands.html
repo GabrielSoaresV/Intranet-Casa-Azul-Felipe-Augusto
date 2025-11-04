@@ -1,52 +1,140 @@
-<div class="mat-elevation-z8 p-4 bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-4">Tarefas</h2>
+<div class="demands-container mat-elevation-z4 bg-white rounded-xl shadow-sm p-6">
 
-  <table mat-table [dataSource]="dataSource" class="w-full">
+  <!-- 🔹 Barra de busca -->
+  <div class="filter-bar">
+    <input
+      type="text"
+      placeholder="Buscar por ID, título ou criador..."
+      [(ngModel)]="filters.term"
+      (keyup.enter)="searchDemands()"
+    />
 
-    <!-- Criador -->
-    <ng-container matColumnDef="creator">
-      <th mat-header-cell *matHeaderCellDef> Criador </th>
-      <td mat-cell *matCellDef="let element" class="flex items-center gap-3">
-        <img [src]="element.creator.avatar_url" alt="{{element.creator.name}}" class="h-10 w-10 rounded-full">
-        <span>{{element.creator.name}}</span>
-      </td>
-    </ng-container>
+    <select [(ngModel)]="filters.status" (change)="searchDemands()">
+      <option value="">Todos os status</option>
+      <option value="PENDING">Pendente</option>
+      <option value="IN_PROGRESS">Em andamento</option>
+      <option value="COMPLETED">Concluída</option>
+      <option value="CANCELLED">Cancelada</option>
+    </select>
 
-    <!-- Título -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Título </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-    </ng-container>
+    <select [(ngModel)]="filters.priority" (change)="searchDemands()">
+      <option value="">Todas as prioridades</option>
+      <option value="LOW">Baixa</option>
+      <option value="MEDIUM">Média</option>
+      <option value="HIGH">Alta</option>
+    </select>
 
-    <!-- Descrição -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Descrição </th>
-      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-    </ng-container>
+    <button class="btn-search" (click)="searchDemands()">Buscar</button>
+    <button class="btn-clear" (click)="clearFilters()">Limpar</button>
+  </div>
 
-    <!-- Status -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element">
-        <span [ngClass]="getStatusClasses(element.status)" class="px-2 py-1 rounded-full text-white text-xs font-semibold">
-          {{element.status.replace('_', ' ')}}
-        </span>
-      </td>
-    </ng-container>
+  <!-- 🔹 Mensagem de erro -->
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
 
-    <!-- Prioridade -->
-    <ng-container matColumnDef="priority">
-      <th mat-header-cell *matHeaderCellDef> Prioridade </th>
-      <td mat-cell *matCellDef="let element">
-        <span [ngClass]="getPriorityClasses(element.priority)" class="px-2 py-1 rounded-full text-white text-xs font-semibold">
-          {{element.priority}}
-        </span>
-      </td>
-    </ng-container>
+  <!-- 🔹 Tabela -->
+  <div class="overflow-x-auto rounded-lg border border-gray-100 mt-4">
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="w-full min-w-[900px]">
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <!-- Criador -->
+      <ng-container matColumnDef="creator">
+        <th mat-header-cell *matHeaderCellDef class="creator-header">Criador</th>
+        <td mat-cell *matCellDef="let element" class="py-3">
+          <div class="creator-cell">
+            <img
+              [src]="getAvatarUrl(element.creator)"
+              alt="{{ element.creator?.name }}"
+              class="avatar-img"
+            />
+            <span class="creator-name" [title]="element.creator?.name">
+              {{ element.creator?.name }}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Título -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Título</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="font-semibold text-gray-700">{{ element.title }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="center-header">Status</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <span [ngClass]="getStatusClasses(element.status)" class="status-chip">
+            {{ formatStatus(element.status) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Prioridade -->
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef class="center-header">Prioridade</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <span [ngClass]="getPriorityClasses(element.priority)" class="priority-chip">
+            {{ element.priority }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Criada em -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Criada em</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="text-sm text-gray-500">{{ formatDate(element.createdAt) }}</span>
+        </td>
+      </ng-container>
+
+      <!-- 🔹 Ações -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="center-header">Ações</th>
+        <td mat-cell *matCellDef="let element" class="actions-cell text-center">
+          <button class="action-btn view" (click)="viewDemand(element, $event)" title="Visualizar demanda">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="action-btn attend" (click)="attendDemand(element, $event)" title="Atender demanda">
+            <i class="fas fa-check"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- 🔽 Linha expansível -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+          <div class="p-4 bg-gray-50 rounded-lg text-gray-700 space-y-2 animate-expand">
+            <p><strong>ID da Demanda:</strong> <span class="demand-id">{{ row.id }}</span></p>
+            <p><strong>Descrição completa:</strong> {{ row.description }}</p>
+            <p><strong>Responsável:</strong> {{ row.assignedUser?.name || '—' }}</p>
+            <p *ngIf="row.category"><strong>Categoria:</strong> {{ row.category }}</p>
+            <p><strong>Última atualização:</strong> {{ formatDate(row.updatedAt) }}</p>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Cabeçalho -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- Linha principal -->
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="hover:bg-gray-50 transition-all cursor-pointer"
+        (click)="toggleExpand(row)"
+      ></tr>
+
+      <!-- Linha expansível -->
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        [class.hidden]="expandedElement !== row"
+      ></tr>
+    </table>
+  </div>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

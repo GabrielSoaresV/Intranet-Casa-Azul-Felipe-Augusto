@@ -5,30 +5,30 @@
     </div>
 
     <div class="navbar-links">
-      <a routerLink="/demands" routerLinkActive="active">Demandas</a>
+      <a routerLink="/home" routerLinkActive="active">Demandas</a>
+      <a routerLink="/profile-list" routerLinkActive="active">Cidadãos</a>
       <a routerLink="/profile" routerLinkActive="active">Perfil</a>
       <a routerLink="/history" routerLinkActive="active">Histórico</a>
     </div>
 
     <div class="navbar-user">
       <button class="user-button" (click)="toggleMenu()">
+        <!-- 🔹 Avatar com imagem real ou fallback -->
         <div class="user-avatar">
-          @if (profile && profile.name) {
-            {{ profile.name.charAt(0).toUpperCase() }}
-          } @else {
-            U
-          }
+          <img
+            [src]="getAvatarUrl(profile)"
+            alt="{{ profile?.name }}"
+            class="avatar-img"
+          />
         </div>
+
         <span class="user-name">{{ profile?.name || 'Usuário' }}</span>
       </button>
 
+      <!-- 🔹 Menu -->
       <div class="user-menu" [class.open]="menuOpen">
-        <a routerLink="/profile" (click)="toggleMenu()">
-          <span>Meu Perfil</span>
-        </a>
-        <button (click)="logout()">
-          <span>Sair</span>
-        </button>
+        <a routerLink="/profile" (click)="toggleMenu()">Meu Perfil</a>
+        <button (click)="logout()">Sair</button>
       </div>
     </div>
   </div>
