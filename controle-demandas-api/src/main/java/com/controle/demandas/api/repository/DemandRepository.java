@@ -2,12 +2,13 @@ package com.controle.demandas.api.repository;
 
 import com.controle.demandas.api.model.Demand;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface DemandRepository extends JpaRepository<Demand, String> {
+public interface DemandRepository extends JpaRepository<Demand, String>, JpaSpecificationExecutor<Demand> {
 
     // Busca todas as demandas criadas por um Perfil específico (usando CPF)
     List<Demand> findByCreatedByCpf(String cpf);
@@ -20,4 +21,5 @@ public interface DemandRepository extends JpaRepository<Demand, String> {
 
     // Busca todas as demandas criadas por um Perfil específico e com um status específico
     List<Demand> findByCreatedByCpfAndStatus(String cpf, Demand.Status status);
+    
 }

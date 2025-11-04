@@ -70,7 +70,7 @@ public class ProfileController {
 
     /** 🔹 Atualizar perfil do usuário logado */
     @PutMapping("/me")
-    @PreAuthorize("hasRole('CITIZEN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> updateCurrentProfile(@RequestBody Profile updates) {
         String cpf = getLoggedInCpf();
         Profile updated = profileService.update(cpf, updates);

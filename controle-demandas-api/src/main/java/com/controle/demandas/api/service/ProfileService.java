@@ -7,6 +7,7 @@ import com.controle.demandas.api.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
 
 import java.time.Instant;
 import java.util.List;
@@ -121,4 +122,28 @@ public class ProfileService {
             throw new IllegalArgumentException("Role obrigatória. Use ADMIN, ATTENDANT ou CITIZEN.");
         }
     }
+
+    @PostConstruct
+    public void createDefaultAdmin() {
+        String cpf = "00000000001";
+        String email = "admin@teste.com";
+
+        if (profileRepository.existsById(cpf)) {
+            System.out.println("✅ Usuário admin já existe. Pulando criação automática.");
+            return;
+        }
+
+        Profile admin = new Profile();
+        admin.setCpf(cpf);
+        admin.setName("Administrador");
+        admin.setEmail(email);
+        admin.setPassword(passwordEncoder.encode("123")); // senha: 123
+        admin.setRole(Profile.Role.ADMIN);
+        admin.setCreatedAt(Instant.now());
+        admin.setUpdatedAt(Instant.now());
+
+        profileRepository.save(admin);
+        System.out.println("🚀 Usuário admin criado com sucesso: " + email + " / senha: 123");
+    }
+
 }

@@ -21,10 +21,10 @@ public class DemandController {
     private DemandService demandService;
 
     @Autowired
-    private ProfileService profileService; 
+    private ProfileService profileService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ATTENDANT')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
     public ResponseEntity<List<Demand>> getAll() {
         return ResponseEntity.ok(demandService.listarTodas());
     }
@@ -36,13 +36,13 @@ public class DemandController {
     }
 
     @GetMapping("/creator/{cpf}")
-    @PreAuthorize("hasRole('ATTENDANT')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
     public ResponseEntity<List<Demand>> getByCreator(@PathVariable String cpf) {
         return ResponseEntity.ok(demandService.buscarPorCriador(cpf));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('CITIZEN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Demand demand) {
         Demand nova = demandService.criar(demand);
         Map<String, Object> body = Map.of(
@@ -52,22 +52,37 @@ public class DemandController {
         return ResponseEntity.ok(body);
     }
 
-    @PutMapping("/{id}/status")
-    @PreAuthorize("hasRole('ATTENDANT')")
-    public ResponseEntity<Demand> updateStatus(@PathVariable String id,
-                                            @RequestParam String status) {
-        // Remove o 'notes', porque o service não recebe mais
-        return ResponseEntity.ok(demandService.atualizarStatus(id, Demand.Status.valueOf(status)));
+    /** 🔹 Atualizar status de uma demanda (PATCH agora suportado) */
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
+    public ResponseEntity<Demand> updateStatus(
+            @PathVariable String id,
+            @RequestParam String status,
+            @RequestParam(required = false) String notes
+    ) {
+        return ResponseEntity.ok(
+            demandService.atualizarStatus(id, Demand.Status.valueOf(status))
+        );
     }
 
+    /** 🔹 Atribuir usuário a uma demanda */
     @PutMapping("/{id}/assign")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
     public ResponseEntity<Demand> assign(@PathVariable String id,
                                          @RequestBody Map<String, String> body) {
         String userId = body.get("userId");
-
-        // ✅ usa o método getByCpf do ProfileService
         Profile usuarioDesignado = profileService.getByCpf(userId);
         return ResponseEntity.ok(demandService.atribuirDemanda(id, usuarioDesignado));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Demand>> searchDemands(
+        @RequestParam(required = false) String term,
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) String priority
+    ) {
+        List<Demand> results = demandService.searchDemands(term, status, priority);
+        return ResponseEntity.ok(results);
+    }
+
 }
