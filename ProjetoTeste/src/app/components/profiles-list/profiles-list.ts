@@ -13,6 +13,9 @@ import { Demand } from '../../models/demand.model';
 export class ProfilesList implements OnInit {
   loading = true;
   profiles: Profile[] = [];
+  filteredProfiles: Profile[] = [];
+  searchTerm = '';
+
   showModal = false;
   selectedProfile: Profile | null = null;
 
@@ -30,47 +33,44 @@ export class ProfilesList implements OnInit {
     this.loadProfiles();
   }
 
-searchTerm = ''; // termo da busca
-filteredProfiles: Profile[] = []; // lista filtrada
-
-/** 🔹 Após carregar todos os perfis */
-loadProfiles(): void {
-  this.loading = true;
-  this.profileService.getAll().subscribe({
-    next: (data) => {
-      this.profiles = data;
-      this.filteredProfiles = data; // copia inicial
-      this.loading = false;
-    },
-    error: (err) => {
-      this.loading = false;
-      console.error('❌ Erro ao carregar perfis:', err);
-    }
-  });
-}
-
-/** 🔍 Filtra por nome ou CPF */
-searchProfiles(): void {
-  const term = this.searchTerm.trim().toLowerCase();
-
-  if (!term) {
-    this.filteredProfiles = [...this.profiles];
-    return;
+  /** 🔹 Carrega todos os perfis */
+  loadProfiles(): void {
+    this.loading = true;
+    this.profileService.getAll().subscribe({
+      next: (data) => {
+        this.profiles = data;
+        this.filteredProfiles = data;
+        this.loading = false;
+        console.log('✅ Perfis carregados:', data);
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('❌ Erro ao carregar perfis:', err);
+      }
+    });
   }
 
-  this.filteredProfiles = this.profiles.filter(p =>
-    (p.name && p.name.toLowerCase().includes(term)) ||
-    (p.cpf && p.cpf.toLowerCase().includes(term))
-  );
-}
+  /** 🔍 Filtra por nome ou CPF */
+  searchProfiles(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      this.filteredProfiles = [...this.profiles];
+      return;
+    }
 
-/** 🔄 Limpa a busca */
-clearSearch(): void {
-  this.searchTerm = '';
-  this.filteredProfiles = [...this.profiles];
-}
+    this.filteredProfiles = this.profiles.filter(p =>
+      (p.name && p.name.toLowerCase().includes(term)) ||
+      (p.cpf && p.cpf.toLowerCase().includes(term))
+    );
+  }
 
-  /** 🔹 Abre modal com os detalhes e carrega as demandas */
+  /** 🔄 Limpa a busca */
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.filteredProfiles = [...this.profiles];
+  }
+
+  /** 🔹 Abre modal com detalhes e demandas */
   viewProfile(profile: Profile): void {
     console.log('👤 Visualizando perfil:', profile);
     this.selectedProfile = profile;
@@ -80,13 +80,12 @@ clearSearch(): void {
 
   /** 🔹 Fecha o modal */
   closeModal(): void {
-    console.log('❌ Fechando modal');
     this.showModal = false;
     this.selectedProfile = null;
     this.demands = [];
   }
 
-  /** 🔹 Carrega as demandas vinculadas ao perfil */
+  /** 🔹 Carrega as demandas do perfil */
   loadDemandsForProfile(cpf: string): void {
     this.loadingDemands = true;
     this.demands = [];
@@ -104,12 +103,16 @@ clearSearch(): void {
     });
   }
 
-  /** 🔹 Retorna imagem real ou gera avatar automático */
-  getAvatarUrl(profile: Profile | null): string {
-    if (profile?.avatarUrl) {
-      return profile.avatarUrl;
+  /** 🔹 Retorna imagem de avatar */
+  getAvatarUrl(profile: any): string {
+    if (!profile) return '';
+
+    // ✅ Novo: imagem vem direto do banco como Base64
+    if (profile.avatar) {
+      return `data:image/jpeg;base64,${profile.avatar}`;
     }
 
+    // 🔸 Fallback: usa avatar gerado pelo nome
     const name = encodeURIComponent(profile?.name || 'Usuário');
     return `https://ui-avatars.com/api/?name=${name}&background=667eea&color=fff&bold=true`;
   }

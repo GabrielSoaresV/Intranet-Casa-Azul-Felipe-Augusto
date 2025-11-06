@@ -24,7 +24,7 @@ public class DemandController {
     private ProfileService profileService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Demand>> getAll() {
         return ResponseEntity.ok(demandService.listarTodas());
     }
@@ -36,13 +36,13 @@ public class DemandController {
     }
 
     @GetMapping("/creator/{cpf}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Demand>> getByCreator(@PathVariable String cpf) {
         return ResponseEntity.ok(demandService.buscarPorCriador(cpf));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Demand demand) {
         Demand nova = demandService.criar(demand);
         Map<String, Object> body = Map.of(
@@ -54,7 +54,7 @@ public class DemandController {
 
     /** 🔹 Atualizar status de uma demanda (PATCH agora suportado) */
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Demand> updateStatus(
             @PathVariable String id,
             @RequestParam String status,

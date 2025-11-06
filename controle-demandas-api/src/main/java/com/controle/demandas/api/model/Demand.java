@@ -14,7 +14,7 @@ public class Demand {
     private String id;
 
     // 🔹 Agora, quem cria a demanda é um Profile (ex-citizen)
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_cpf", referencedColumnName = "cpf")
     private Profile creator;
 

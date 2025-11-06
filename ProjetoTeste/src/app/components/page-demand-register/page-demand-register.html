@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+
+<div class="page-container">
+  <div class="demand-register-container mat-elevation-z4 bg-white rounded-xl shadow-sm">
+
+    <h2 class="page-title">
+      <mat-icon class="icon-title">assignment_add</mat-icon>
+      Registrar Nova Demanda
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+
+      <!-- 🔹 Campo: Título -->
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input id="title" type="text" formControlName="title" placeholder="Ex: Instalação de nova máquina" />
+        <small *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
+          O título deve ter pelo menos 4 caracteres.
+        </small>
+      </div>
+
+      <!-- 🔹 Campo: Descrição -->
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea
+          id="description"
+          rows="4"
+          formControlName="description"
+          placeholder="Descreva o problema ou solicitação com detalhes..."
+        ></textarea>
+        <small *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+          A descrição deve ter pelo menos 10 caracteres.
+        </small>
+      </div>
+
+      <!-- 🔹 Campo: Categoria -->
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <input id="category" type="text" formControlName="category" placeholder="Ex: TI, RH, Manutenção..." />
+      </div>
+
+      <!-- 🔹 Campo: Prioridade -->
+      <div class="form-group">
+        <label for="priority">Prioridade</label>
+        <select id="priority" formControlName="priority">
+          <option value="LOW">Baixa</option>
+          <option value="MEDIUM">Média</option>
+          <option value="HIGH">Alta</option>
+        </select>
+      </div>
+
+      <!-- 🔹 Ações -->
+      <div class="actions">
+        <button type="submit" [disabled]="isSubmitting" class="btn-primary">
+          <mat-icon *ngIf="!isSubmitting">add_circle</mat-icon>
+          <mat-progress-spinner
+            *ngIf="isSubmitting"
+            diameter="20"
+            mode="indeterminate"
+            color="accent">
+          </mat-progress-spinner>
+          {{ isSubmitting ? 'Enviando...' : 'Registrar Demanda' }}
+        </button>
+
+        <button type="button" routerLink="/home" class="btn-cancel">
+          <mat-icon>arrow_back</mat-icon>
+          Voltar
+        </button>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

@@ -7,17 +7,19 @@ import { Message } from '../../models/message.model';
   providedIn: 'root'
 })
 export class MessageService {
-  private apiUrl = '/api/messages';
+  private apiUrl = 'http://localhost:8080/api/messages'; // 🔹 coloque o URL absoluto pra evitar CORS em dev
 
   constructor(private http: HttpClient) {}
 
+  /** 🔹 Busca todas as mensagens da demanda */
   getMessagesByDemand(demandId: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/demand/${demandId}`);
   }
 
-  sendMessage(demandId: string, message: string, userCpf: string): Observable<Message> {
+  /** 🔹 Envia uma nova mensagem */
+  sendMessage(demandId: string, userCpf: string, content: string): Observable<Message> {
     return this.http.post<Message>(`${this.apiUrl}/demand/${demandId}`, {
-      message,
+      message: content,
       user: { cpf: userCpf }
     });
   }

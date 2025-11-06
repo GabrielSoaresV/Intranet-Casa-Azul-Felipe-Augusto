@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class Navbar implements OnInit {
   profile: Profile | null = null;
   menuOpen = false;
+  avatarUrl = '';
 
   constructor(private profileService: ProfileService, private router: Router) {}
 
@@ -19,10 +20,15 @@ export class Navbar implements OnInit {
     this.loadProfile();
   }
 
+  /** 🔹 Carrega o perfil logado com o avatar */
   loadProfile() {
     this.profileService.getCurrentProfile().subscribe({
-      next: profile => (this.profile = profile),
-      error: err => console.error('Erro ao carregar perfil:', err)
+      next: profile => {
+        this.profile = profile;
+        this.avatarUrl = this.getAvatarUrl(profile);
+        console.log('✅ Perfil carregado na navbar:', profile);
+      },
+      error: err => console.error('❌ Erro ao carregar perfil:', err)
     });
   }
 
@@ -35,13 +41,17 @@ export class Navbar implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  /** 🔹 Retorna avatar real ou gera automaticamente */
+  /** 🔹 Retorna o avatar real ou gera automaticamente */
   getAvatarUrl(profile: Profile | null): string {
-    if (profile?.avatarUrl) {
-      return profile.avatarUrl; // ✅ Usa imagem real salva no banco
+    if (!profile) return '';
+
+    // Se o backend enviou a imagem em Base64 (como byte[] convertido automaticamente)
+    if (profile.avatar) {
+      return `data:image/jpeg;base64,${profile.avatar}`;
     }
 
-    const name = encodeURIComponent(profile?.name || 'Usuário');
+    // Fallback (gerador de avatar com nome)
+    const name = encodeURIComponent(profile.name || 'Usuário');
     return `https://ui-avatars.com/api/?name=${name}&background=667eea&color=fff&bold=true`;
   }
 }

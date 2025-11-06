@@ -27,7 +27,7 @@ public class ProfileService {
     public Profile create(Profile profile) {
         validateProfileForCreation(profile);
 
-        // Criptografa senha
+        // Criptografa senha ao criar novo usuário
         profile.setPassword(passwordEncoder.encode(profile.getPassword()));
 
         Instant now = Instant.now();
@@ -51,15 +51,24 @@ public class ProfileService {
         }
 
         if (updates.getPhone() != null) existing.setPhone(updates.getPhone());
-        if (updates.getAvatarUrl() != null) existing.setAvatarUrl(updates.getAvatarUrl());
+        if (updates.getAvatar() != null) existing.setAvatar(updates.getAvatar());
 
         if (updates.getRole() != null) {
             validateRole(updates.getRole());
             existing.setRole(updates.getRole());
         }
 
+        // ✅ Corrigido: evita recriptografar senhas já criptografadas
         if (updates.getPassword() != null && !updates.getPassword().isBlank()) {
-            existing.setPassword(passwordEncoder.encode(updates.getPassword()));
+            String newPass = updates.getPassword();
+
+            // Se a senha não estiver criptografada, criptografa
+            if (!newPass.startsWith("$2a$")) {
+                existing.setPassword(passwordEncoder.encode(newPass));
+            } else {
+                // Caso já seja hash, mantém o valor
+                existing.setPassword(newPass);
+            }
         }
 
         existing.setUpdatedAt(Instant.now());
@@ -137,13 +146,58 @@ public class ProfileService {
         admin.setCpf(cpf);
         admin.setName("Administrador");
         admin.setEmail(email);
-        admin.setPassword(passwordEncoder.encode("123")); // senha: 123
+        admin.setPassword(passwordEncoder.encode("123456"));
         admin.setRole(Profile.Role.ADMIN);
         admin.setCreatedAt(Instant.now());
         admin.setUpdatedAt(Instant.now());
 
         profileRepository.save(admin);
-        System.out.println("🚀 Usuário admin criado com sucesso: " + email + " / senha: 123");
+        System.out.println("🚀 Usuário admin criado com sucesso: " + email + " / senha: 123456");
     }
 
+    @PostConstruct
+    public void createDefaultAttendent() {
+        String cpf = "00000000002";
+        String email = "atendente@teste.com";
+
+        if (profileRepository.existsById(cpf)) {
+            System.out.println("✅ Usuário atendente já existe. Pulando criação automática.");
+            return;
+        }
+
+        Profile atendente = new Profile();
+        atendente.setCpf(cpf);
+        atendente.setName("Atendente");
+        atendente.setEmail(email);
+        atendente.setPassword(passwordEncoder.encode("123456"));
+        atendente.setRole(Profile.Role.ATTENDANT);
+        atendente.setCreatedAt(Instant.now());
+        atendente.setUpdatedAt(Instant.now());
+
+        profileRepository.save(atendente);
+        System.out.println("🚀 Usuário Atendente criado com sucesso: " + email + " / senha: 123456");
+    }
+
+    @PostConstruct
+    public void createDefaultCitizen() {
+        String cpf = "00000000003";
+        String email = "cidadao@teste.com";
+
+        if (profileRepository.existsById(cpf)) {
+            System.out.println("✅ Usuário cidadão já existe. Pulando criação automática.");
+            return;
+        }
+
+        Profile cidadao = new Profile();
+        cidadao.setCpf(cpf);
+        cidadao.setName("Cidadão");
+        cidadao.setEmail(email);
+        cidadao.setPassword(passwordEncoder.encode("123456"));
+        cidadao.setRole(Profile.Role.CITIZEN);
+        cidadao.setCreatedAt(Instant.now());
+        cidadao.setUpdatedAt(Instant.now());
+
+        profileRepository.save(cidadao);
+        System.out.println("🚀 Usuário Cidadão criado com sucesso: " + email + " / senha: 123456");
+    }
 }

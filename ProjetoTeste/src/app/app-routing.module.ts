@@ -7,6 +7,8 @@ import { TableDemands } from './components/table-demands/table-demands';
 import { PageProfile } from './components/profile/profile';
 import { ProfilesList } from './components/profiles-list/profiles-list';
 import { DemandHistoryList } from './components/demand-history/demand-history';
+import { PageDemandRegister } from './components/page-demand-register/page-demand-register';
+import { PageChat } from './components/page-chat/page-chat';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'history',component: DemandHistoryList, canActivate: [AuthGuard]},
   { path: 'profile', component: PageProfile, canActivate: [AuthGuard] },
   { path: 'profile-list', component: ProfilesList, canActivate: [AuthGuard] },
+  { path: 'demand-register', component: PageDemandRegister, canActivate: [AuthGuard] },
+  { path: 'chat/:id', component: PageChat, canActivate: [AuthGuard] },
   
 ];
 

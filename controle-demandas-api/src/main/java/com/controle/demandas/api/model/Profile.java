@@ -38,8 +38,10 @@ public class Profile {
     @Column(nullable = false)
     private Role role;
 
-    @Column(name = "avatar_url")
-    private String avatarUrl;
+    /** 🔹 Novo campo: imagem armazenada no banco em formato binário */
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] avatar;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
     private Instant createdAt;
@@ -95,8 +97,8 @@ public class Profile {
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
 
-    public String getAvatarUrl() { return avatarUrl; }
-    public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
+    public byte[] getAvatar() { return avatar; }
+    public void setAvatar(byte[] avatar) { this.avatar = avatar; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) {this.createdAt = createdAt;}

@@ -33,7 +33,8 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frame -> frame.disable())) // permite H2 Console
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll() // ✅ libera H2 Console para todos
-                .requestMatchers("/api/profiles/login", "/api/profiles/register").permitAll()
+                .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/api/profiles/login", "/api/profiles/register", "/api/profiles/me/avatar").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

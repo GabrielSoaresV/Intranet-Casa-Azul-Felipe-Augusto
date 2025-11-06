@@ -5,7 +5,7 @@ export interface Profile {
   password?: string;
   phone?: string;
   role: 'ADMIN' | 'ATTENDANT' | 'CITIZEN';
-  avatarUrl?: string;
+  avatar?: any;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -10,15 +10,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/profiles")
-@CrossOrigin(origins = "*") // Apenas para teste
+@CrossOrigin(origins = "*") // Apenas para testes
 public class ProfileController {
 
     @Autowired
@@ -27,7 +30,7 @@ public class ProfileController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    /** 🔹 Retorna CPF do usuário logado */
+    /** 🔹 Retorna o CPF do usuário autenticado */
     private String getLoggedInCpf() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -44,53 +47,63 @@ public class ProfileController {
         return ResponseEntity.ok(body);
     }
 
-    /** 🔹 Login - retorna JWT e role */
+    // =========================
+    // 🔸 LOGIN
+    // =========================
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credentials) {
-        String login = credentials.get("login"); // CPF ou email
+        String login = credentials.get("login"); // CPF ou e-mail
         String password = credentials.get("password");
 
-        Profile profile = profileService.authenticate(login, password);
+        if (login == null || password == null) {
+            throw new IllegalArgumentException("Campos 'login' e 'password' são obrigatórios.");
+        }
 
+        Profile profile = profileService.authenticate(login, password);
         String token = jwtUtil.generateToken(profile.getCpf(), profile.getRole().name());
+
         Map<String, Object> data = Map.of(
                 "token", token,
                 "role", profile.getRole()
         );
+
         return response("Login realizado com sucesso.", data);
     }
 
-    /** 🔹 Obter perfil do usuário logado */
+    // =========================
+    // 🔸 PERFIL ATUAL
+    // =========================
     @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Map<String, Object>> getCurrentProfile() {
         String cpf = getLoggedInCpf();
         Profile profile = profileService.getByCpf(cpf);
         return response("Perfil obtido com sucesso.", profile);
     }
 
-    /** 🔹 Atualizar perfil do usuário logado */
     @PutMapping("/me")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Map<String, Object>> updateCurrentProfile(@RequestBody Profile updates) {
         String cpf = getLoggedInCpf();
         Profile updated = profileService.update(cpf, updates);
         return response("Perfil atualizado com sucesso.", updated);
     }
 
-    /** 🔹 Criar novo perfil (somente ADMIN) */
+    // =========================
+    // 🔸 ADMIN
+    // =========================
+
+    /** Criar novo perfil (ADMIN) */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Profile profile) {
         Profile created = profileService.create(profile);
         URI uri = URI.create("/api/profiles/" + created.getCpf());
-        Map<String, Object> body = Map.of(
-                "message", "Perfil criado com sucesso.",
-                "data", created
-        );
-        return ResponseEntity.created(uri).body(body);
+        return ResponseEntity.created(uri)
+                .body(Map.of("message", "Perfil criado com sucesso.", "data", created));
     }
 
-    /** 🔹 Listar todos os perfis (somente ADMIN) */
+    /** Listar todos os perfis (ADMIN) */
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getAll() {
@@ -98,7 +111,7 @@ public class ProfileController {
         return response("Perfis listados com sucesso.", profiles);
     }
 
-    /** 🔹 Buscar perfil por CPF (somente ADMIN) */
+    /** Buscar perfil por CPF (ADMIN) */
     @GetMapping("/{cpf}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getByCpf(@PathVariable String cpf) {
@@ -106,11 +119,49 @@ public class ProfileController {
         return response("Perfil encontrado.", profile);
     }
 
-    /** 🔹 Deletar perfil por CPF (somente ADMIN) */
+    /** Deletar perfil por CPF (ADMIN) */
     @DeleteMapping("/{cpf}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable String cpf) {
         profileService.delete(cpf);
         return response("Perfil deletado com sucesso.", null);
     }
+
+    // =========================
+    // 🔸 UPLOAD DE AVATAR
+    // =========================
+    @PostMapping("/me/avatar")
+@PreAuthorize("isAuthenticated()")
+public ResponseEntity<Map<String, Object>> uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
+    String cpf = getLoggedInCpf();
+    Profile profile = profileService.getByCpf(cpf);
+
+    if (file.isEmpty()) {
+        throw new IllegalArgumentException("Nenhum arquivo enviado.");
+    }
+
+    // 🔹 Converte arquivo em bytes e salva direto
+    byte[] bytes = file.getBytes();
+    profile.setAvatar(bytes);
+    profile.setUpdatedAt(Instant.now());
+    Profile updated = profileService.update(cpf, profile);
+
+    return response("Avatar atualizado com sucesso!", updated);
+}
+
+@GetMapping("/me/avatar")
+@PreAuthorize("isAuthenticated()")
+public ResponseEntity<byte[]> getMyAvatar() {
+    String cpf = getLoggedInCpf();
+    Profile profile = profileService.getByCpf(cpf);
+
+    if (profile.getAvatar() == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity
+            .ok()
+            .contentType(org.springframework.http.MediaType.IMAGE_JPEG)
+            .body(profile.getAvatar());
+}
 }

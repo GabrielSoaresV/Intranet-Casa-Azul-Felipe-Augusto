@@ -11,7 +11,9 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 import { PageLogin } from './components/page-login/page-login';
 import { PageProfile } from './components/profile/profile';
+import { PageDemandRegister } from './components/page-demand-register/page-demand-register';
 import { PageHome } from './components/page-home/page-home';
+import { PageChat } from './components/page-chat/page-chat';
 import { DemandHistoryList } from './components/demand-history/demand-history';
 import { ProfilesList } from './components/profiles-list/profiles-list';
 
@@ -34,7 +36,9 @@ import { MatIconModule } from '@angular/material/icon';
     ProfilesList,
     Navbar,
     DemandHistoryList,
-    TableDemands
+    PageDemandRegister,
+    TableDemands,
+    PageChat
   ],
   imports: [
     BrowserModule,

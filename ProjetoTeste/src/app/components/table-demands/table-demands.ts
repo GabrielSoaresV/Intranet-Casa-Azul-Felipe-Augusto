@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DemandService } from '../../core/services/demand.service';
 import { Demand } from '../../models/demand.model';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-table-demands',
@@ -11,17 +13,24 @@ import { Demand } from '../../models/demand.model';
   styleUrl: './table-demands.css'
 })
 export class TableDemands implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['creator', 'title', 'status', 'priority', 'createdAt', 'actions'];
+  displayedColumns: string[] = ['creator', 'title', 'status', 'priority', 'actions'];
   dataSource = new MatTableDataSource<Demand>([]);
   expandedElement: Demand | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // 🔹 Controle da busca
+  // 🔹 Controle de busca e erro
   searchId = '';
   errorMessage = '';
 
-  constructor(private demandService: DemandService) {}
+  // 🔹 Cache de avatares (para evitar requisições repetidas)
+  avatarCache: { [cpf: string]: string } = {};
+
+  constructor(
+    private demandService: DemandService,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadDemands();
@@ -46,7 +55,7 @@ export class TableDemands implements OnInit, AfterViewInit {
     });
   }
 
-  /** 🔹 Expande / recolhe linha de detalhes */
+  /** 🔹 Expande / recolhe detalhes da linha */
   toggleExpand(row: Demand): void {
     this.expandedElement = this.expandedElement === row ? null : row;
   }
@@ -72,18 +81,18 @@ export class TableDemands implements OnInit, AfterViewInit {
     }
   }
 
-  /** 🔹 Traduz status */
+  /** 🔹 Traduz status para português */
   formatStatus(status: string): string {
     switch (status?.toUpperCase()) {
       case 'COMPLETED': return 'Concluída';
-      case 'IN_PROGRESS': return 'Em Progresso';
+      case 'IN_PROGRESS': return 'Em andamento';
       case 'PENDING': return 'Pendente';
       case 'CANCELLED': return 'Cancelada';
       default: return status;
     }
   }
 
-  /** 🔹 Formata data */
+  /** 🔹 Formata data para formato brasileiro */
   formatDate(date?: string | Date): string {
     if (!date) return '-';
     const d = new Date(date);
@@ -97,100 +106,77 @@ export class TableDemands implements OnInit, AfterViewInit {
     });
   }
 
-  /** 🔹 Retorna o avatar real ou fallback */
-  getAvatarUrl(creator: any): string {
-    if (creator?.avatarUrl) return creator.avatarUrl;
-    const name = encodeURIComponent(creator?.name || 'Usuário');
-    return `https://ui-avatars.com/api/?name=${name}&background=667eea&color=fff&bold=true`;
+  // ======================================================
+  // 🖼️ AVATARES DE CRIADORES
+  // ======================================================
+
+  /** 🔹 Retorna avatar do criador */
+  getAvatarUrl(profile: any): string {
+  if (!profile) return '';
+
+  // Se o backend já mandou o avatar em Base64
+  if (profile.avatar) {
+    return `data:image/jpeg;base64,${profile.avatar}`;
   }
 
-/** 🔍 Busca demanda por ID ou título */
-searchById(): void {
-  const query = this.searchId.trim();
-  this.errorMessage = '';
+  // Caso não tenha imagem
+  const safeName = encodeURIComponent(profile?.name || 'Usuário');
+  return `https://ui-avatars.com/api/?name=${safeName}&background=667eea&color=fff&bold=true`;
+}
 
-  // Se o campo estiver vazio, recarrega tudo
-  if (!query) {
-    this.loadDemands();
-    return;
+
+  /** 🔹 Gera avatar padrão com iniciais */
+  getFallbackAvatar(name: string): string {
+    const safeName = encodeURIComponent(name || 'Usuário');
+    return `https://ui-avatars.com/api/?name=${safeName}&background=667eea&color=fff&bold=true`;
   }
 
-  // Se for um número → busca pelo ID exato
-  if (!isNaN(Number(query))) {
-    this.demandService.getDemandById(query).subscribe({
+  // ======================================================
+  // 🔍 BUSCAS E FILTROS
+  // ======================================================
+
+  filters = {
+    term: '',
+    status: '',
+    priority: ''
+  };
+
+  /** 🔹 Busca demandas com filtros */
+  searchDemands(): void {
+    this.errorMessage = '';
+    this.demandService.searchDemands(this.filters).subscribe({
       next: (data) => {
-        this.dataSource.data = [data];
+        this.dataSource.data = data;
         this.expandedElement = null;
-        console.log('✅ Demanda encontrada por ID:', data);
+        if (data.length === 0) this.errorMessage = 'Nenhuma demanda encontrada.';
       },
       error: (err) => {
-        console.error('❌ Erro na busca por ID:', err);
-        this.errorMessage = 'Nenhuma demanda encontrada com esse ID.';
+        console.error('❌ Erro na busca:', err);
+        this.errorMessage = 'Erro ao buscar demandas.';
       }
     });
-    return;
   }
 
-  // Caso contrário → busca por título (parcial)
-  this.demandService.getAllDemands().subscribe({
-    next: (demands) => {
-      const filtered = demands.filter(d =>
-        d.title.toLowerCase().includes(query.toLowerCase())
-      );
-      this.dataSource.data = filtered;
-      if (filtered.length === 0) {
-        this.errorMessage = 'Nenhuma demanda encontrada com esse título.';
-      }
-    },
-    error: (err) => {
-      console.error('❌ Erro na busca por título:', err);
-      this.errorMessage = 'Erro ao buscar demandas.';
-    }
-  });
-}
+  /** 🔹 Limpa filtros e recarrega todas */
+  clearFilters(): void {
+    this.filters = { term: '', status: '', priority: '' };
+    this.loadDemands();
+  }
 
-/** 🔄 Limpa o campo e recarrega todas as demandas */
-clearSearch(): void {
-  this.searchId = '';
-  this.errorMessage = '';
-  this.loadDemands();
-}
+  // ======================================================
+  // ⚙️ AÇÕES
+  // ======================================================
 
-filters = {
-  term: '',
-  status: '',
-  priority: ''
-};
+  /** ✅ Atender demanda */
+  attendDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    console.log('⚙️ Atendendo demanda:', demand);
+    // Aqui você pode implementar o método de "atender" no backend futuramente
+  }
 
-searchDemands(): void {
-  this.errorMessage = '';
-  this.demandService.searchDemands(this.filters).subscribe({
-    next: (data) => {
-      this.dataSource.data = data;
-      this.expandedElement = null;
-      if (data.length === 0) this.errorMessage = 'Nenhuma demanda encontrada.';
-    },
-    error: (err) => {
-      console.error('❌ Erro na busca:', err);
-      this.errorMessage = 'Erro ao buscar demandas.';
-    }
-  });
-}
-
-clearFilters(): void {
-  this.filters = { term: '', status: '', priority: '' };
-  this.loadDemands();
-}
-
-/** 🔍 Visualizar demanda */
-viewDemand(demand: Demand, event: MouseEvent): void {
-  event.stopPropagation(); // evita abrir a linha expandida
-  console.log('👁️ Visualizar demanda:', demand);
-}
-
-/** ✅ Atender demanda */
-attendDemand(demand: Demand, event: MouseEvent): void {
-  event.stopPropagation();
-  console.log('⚙️ Atendendo demanda:', demand);
-}
+  /** 💬 Visualizar detalhes da demanda (abre chat) */
+  viewDemand(element: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.router.navigate(['/chat'], { queryParams: { id: element.id } });
+  }
 }

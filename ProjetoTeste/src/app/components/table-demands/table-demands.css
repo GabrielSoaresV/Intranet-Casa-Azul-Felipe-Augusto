@@ -79,7 +79,9 @@
 }
 
 /* 🔹 Tabela */
-table {
+table,
+table.mat-table,
+table.mat-mdc-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -87,6 +89,7 @@ table {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  table-layout: fixed; /* ✅ impede colunas de esticarem */
 }
 
 th {
@@ -104,6 +107,7 @@ td {
   border-bottom: 1px solid #f1f5f9;
   color: #374151;
   font-size: 14px;
+  word-wrap: break-word;
 }
 
 /* 🔹 Célula do criador */
@@ -189,7 +193,7 @@ td {
 
 .status-pending {
   background-color: #f1c40f;
-  color: #1a1a1a !important;
+  color: #f7f7f7 !important;
   box-shadow: 0 0 3px rgba(241, 196, 15, 0.3);
 }
 
@@ -216,6 +220,55 @@ td {
 .status-chip:hover,
 .priority-chip:hover {
   transform: scale(1.04);
+}
+
+/* ==========================
+   🔸 Ações
+   ========================== */
+.actions-cell {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.action-icon {
+  font-size: 26px;
+}
+
+.icon-btn:hover mat-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* ==========================
+   🔸 Título limitado
+   ========================== */
+th.mat-column-title,
+td.mat-column-title,
+.mat-col-title {
+  width: 220px;
+  max-width: 220px;
+  text-align: center;
+}
+
+.title-content {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: #374151;
 }
 
 /* ==========================
@@ -273,34 +326,10 @@ td {
     width: 100%;
   }
 
-  /* 🔹 Coluna de ações */
-.actions-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.action-btn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 6px;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.action-btn.view {
-  color: #3498db;
-}
-
-.action-btn.attend {
-  color: #27ae60;
-}
-
-.action-btn:hover {
-  background: #f1f5f9;
-  transform: scale(1.1);
-}
+  th.mat-column-title,
+  td.mat-column-title,
+  .mat-col-title {
+    width: 140px;
+    max-width: 140px;
+  }
 }
