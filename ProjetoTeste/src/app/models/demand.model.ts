@@ -1,3 +1,4 @@
+// src/app/models/demand.model.ts
 import { Profile } from './profile.model';
 
 export interface Demand {
@@ -6,7 +7,7 @@ export interface Demand {
   assignedUser?: Profile;
   title: string;
   description: string;
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  status: 'PENDING' | 'IN_PROGRESS' | 'RETURNED' | 'COMPLETED' | 'CANCELLED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
   category?: string;
   createdBy?: Profile;

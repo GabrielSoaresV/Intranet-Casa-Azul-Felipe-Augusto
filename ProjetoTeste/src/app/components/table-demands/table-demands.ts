@@ -5,6 +5,8 @@ import { DemandService } from '../../core/services/demand.service';
 import { Demand } from '../../models/demand.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog, ConfirmDialogData} from './confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-table-demands',
@@ -19,17 +21,14 @@ export class TableDemands implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // 🔹 Controle de busca e erro
-  searchId = '';
   errorMessage = '';
-
-  // 🔹 Cache de avatares (para evitar requisições repetidas)
   avatarCache: { [cpf: string]: string } = {};
 
   constructor(
     private demandService: DemandService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +39,6 @@ export class TableDemands implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  /** 🔹 Carrega todas as demandas */
   loadDemands(): void {
     this.errorMessage = '';
     this.demandService.getAllDemands().subscribe({
@@ -55,93 +53,65 @@ export class TableDemands implements OnInit, AfterViewInit {
     });
   }
 
-  /** 🔹 Expande / recolhe detalhes da linha */
   toggleExpand(row: Demand): void {
     this.expandedElement = this.expandedElement === row ? null : row;
   }
 
-  /** 🔹 Classe CSS conforme status */
+  /** ✅ CSS por status (inclui RETURNED) */
   getStatusClasses(status: string): string {
     switch (status?.toUpperCase()) {
-      case 'COMPLETED': return 'status-completed';
+      case 'COMPLETED':   return 'status-completed';
       case 'IN_PROGRESS': return 'status-in_progress';
-      case 'PENDING': return 'status-pending';
-      case 'CANCELLED': return 'status-cancelled';
-      default: return '';
+      case 'RETURNED':    return 'status-returned';
+      case 'PENDING':     return 'status-pending';
+      case 'CANCELLED':   return 'status-cancelled';
+      default:            return '';
     }
   }
 
-  /** 🔹 Classe CSS conforme prioridade */
   getPriorityClasses(priority: string): string {
     switch (priority?.toUpperCase()) {
-      case 'HIGH': return 'prioridade-alta';
+      case 'HIGH':   return 'prioridade-alta';
       case 'MEDIUM': return 'prioridade-media';
-      case 'LOW': return 'prioridade-baixa';
-      default: return '';
+      case 'LOW':    return 'prioridade-baixa';
+      default:       return '';
     }
   }
 
-  /** 🔹 Traduz status para português */
+  /** ✅ Tradução (inclui RETURNED) */
   formatStatus(status: string): string {
     switch (status?.toUpperCase()) {
-      case 'COMPLETED': return 'Concluída';
+      case 'COMPLETED':   return 'Concluída';
       case 'IN_PROGRESS': return 'Em andamento';
-      case 'PENDING': return 'Pendente';
-      case 'CANCELLED': return 'Cancelada';
-      default: return status;
+      case 'RETURNED':    return 'Devolvida';
+      case 'PENDING':     return 'Pendente';
+      case 'CANCELLED':   return 'Cancelada';
+      default:            return status;
     }
   }
 
-  /** 🔹 Formata data para formato brasileiro */
   formatDate(date?: string | Date): string {
     if (!date) return '-';
     const d = new Date(date);
     if (isNaN(d.getTime())) return '-';
     return d.toLocaleString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     });
   }
 
-  // ======================================================
-  // 🖼️ AVATARES DE CRIADORES
-  // ======================================================
-
-  /** 🔹 Retorna avatar do criador */
   getAvatarUrl(profile: any): string {
-  if (!profile) return '';
-
-  // Se o backend já mandou o avatar em Base64
-  if (profile.avatar) {
-    return `data:image/jpeg;base64,${profile.avatar}`;
-  }
-
-  // Caso não tenha imagem
-  const safeName = encodeURIComponent(profile?.name || 'Usuário');
-  return `https://ui-avatars.com/api/?name=${safeName}&background=667eea&color=fff&bold=true`;
-}
-
-
-  /** 🔹 Gera avatar padrão com iniciais */
-  getFallbackAvatar(name: string): string {
-    const safeName = encodeURIComponent(name || 'Usuário');
+    if (!profile) return '';
+    if (profile.avatar) return `data:image/jpeg;base64,${profile.avatar}`;
+    const safeName = encodeURIComponent(profile?.name || 'Usuário');
     return `https://ui-avatars.com/api/?name=${safeName}&background=667eea&color=fff&bold=true`;
   }
 
-  // ======================================================
-  // 🔍 BUSCAS E FILTROS
-  // ======================================================
+  // ----------------------------
+  // Filtros
+  // ----------------------------
+  filters = { term: '', status: '', priority: '' };
 
-  filters = {
-    term: '',
-    status: '',
-    priority: ''
-  };
-
-  /** 🔹 Busca demandas com filtros */
   searchDemands(): void {
     this.errorMessage = '';
     this.demandService.searchDemands(this.filters).subscribe({
@@ -157,26 +127,133 @@ export class TableDemands implements OnInit, AfterViewInit {
     });
   }
 
-  /** 🔹 Limpa filtros e recarrega todas */
   clearFilters(): void {
     this.filters = { term: '', status: '', priority: '' };
     this.loadDemands();
   }
 
-  // ======================================================
-  // ⚙️ AÇÕES
-  // ======================================================
-
-  /** ✅ Atender demanda */
-  attendDemand(demand: Demand, event: MouseEvent): void {
-    event.stopPropagation();
-    console.log('⚙️ Atendendo demanda:', demand);
-    // Aqui você pode implementar o método de "atender" no backend futuramente
+  // ----------------------------
+  // Diálogo de confirmação
+  // ----------------------------
+  private askConfirm(message: string, title?: string, confirmText?: string) {
+    const data: ConfirmDialogData = {
+      title: title || 'Confirmação',
+      message,
+      confirmText: confirmText || 'Confirmar'
+    };
+    const ref = this.dialog.open(ConfirmDialog, {
+      width: '360px',
+      data
+    });
+    return ref.afterClosed(); // Observable<boolean>
   }
 
-  /** 💬 Visualizar detalhes da demanda (abre chat) */
+  // ----------------------------
+  // Ações
+  // ----------------------------
+
+  /** ✅ Atender demanda (PENDING/RETURNED → IN_PROGRESS) */
+  attendDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.askConfirm('Confirmar atendimento desta demanda?', 'Atender Demanda', 'Atender')
+      .subscribe(ok => {
+        if (!ok) return;
+        this.demandService.updateDemandStatus(demand.id!, 'IN_PROGRESS', 'Atendida via painel')
+          .subscribe({
+            next: (updated) => this.patchRow(updated),
+            error: (err) => {
+              console.error('❌ Erro ao atender:', err);
+              this.errorMessage = err?.error?.message || 'Não foi possível atender a demanda.';
+            }
+          });
+      });
+  }
+
+  /** 🔁 Devolver demanda (IN_PROGRESS → RETURNED) */
+  returnDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.askConfirm('Confirmar devolução desta demanda?', 'Devolver Demanda', 'Devolver')
+      .subscribe(ok => {
+        if (!ok) return;
+        this.demandService.updateDemandStatus(demand.id!, 'RETURNED', 'Devolvida pelo atendente')
+          .subscribe({
+            next: (updated) => this.patchRow(updated),
+            error: (err) => {
+              console.error('❌ Erro ao devolver:', err);
+              this.errorMessage = err?.error?.message || 'Não foi possível devolver a demanda.';
+            }
+          });
+      });
+  }
+
+  /** 🏁 Finalizar demanda (IN_PROGRESS → COMPLETED) */
+  completeDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.askConfirm('Confirmar finalização desta demanda?', 'Finalizar Demanda', 'Finalizar')
+      .subscribe(ok => {
+        if (!ok) return;
+        this.demandService.updateDemandStatus(demand.id!, 'COMPLETED', 'Finalizada pelo atendente')
+          .subscribe({
+            next: (updated) => this.patchRow(updated),
+            error: (err) => {
+              console.error('❌ Erro ao finalizar:', err);
+              this.errorMessage = err?.error?.message || 'Não foi possível finalizar a demanda.';
+            }
+          });
+      });
+  }
+
+  /** 🚫 Cancelar demanda (PENDING ou RETURNED → CANCELLED) */
+  cancelDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.askConfirm('Confirmar cancelamento desta demanda?', 'Cancelar Demanda', 'Cancelar')
+      .subscribe(ok => {
+        if (!ok) return;
+        this.demandService.updateDemandStatus(demand.id!, 'CANCELLED', 'Cancelada pelo atendente')
+          .subscribe({
+            next: (updated) => this.patchRow(updated),
+            error: (err) => {
+              console.error('❌ Erro ao cancelar:', err);
+              this.errorMessage = err?.error?.message || 'Não foi possível cancelar a demanda.';
+            }
+          });
+      });
+  }
+
+  /** 🔧 Atualiza linha sem reload total */
+  private patchRow(updated: Demand) {
+    const data = this.dataSource.data.slice();
+    const idx = data.findIndex(d => d.id === updated.id);
+    if (idx >= 0) {
+      data[idx] = { ...data[idx], ...updated };
+      this.dataSource.data = data;
+    }
+  }
+
+  /** 💬 Abre chat */
   viewDemand(element: Demand, event: MouseEvent): void {
     event.stopPropagation();
     this.router.navigate(['/chat'], { queryParams: { id: element.id } });
+  }
+
+  // ----------------------------
+  // Helpers de visibilidade por status
+  // ----------------------------
+  canAttend(status?: string): boolean {
+    const s = status?.toUpperCase();
+    return s === 'PENDING' || s === 'RETURNED';
+  }
+
+  canReturn(status?: string): boolean {
+    return status?.toUpperCase() === 'IN_PROGRESS';
+  }
+
+  canComplete(status?: string): boolean {
+    return status?.toUpperCase() === 'IN_PROGRESS';
+  }
+
+  canCancel(status?: string): boolean {
+    const s = status?.toUpperCase();
+    return s === 'PENDING' || s === 'RETURNED';
   }
 }

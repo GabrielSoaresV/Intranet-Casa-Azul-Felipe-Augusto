@@ -1,0 +1,43 @@
+<div class="dialog-wrapper">
+
+  <!-- Cabeçalho -->
+  <div class="dialog-header">
+    <h2 mat-dialog-title>{{ data.title || 'Confirmação' }}</h2>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Conteúdo -->
+  <mat-dialog-content class="dialog-content">
+    <p class="dialog-message">{{ data.message }}</p>
+
+    <ng-container *ngIf="data.askNotes">
+      <mat-form-field appearance="outline" class="dialog-field">
+        <mat-label>{{ data.notesLabel || 'Observações' }}</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="notes"
+          [placeholder]="data.notesPlaceholder || 'Digite observações (opcional)'"
+          rows="3">
+        </textarea>
+      </mat-form-field>
+    </ng-container>
+  </mat-dialog-content>
+
+  <!-- Rodapé / Ações -->
+  <mat-dialog-actions align="center" class="dialog-actions">
+    <button mat-stroked-button mat-dialog-close class="btn-cancel">
+      <mat-icon>close</mat-icon>
+      {{ data.cancelText || 'Cancelar' }}
+    </button>
+
+    <button
+      mat-flat-button
+      class="btn-confirm"
+      [color]="data.color || 'primary'"
+      (click)="confirm()">
+      <mat-icon>check_circle</mat-icon>
+      {{ data.confirmText || 'Confirmar' }}
+    </button>
+  </mat-dialog-actions>
+</div>

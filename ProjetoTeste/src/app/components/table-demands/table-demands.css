@@ -333,3 +333,11 @@ td.mat-column-title,
     max-width: 140px;
   }
 }
+.status-returned {
+  background: #fff7e6;
+  color: #b26a00;
+  border: 1px solid #ffd48a;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}

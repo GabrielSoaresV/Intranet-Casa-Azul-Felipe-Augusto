@@ -1,11 +1,10 @@
+// src/app/core/services/demand.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Demand } from '../../models/demand.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class DemandService {
   private apiUrl = 'http://localhost:8080/api/demands';
 
@@ -27,22 +26,23 @@ export class DemandService {
     return this.http.post<Demand>(this.apiUrl, demand);
   }
 
-  updateDemandStatus(id: string, status: string): Observable<Demand> {
-    return this.http.put<Demand>(`${this.apiUrl}/${id}/status?status=${status}`, {});
+  /** ✅ PATCH /{id}/status?status=...&notes=... */
+  updateDemandStatus(id: string, status: string, notes?: string): Observable<Demand> {
+    let params = new HttpParams().set('status', status);
+    if (notes) params = params.set('notes', notes);
+    // body vazio, mas PATCH por causa do controller
+    return this.http.patch<Demand>(`${this.apiUrl}/${id}/status`, {}, { params });
   }
 
   assignDemand(id: string, userId: string): Observable<Demand> {
     return this.http.put<Demand>(`${this.apiUrl}/${id}/assign`, { userId });
   }
 
-  searchDemands(filters: any) {
-  const params = new URLSearchParams();
-
-  if (filters.term) params.append('term', filters.term);
-  if (filters.status) params.append('status', filters.status);
-  if (filters.priority) params.append('priority', filters.priority);
-
-  return this.http.get<Demand[]>(`${this.apiUrl}/search?${params.toString()}`);
-}
-
+  searchDemands(filters: any): Observable<Demand[]> {
+    const params = new URLSearchParams();
+    if (filters.term) params.append('term', filters.term);
+    if (filters.status) params.append('status', filters.status);
+    if (filters.priority) params.append('priority', filters.priority);
+    return this.http.get<Demand[]>(`${this.apiUrl}/search?${params.toString()}`);
+  }
 }
