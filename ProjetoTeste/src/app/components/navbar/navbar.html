@@ -5,10 +5,17 @@
     </div>
 
     <div class="navbar-links">
-      <a routerLink="/home" routerLinkActive="active">Demandas</a>
-      <a routerLink="/profile-list" routerLinkActive="active">Cidadãos</a>
-      <a routerLink="/demand-register" routerLinkActive="active">Cadastrar</a>
-      <a routerLink="/history" routerLinkActive="active">Histórico</a>
+      <!-- Home/Demandas (lista) → ADMIN e ATTENDANT -->
+      <a routerLink="/home" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])">Demandas</a>
+
+      <!-- Cidadãos (profile-list) → ADMIN e ATTENDANT -->
+      <a routerLink="/profile-list" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])">Cidadãos</a>
+
+      <!-- Cadastrar demanda → TODOS (logados) -->
+      <a routerLink="/demand-register" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])">Cadastrar</a>
+
+      <!-- Histórico → somente ADMIN -->
+      <a routerLink="/history" routerLinkActive="active" *ngIf="auth.hasRole('ADMIN')">Histórico</a>
     </div>
 
     <div class="navbar-user">
@@ -25,7 +32,8 @@
       </button>
 
       <div class="user-menu" [class.open]="menuOpen">
-        <a routerLink="/profile" (click)="toggleMenu()">Meu Perfil</a>
+        <!-- Meu Perfil → TODOS (logados) -->
+        <a routerLink="/profile" (click)="toggleMenu()" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])">Meu Perfil</a>
         <button (click)="logout()">Sair</button>
       </div>
     </div>

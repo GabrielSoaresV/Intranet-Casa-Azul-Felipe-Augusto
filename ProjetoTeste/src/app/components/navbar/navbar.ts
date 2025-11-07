@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../core/services/profile.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ export class Navbar implements OnInit {
   menuOpen = false;
   avatarUrl = '';
 
-  constructor(private profileService: ProfileService, private router: Router) {}
+  constructor(private profileService: ProfileService, private router: Router, public auth: AuthService) {}
 
   ngOnInit() {
     this.loadProfile();
@@ -37,6 +38,7 @@ export class Navbar implements OnInit {
   }
 
   logout() {
+    this.auth.logout(); 
     this.profileService.logout();
     this.router.navigate(['/login']);
   }

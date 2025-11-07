@@ -1,5 +1,47 @@
 <app-navbar></app-navbar>
 
-<div class="table-wrapper">
+<!-- STAFF (ADMIN/ATTENDANT): mostra tabela -->
+<div *ngIf="isStaff" class="table-wrapper">
   <app-table-demands></app-table-demands>
+</div>
+
+<!-- CIDADÃO: cards amigáveis -->
+<div *ngIf="isCitizen" class="home-wrap">
+  <header class="hero">
+    <div class="hero-text">
+      <h2>Olá, {{ userName }}</h2><br>
+      <p>Bem-vindo! Abra novas demandas, acompanhe o andamento e converse com a equipe.</p>
+    </div>
+  </header>
+
+  <section class="cards-grid">
+    <a class="card" routerLink="/demand-register">
+      <div class="card-icon"><mat-icon>post_add</mat-icon></div>
+      <h3>Abrir Demanda</h3>
+      <p>Registre uma nova solicitação para nossa equipe.</p>
+      <span class="card-cta">Começar</span>
+    </a>
+
+    <!-- se quiser, depois criamos /my-demands filtrando pelo CPF -->
+    <a class="card" routerLink="/home">
+      <div class="card-icon"><mat-icon>assignment</mat-icon></div>
+      <h3>Minhas Demandas</h3>
+      <p>Veja status e detalhes das suas solicitações.</p>
+      <span class="card-cta">Acompanhar</span>
+    </a>
+
+    <a class="card" routerLink="/profile">
+      <div class="card-icon"><mat-icon>account_circle</mat-icon></div>
+      <h3>Meu Perfil</h3>
+      <p>Atualize seus dados e a sua foto.</p>
+      <span class="card-cta">Abrir perfil</span>
+    </a>
+
+    <a class="card" routerLink="/profile">
+      <div class="card-icon"><mat-icon>help_outline</mat-icon></div>
+      <h3>Ajuda</h3>
+      <p>Como abrir e acompanhar demandas.</p>
+      <span class="card-cta">Ver ajuda</span>
+    </a>
+  </section>
 </div>

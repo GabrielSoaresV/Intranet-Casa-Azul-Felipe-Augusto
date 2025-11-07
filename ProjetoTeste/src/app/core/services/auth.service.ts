@@ -78,4 +78,32 @@ export class AuthService {
     console.log(`🎧 isAttendant(): ${isAttendant}`);
     return isAttendant;
   }
+
+  /** 👤 Verifica se o usuário é cidadão */
+  isCitizen(): boolean {
+    const user = this.getCurrentUser();
+    const isCitizen = user?.role === 'CITIZEN';
+    console.log(`🙋 isCitizen(): ${isCitizen}`);
+    return isCitizen;
+  }
+
+  /** ✅ Retorna a role atual (para uso no RoleGuard) */
+  getRole(): string | null {
+    const user = this.getCurrentUser();
+    const role = user?.role || null;
+    console.log(`📜 getRole(): ${role}`);
+    return role;
+  }
+
+  /** ✅ Verifica se o usuário tem uma role específica */
+  hasRole(role: string): boolean {
+    const currentRole = this.getRole();
+    return currentRole === role;
+  }
+
+  /** ✅ Verifica se o usuário tem alguma das roles da lista */
+  hasAnyRole(roles: string[]): boolean {
+    const currentRole = this.getRole();
+    return !!currentRole && roles.includes(currentRole);
+  }
 }
