@@ -10,14 +10,32 @@
   <!-- 🔹 Caixa de chat -->
   <div class="chat-card">
     <div class="chat-box">
-      <div
-        *ngFor="let msg of messages"
-        class="chat-message"
-        [ngClass]="{ 'mine': msg.user.cpf === currentUserCpf }"
-      >
-        <div class="msg-sender">{{ msg.user.name || 'Usuário' }}</div>
-        <div class="msg-content">{{ msg.message }}</div>
-        <div class="msg-time">{{ msg.createdAt | date: 'shortTime' }}</div>
+      <div *ngFor="let msg of messages" class="chat-message-wrapper">
+        <ng-container *ngIf="msg.user as user">
+          <div
+            class="chat-message"
+            [ngClass]="user.cpf === currentUserCpf ? 'mine' : 'theirs'"
+          >
+            <!-- Avatar -->
+            <img
+              class="msg-avatar"
+              [src]="getAvatarUrlCached(user)"
+              [alt]="user.name || 'Usuário'"
+              [title]="user.name || 'Usuário'"
+            />
+
+            <!-- Balão -->
+            <div class="msg-bubble" [ngClass]="getBubbleClass(user.cpf)">
+              <div class="msg-header">
+                <span class="msg-sender">{{ user.name || 'Usuário' }}</span>
+                <span class="msg-time">{{ msg.createdAt | date: 'shortTime' }}</span>
+              </div>
+              <div class="msg-content">
+                {{ msg.message }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
 
