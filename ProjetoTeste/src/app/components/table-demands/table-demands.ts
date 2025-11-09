@@ -186,6 +186,26 @@ export class TableDemands implements OnInit, AfterViewInit {
       });
   }
 
+  /** 🗑️ Excluir demanda (somente COMPLETED ou CANCELLED) */
+  deleteDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+    this.askConfirm('Tem certeza que deseja excluir esta demanda?', 'Excluir Demanda', 'Excluir')
+      .subscribe(ok => {
+        if (!ok) return;
+
+        this.demandService.deleteDemand(demand.id!).subscribe({
+          next: (res) => {
+            // Remove da tabela sem recarregar tudo
+            this.dataSource.data = this.dataSource.data.filter(d => d.id !== demand.id);
+          },
+          error: (err) => {
+            console.error('❌ Erro ao excluir demanda:', err);
+            this.errorMessage = err?.error?.message || 'Não foi possível excluir a demanda.';
+          }
+        });
+      });
+  }
+
   /** 🏁 Finalizar demanda (IN_PROGRESS → COMPLETED) */
   completeDemand(demand: Demand, event: MouseEvent): void {
     event.stopPropagation();
@@ -256,4 +276,10 @@ export class TableDemands implements OnInit, AfterViewInit {
     const s = status?.toUpperCase();
     return s === 'PENDING' || s === 'RETURNED';
   }
+
+  canDelete(status?: string): boolean {
+    const s = status?.toUpperCase();
+    return s === 'COMPLETED' || s === 'CANCELLED';
+  }
+
 }

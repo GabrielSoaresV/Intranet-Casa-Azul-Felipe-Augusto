@@ -30,7 +30,6 @@ export class DemandService {
   updateDemandStatus(id: string, status: string, notes?: string): Observable<Demand> {
     let params = new HttpParams().set('status', status);
     if (notes) params = params.set('notes', notes);
-    // body vazio, mas PATCH por causa do controller
     return this.http.patch<Demand>(`${this.apiUrl}/${id}/status`, {}, { params });
   }
 
@@ -44,5 +43,10 @@ export class DemandService {
     if (filters.status) params.append('status', filters.status);
     if (filters.priority) params.append('priority', filters.priority);
     return this.http.get<Demand[]>(`${this.apiUrl}/search?${params.toString()}`);
+  }
+
+  /** 🔹 Exclui uma demanda (somente criador ou admin pode) */
+  deleteDemand(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

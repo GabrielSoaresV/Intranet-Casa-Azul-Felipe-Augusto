@@ -152,6 +152,18 @@
             <mat-icon class="action-icon">cancel</mat-icon>
           </button>
 
+          <!-- 🗑️ Excluir demanda (somente COMPLETED ou CANCELLED) -->
+          <button
+            *ngIf="canDelete(element.status)"
+            mat-icon-button
+            color="warn"
+            (click)="deleteDemand(element, $event)"
+            title="Excluir demanda"
+            class="icon-btn"
+          >
+            <mat-icon class="action-icon">delete</mat-icon>
+          </button>
+
         </td>
       </ng-container>
 

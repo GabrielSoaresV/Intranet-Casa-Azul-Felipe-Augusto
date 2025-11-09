@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.access.AccessDeniedException;
 import java.time.Instant;
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class DemandService {
 
         // 🔹 Cria registro no histórico
         DemandHistory historico = new DemandHistory();
-        historico.setDemand(demanda);
+        historico.setDemandId(demanda.getId());
         historico.setAction(DemandHistory.Action.UPDATED);
         historico.setOldStatus(statusAntigo);
         historico.setNewStatus(novoStatus);
@@ -88,6 +88,41 @@ public class DemandService {
         return atualizada;
     }
 
+    public void deletarDemanda(String id) {
+        Demand demanda = buscarPorId(id);
+        Profile usuario = getUsuarioAutenticado();
+
+        boolean ehCriador = demanda.getCreator() != null &&
+                            usuario.getCpf().equals(demanda.getCreator().getCpf());
+        boolean ehAdmin = usuario.getRole() != null &&
+                        "ADMIN".equalsIgnoreCase(usuario.getRole().toString());
+
+        if (!ehCriador && !ehAdmin) {
+            throw new AccessDeniedException("Você não tem permissão para excluir esta demanda.");
+        }
+
+        // 🔹 Primeiro apaga históricos ligados à demanda
+        List<DemandHistory> historicos = historyService.getHistoryByDemand(demanda.getId());
+        if (!historicos.isEmpty()) {
+            historicos.forEach(h -> historyService.deleteHistory(h));
+        }
+
+        // 🔹 Cria histórico de exclusão (sem vincular FK para evitar erro)
+        DemandHistory historico = new DemandHistory();
+        historico.setDemandId(demanda.getId());
+        historico.setAction(DemandHistory.Action.DELETED);
+        historico.setOldStatus(demanda.getStatus());
+        historico.setNewStatus(null);
+        historico.setNotes("Demanda excluída por " + usuario.getName());
+        historico.setPerformedBy(usuario);
+        historico.setCreatedAt(Instant.now());
+        historyService.criarHistorico(historico);
+
+        // 🔹 Agora sim, remove a demanda
+        demandRepository.delete(demanda);
+    }
+
+
     /** 🔹 Atribui usuário a uma demanda e registra histórico */
     public Demand atribuirDemanda(String id, Profile usuarioDesignado) {
         Demand demanda = buscarPorId(id);
@@ -100,7 +135,7 @@ public class DemandService {
 
         // 🔹 Cria histórico de atribuição
         DemandHistory historico = new DemandHistory();
-        historico.setDemand(demanda);
+        historico.setDemandId(demanda.getId());
         historico.setAction(DemandHistory.Action.ASSIGNED);
         historico.setOldStatus(statusAntigo);
         historico.setNewStatus(Demand.Status.IN_PROGRESS);

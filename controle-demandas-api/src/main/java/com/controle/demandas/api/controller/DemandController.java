@@ -35,6 +35,17 @@ public class DemandController {
         return ResponseEntity.ok(demandService.buscarPorId(id));
     }
 
+    /** 🔹 Excluir uma demanda (somente criador ou admin) */
+    @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
+        demandService.deletarDemanda(id);
+        return ResponseEntity.ok(Map.of(
+            "message", "Demanda excluída com sucesso.",
+            "id", id
+        ));
+    }
+
     @GetMapping("/creator/{cpf}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Demand>> getByCreator(@PathVariable String cpf) {

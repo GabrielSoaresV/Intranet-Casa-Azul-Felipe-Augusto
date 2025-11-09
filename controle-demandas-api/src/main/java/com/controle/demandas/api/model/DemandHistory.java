@@ -13,10 +13,9 @@ public class DemandHistory {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    // Demanda associada ao histórico
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "demand_id")
-    private Demand demand;
+    // 🔹 ID da demanda associada ao histórico
+    @Column(name = "demand_id", nullable = false)
+    private String demandId;
 
     // Usuário principal relacionado à demanda (ex: criador ou atendente)
     @ManyToOne
@@ -51,6 +50,7 @@ public class DemandHistory {
         UPDATED,
         ASSIGNED,
         COMPLETED,
+        DELETED,
         CANCELLED
     }
 
@@ -58,8 +58,8 @@ public class DemandHistory {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public Demand getDemand() { return demand; }
-    public void setDemand(Demand demand) { this.demand = demand; }
+    public String getDemandId() { return demandId; }
+    public void setDemandId(String demandId) { this.demandId = demandId; }
 
     public Profile getUser() { return user; }
     public void setUser(Profile user) { this.user = user; }
