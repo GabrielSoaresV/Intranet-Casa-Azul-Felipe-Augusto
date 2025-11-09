@@ -21,6 +21,10 @@ export class Navbar implements OnInit {
     this.loadProfile();
   }
 
+  goHome() {
+    this.router.navigate(['/home']);
+  }
+
   /** 🔹 Carrega o perfil logado com o avatar */
   loadProfile() {
     this.profileService.getCurrentProfile().subscribe({

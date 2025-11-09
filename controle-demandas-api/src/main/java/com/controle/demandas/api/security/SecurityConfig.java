@@ -34,6 +34,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll() // ✅ libera H2 Console para todos
                 .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/api/profiles/public-register").permitAll() 
                 .requestMatchers("/api/profiles/login", "/api/profiles/register", "/api/profiles/me/avatar").permitAll()
                 .anyRequest().authenticated()
             )

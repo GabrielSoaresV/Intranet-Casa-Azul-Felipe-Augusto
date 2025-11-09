@@ -1,0 +1,80 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Criar Conta</h1>
+      <p>Preencha os dados abaixo para acessar o sistema.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="register()" class="register-form">
+      <div class="form-group">
+        <label for="name">Nome completo</label>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          placeholder="Ex: João da Silva"
+          [class.error]="hasError('name')"
+        />
+        <div class="error-message" *ngIf="hasError('name')">
+          Informe um nome válido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="seuemail@email.com"
+          [class.error]="hasError('email')"
+        />
+        <div class="error-message" *ngIf="hasError('email')">
+          Email inválido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input
+          id="cpf"
+          formControlName="cpf"
+          type="text"
+          placeholder="Somente números"
+          maxlength="11"
+          [class.error]="hasError('cpf')"
+        />
+        <div class="error-message" *ngIf="hasError('cpf')">
+          CPF deve conter 11 dígitos.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Mínimo 6 caracteres"
+          [class.error]="hasError('password')"
+        />
+        <div class="error-message" *ngIf="hasError('password')">
+          Senha muito curta.
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="form.invalid || isLoading">
+        <span *ngIf="!isLoading">Criar Conta</span>
+        <span *ngIf="isLoading">Criando...</span>
+      </button>
+
+      <div class="login-link">
+        Já tem uma conta? <a routerLink="/login">Entrar</a>
+      </div>
+    </form>
+  </div>
+</div>

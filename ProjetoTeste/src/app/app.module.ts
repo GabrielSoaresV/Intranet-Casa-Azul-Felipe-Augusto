@@ -5,12 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // ✅ Necessário para routerLink, router-outlet, etc.
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
-// Seus componentes
+// 🔹 Componentes principais
 import { PageLogin } from './components/page-login/page-login';
 import { PageProfile } from './components/profile/profile';
 import { PageDemandRegister } from './components/page-demand-register/page-demand-register';
@@ -21,8 +22,13 @@ import { ProfilesList } from './components/profiles-list/profiles-list';
 import { Navbar } from './components/navbar/navbar';
 import { TableDemands } from './components/table-demands/table-demands';
 import { ConfirmDialog } from './components/table-demands/confirm-dialog/confirm-dialog';
+import { DemandsList } from './components/demands-list/demands-list';
 
-// Angular Material
+// 🔹 Novos componentes de registro
+import { PageRegisterPrivate } from './components/page-register-private/page-register-private';
+import { PageRegisterPublic } from './components/page-register-public/page-register-public';
+
+// 🔹 Angular Material
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,7 +51,10 @@ import { MatInputModule } from '@angular/material/input';
     PageDemandRegister,
     TableDemands,
     PageChat,
-    ConfirmDialog // ✅ agora aqui!
+    PageRegisterPrivate,
+    PageRegisterPublic,
+    ConfirmDialog,
+    DemandsList
   ],
   imports: [
     BrowserModule,
@@ -54,9 +63,10 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+    RouterModule, // ✅ Import necessário para <a routerLink> e <router-outlet>
     AppRoutingModule,
 
-    // Material
+    // ✅ Módulos do Angular Material
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -65,8 +75,7 @@ import { MatInputModule } from '@angular/material/input';
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatInputModule,
-    
+    MatInputModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

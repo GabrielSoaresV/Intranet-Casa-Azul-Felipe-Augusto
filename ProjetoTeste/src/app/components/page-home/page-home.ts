@@ -5,18 +5,29 @@ import { AuthService } from '../../core/services/auth.service';
   selector: 'app-page-home',
   standalone: false,
   templateUrl: './page-home.html',
-  styleUrl: './page-home.css'
+  styleUrls: ['./page-home.css']
 })
 export class PageHome implements OnInit {
-  isStaff = false;   // ADMIN ou ATTENDANT
-  isCitizen = false; // CITIZEN
   userName = '';
+  role = '';
 
   constructor(public auth: AuthService) {}
 
   ngOnInit(): void {
-    this.isStaff   = this.auth.hasAnyRole(['ADMIN', 'ATTENDANT']);
-    this.isCitizen = this.auth.hasRole('CITIZEN');
-    this.userName  = this.auth.getCurrentUser()?.name || 'Usuário';
+    const user = this.auth.getCurrentUser();
+    this.userName = user?.name || 'Usuário';
+    this.role = user?.role || 'CITIZEN';
+  }
+
+  get isAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+
+  get isAttendant(): boolean {
+    return this.auth.isAttendant();
+  }
+
+  get isCitizen(): boolean {
+    return this.auth.isCitizen();
   }
 }

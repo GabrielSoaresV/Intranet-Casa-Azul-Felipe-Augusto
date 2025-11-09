@@ -1,25 +1,32 @@
 <app-navbar></app-navbar>
 
-<div class="page-container">
-  <div class="demand-register-container mat-elevation-z4 bg-white rounded-xl shadow-sm">
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>
+        <mat-icon class="icon-title">assignment_add</mat-icon>
+        Registrar Nova Demanda
+      </h1>
+      <p>Preencha as informações abaixo para cadastrar uma nova demanda no sistema.</p>
+    </div>
 
-    <h2 class="page-title">
-      <mat-icon class="icon-title">assignment_add</mat-icon>
-      Registrar Nova Demanda
-    </h2>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
 
-    <form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="title">Título</label>
+          <input id="title" type="text" formControlName="title" placeholder="Ex: Instalação de nova máquina" />
+          <small *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
+            O título deve ter pelo menos 4 caracteres.
+          </small>
+        </div>
 
-      <!-- 🔹 Campo: Título -->
-      <div class="form-group">
-        <label for="title">Título</label>
-        <input id="title" type="text" formControlName="title" placeholder="Ex: Instalação de nova máquina" />
-        <small *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
-          O título deve ter pelo menos 4 caracteres.
-        </small>
+        <div class="form-group">
+          <label for="category">Categoria</label>
+          <input id="category" type="text" formControlName="category" placeholder="Ex: TI, RH, Manutenção..." />
+        </div>
       </div>
 
-      <!-- 🔹 Campo: Descrição -->
       <div class="form-group">
         <label for="description">Descrição</label>
         <textarea
@@ -33,13 +40,6 @@
         </small>
       </div>
 
-      <!-- 🔹 Campo: Categoria -->
-      <div class="form-group">
-        <label for="category">Categoria</label>
-        <input id="category" type="text" formControlName="category" placeholder="Ex: TI, RH, Manutenção..." />
-      </div>
-
-      <!-- 🔹 Campo: Prioridade -->
       <div class="form-group">
         <label for="priority">Prioridade</label>
         <select id="priority" formControlName="priority">
@@ -49,9 +49,12 @@
         </select>
       </div>
 
-      <!-- 🔹 Ações -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
       <div class="actions">
-        <button type="submit" [disabled]="isSubmitting" class="btn-primary">
+        <button type="submit" class="btn-primary" [disabled]="isSubmitting">
           <mat-icon *ngIf="!isSubmitting">add_circle</mat-icon>
           <mat-progress-spinner
             *ngIf="isSubmitting"
@@ -66,10 +69,6 @@
           <mat-icon>arrow_back</mat-icon>
           Voltar
         </button>
-      </div>
-
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
       </div>
     </form>
   </div>

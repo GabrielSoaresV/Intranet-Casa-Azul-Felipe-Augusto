@@ -1,33 +1,78 @@
-/* Container principal */
+/* ======== CONTAINER PRINCIPAL ======== */
 .chat-preview-container {
   max-width: 980px;
   margin: 24px auto;
   padding: 0 12px;
 }
 
-/* Cabeçalho */
-.header-card {
+/* ======== CABEÇALHO ======== */
+.chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  padding: 16px 20px;
   border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
 }
 
-.header-card h2 {
-  font-size: 1.4rem;
-  color: #374151;
-  margin: 0;
+/* 🔹 Esquerda: botão + título + ID */
+.chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
+/* 🔙 Botão de voltar */
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #edf2f7;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.back-btn:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+.back-btn mat-icon {
+  font-size: 22px;
+  color: #4a5568;
+}
+
+/* 🔹 Título e ID da demanda */
+.chat-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.chat-title h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.demand-id {
+  margin-top: 3px;
+  font-size: 13px;
+  color: #718096;
+}
+
+/* 🔹 Badge de status */
 .status-badge {
   padding: 6px 12px;
-  border-radius: 9999px;
-  font-size: 0.78rem;
-  font-weight: 700;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
   text-transform: uppercase;
   color: #fff;
 }
@@ -35,7 +80,7 @@
   background: #3498db;
 }
 
-/* Cartão do chat */
+/* ======== CARTÃO DO CHAT ======== */
 .chat-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -45,9 +90,10 @@
   display: flex;
   flex-direction: column;
   height: 540px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Lista de mensagens */
+/* ======== LISTA DE MENSAGENS ======== */
 .chat-box {
   flex: 1;
   overflow-y: auto;
@@ -67,12 +113,12 @@
   margin-bottom: 12px;
 }
 
-/* Mensagem minha (alinha à direita) */
+/* Minha mensagem → alinhada à direita */
 .chat-message.mine {
   flex-direction: row-reverse;
 }
 
-/* Avatar */
+/* ======== AVATAR ======== */
 .msg-avatar {
   width: 36px;
   height: 36px;
@@ -81,14 +127,18 @@
   border: 2px solid #ffffff22;
   background: #f8fafc;
   flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+}
+.msg-avatar:hover {
+  transform: scale(1.05);
 }
 
-/* Balão */
+/* ======== BALÃO ======== */
 .msg-bubble {
   max-width: 72%;
   border-radius: 14px;
   padding: 10px 12px;
-  color: #ffffff; /* ✅ todas as fontes brancas */
+  color: #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.15s ease;
 }
@@ -117,7 +167,7 @@
   opacity: 0.8;
 }
 
-/* Conteúdo do balão */
+/* Texto da mensagem */
 .msg-content {
   font-size: 14px;
   line-height: 1.45;
@@ -125,12 +175,14 @@
   word-break: break-word;
 }
 
-/* ✅ Minha mensagem (violeta brilhante) */
+/* ======== CORES DOS BALÕES ======== */
+
+/* Minha mensagem */
 .chat-message.mine .msg-bubble {
   background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-/* ✅ Paleta de outras pessoas */
+/* Outras pessoas */
 .bubble-blue {
   background: linear-gradient(135deg, #2d75e9, #2563eb);
 }
@@ -150,7 +202,7 @@
   background: linear-gradient(135deg, #ec4899, #db2777);
 }
 
-/* Campo de envio */
+/* ======== CAMPO DE ENVIO ======== */
 .chat-input {
   display: flex;
   gap: 8px;
@@ -190,7 +242,7 @@
   transform: translateY(-1px);
 }
 
-/* Loading */
+/* ======== LOADING ======== */
 .loading {
   max-width: 980px;
   margin: 40px auto;
@@ -198,12 +250,31 @@
   color: #9ca3af;
 }
 
-/* Responsivo */
+/* ======== RESPONSIVIDADE ======== */
 @media (max-width: 600px) {
+  .chat-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .chat-title h2 {
+    font-size: 1.1rem;
+  }
+
+  .demand-id {
+    font-size: 12px;
+  }
+
   .msg-bubble {
     max-width: 84%;
   }
+
   .chat-card {
     height: 70vh;
+  }
+
+  .status-badge {
+    align-self: flex-end;
   }
 }

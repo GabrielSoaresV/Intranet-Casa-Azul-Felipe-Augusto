@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Cadastrar Usuário</h1>
+      <p>Preencha os dados abaixo para adicionar um novo usuário ao sistema.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="createUser()" class="register-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input formControlName="name" type="text" placeholder="Ex: Maria Souza" [class.error]="hasError('name')" />
+          <small *ngIf="hasError('name')">Informe um nome válido.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input formControlName="email" type="email" placeholder="usuario@email.com" [class.error]="hasError('email')" />
+          <small *ngIf="hasError('email')">Email inválido.</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>CPF</label>
+          <input formControlName="cpf" type="text" maxlength="11" placeholder="Somente números" [class.error]="hasError('cpf')" />
+          <small *ngIf="hasError('cpf')">CPF deve conter 11 dígitos.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Senha</label>
+          <input formControlName="password" type="password" placeholder="Mínimo 6 caracteres" [class.error]="hasError('password')" />
+          <small *ngIf="hasError('password')">Senha muito curta.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nível de Acesso</label>
+        <select formControlName="role" [class.error]="hasError('role')">
+          <option value="ADMIN">Administrador</option>
+          <option value="ATTENDANT">Atendente</option>
+          <option value="CITIZEN">Cidadão</option>
+        </select>
+        <small *ngIf="hasError('role')">Selecione um nível válido.</small>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="form.invalid || isLoading">
+        <span *ngIf="!isLoading">Criar Usuário</span>
+        <span *ngIf="isLoading">Criando...</span>
+      </button>
+    </form>
+  </div>
+</div>

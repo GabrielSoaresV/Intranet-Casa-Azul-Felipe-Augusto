@@ -37,6 +37,24 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
+    /** Cria um perfil público (sem autenticação) — sempre como CITIZEN */
+    public Profile createPublicProfile(Profile profile) {
+        // Define a role fixa
+        profile.setRole(Role.CITIZEN);
+
+        validateProfileForCreation(profile);
+
+        // Criptografa senha
+        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
+
+        Instant now = Instant.now();
+        profile.setCreatedAt(now);
+        profile.setUpdatedAt(now);
+
+        return profileRepository.save(profile);
+    }
+
+
     /** Atualiza um perfil existente */
     public Profile update(String cpf, Profile updates) {
         Profile existing = getByCpf(cpf);
@@ -110,6 +128,11 @@ public class ProfileService {
 
     /** Valida dados obrigatórios para criação */
     private void validateProfileForCreation(Profile profile) {
+        if (profile.getCpf() != null) {
+            // remove pontos, traços e espaços
+            profile.setCpf(profile.getCpf().trim().replaceAll("\\D", ""));
+        }
+
         if (profile.getCpf() == null || !profile.getCpf().matches("\\d{11}")) {
             throw new IllegalArgumentException("CPF inválido. Deve conter 11 dígitos numéricos.");
         }

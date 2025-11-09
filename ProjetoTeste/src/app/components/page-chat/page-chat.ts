@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../core/services/message.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Message } from '../../models/message.model';
+import { Demand } from '../../models/demand.model';  // 👈 importar
+import { DemandService } from '../../core/services/demand.service';
 
 @Component({
   selector: 'app-page-chat',
@@ -17,6 +19,7 @@ export class PageChat implements OnInit {
   currentUserCpf: string = '';
   currentUserName: string = '';
   demandId: string = '';
+  demandTitle: string = '';
   isLoading = true;
 
   // 🔹 cache de avatares e paleta de cores por participante
@@ -28,6 +31,7 @@ export class PageChat implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private demandService: DemandService,
     private authService: AuthService
   ) {
     this.chatForm = this.fb.group({
@@ -46,17 +50,30 @@ export class PageChat implements OnInit {
     // 🔹 ID da demanda pela URL
     this.demandId = this.route.snapshot.paramMap.get('id') || '';
     if (this.demandId) {
-      this.loadMessages();
+      this.loadDemand();   // ✅ adiciona esta linha
+      this.loadMessages(); // já estava aqui
     }
   }
 
+  /** 🔹 Carrega informações da demanda */
+  private loadDemand(): void {
+    this.demandService.getDemandById(this.demandId).subscribe({
+      next: (demand: Demand) => {
+        this.demandTitle = demand?.title || '(Sem título)';
+      },
+      error: (err: any) => {
+        console.error('❌ Erro ao carregar demanda:', err);
+        this.demandTitle = '(Erro ao carregar título)';
+      }
+    });
+  }
+
   /** 🔹 Carrega as mensagens da demanda */
-  loadMessages(): void {
+  private loadMessages(): void {
     this.isLoading = true;
     this.messageService.getMessagesByDemand(this.demandId).subscribe({
       next: (data) => {
         this.messages = data ?? [];
-        // opcional: pré-atribuir cores a quem ainda não tem
         const cpfs = Array.from(new Set(this.messages.map(m => m.user?.cpf).filter(Boolean) as string[]));
         cpfs.forEach(cpf => this.getBubbleClass(cpf));
         this.isLoading = false;

@@ -10,7 +10,7 @@ body {
   background: #f4f6fb;
 }
 
-/* 🔹 Fundo tipo dashboard */
+/* 🔹 Fundo tipo dashboard (cinza claro elegante) */
 .register-container {
   min-height: 100vh;
   display: flex;
@@ -20,18 +20,19 @@ body {
   padding: 60px 40px;
 }
 
-/* 🔹 Card moderno */
+/* 🔹 Card largo e fluido */
 .register-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 900px;
+  max-width: 900px; /* 👈 mais largo agora */
   padding: 50px 60px;
   border-top: 5px solid #667eea;
   animation: fadeIn 0.3s ease-in-out;
 }
 
+/* 🔹 Animação suave de entrada */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -44,18 +45,10 @@ body {
 }
 
 .register-header h1 {
-  font-size: 28px;
+  font-size: 30px;
   color: #2d3748;
   margin-bottom: 8px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.icon-title {
-  font-size: 28px;
-  color: #667eea;
 }
 
 .register-header p {
@@ -91,7 +84,6 @@ label {
 }
 
 input,
-textarea,
 select {
   padding: 14px 16px;
   border: 1px solid #cbd5e0;
@@ -101,13 +93,7 @@ select {
   transition: all 0.2s ease;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
 input:focus,
-textarea:focus,
 select:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
@@ -115,7 +101,6 @@ select:focus {
 }
 
 input.error,
-textarea.error,
 select.error {
   border-color: #e53e3e;
 }
@@ -136,17 +121,11 @@ small {
   text-align: center;
 }
 
-/* 🔹 Botões */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 14px;
-  margin-top: 20px;
-}
-
+/* 🔹 Botão */
 .btn-primary {
-  padding: 14px 28px;
+  align-self: flex-end;
+  width: 200px;
+  padding: 14px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
@@ -154,9 +133,6 @@ small {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -170,51 +146,3 @@ small {
   cursor: not-allowed;
 }
 
-.btn-cancel {
-  background: #e2e8f0;
-  color: #2d3748;
-  border: none;
-  border-radius: 8px;
-  padding: 14px 24px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn-cancel:hover {
-  background: #cbd5e0;
-  transform: translateY(-1px);
-}
-
-/* 🔹 Responsivo */
-@media (max-width: 768px) {
-  .register-card {
-    padding: 30px 25px;
-  }
-
-  .form-row {
-    flex-direction: column;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .btn-primary,
-  .btn-cancel {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .register-header {
-    text-align: center;
-  }
-
-  .register-header h1 {
-    justify-content: center;
-  }
-}

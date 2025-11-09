@@ -30,7 +30,7 @@ public class DemandController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ATTENDANT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Demand> getById(@PathVariable String id) {
         return ResponseEntity.ok(demandService.buscarPorId(id));
     }

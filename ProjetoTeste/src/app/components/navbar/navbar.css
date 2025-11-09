@@ -4,16 +4,32 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+  padding: 0; /* Remove padding extra */
 }
 
+/* 🔹 Container expandido — agora ocupa 100% da tela */
 .navbar-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
+  width: 100%;
+  padding: 0 32px; /* 👈 controla o espaço da lateral */
+}
+
+/* 🔹 Marca à esquerda */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.15s ease;
+}
+
+.navbar-brand:hover {
+  color: #4f46e5;
+  transform: scale(1.02);
 }
 
 .navbar-brand h2 {
@@ -23,23 +39,37 @@
   margin: 0;
 }
 
-.navbar-links {
-  display: flex;
-  gap: 8px;
+.brand-icon {
+  font-size: 22px;
+  color: #667eea;
 }
 
+/* 🔹 Links centralizados */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-grow: 1; /* 👈 ocupa o espaço entre o logo e o usuário */
+}
+
+/* 🔹 Ícones do menu */
 .navbar-links a {
-  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 10px;
   color: #4a5568;
   text-decoration: none;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
+  position: relative;
 }
 
 .navbar-links a:hover {
   background: #f7fafc;
   color: #667eea;
+  transform: translateY(-1px);
 }
 
 .navbar-links a.active {
@@ -47,15 +77,29 @@
   color: #667eea;
 }
 
+.navbar-links mat-icon {
+  font-size: 24px;
+  transition: transform 0.2s ease;
+}
+
+.navbar-links a:hover mat-icon {
+  transform: scale(1.1);
+}
+
+/* 🔹 Usuário grudado à direita */
 .navbar-user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   position: relative;
 }
 
+/* 🔹 Botão do usuário */
 .user-button {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
+  gap: 10px;
+  padding: 6px 10px;
   background: transparent;
   border: none;
   border-radius: 8px;
@@ -67,33 +111,21 @@
   background: #f7fafc;
 }
 
-/* 🔹 Avatar do usuário (com imagem real ou fallback) */
+/* Avatar */
 .user-avatar {
   width: 36px;
   height: 36px;
-  border-radius: 50%;            /* 🔸 Formato circular */
-  overflow: hidden;              /* 🔸 Corta a imagem fora do círculo */
-  border: 2px solid #e2e8f0;     /* 🔸 Borda suave */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f9fafb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 0.2s ease-in-out;
 }
 
-.user-avatar:hover {
-  transform: scale(1.05);
-}
-
-/* 🔹 Imagem dentro do avatar */
 .avatar-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;             /* 🔸 Garante que a imagem preencha sem distorcer */
-  border-radius: 50%;            /* 🔸 Segurança extra */
-  display: block;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .user-name {
@@ -101,6 +133,7 @@
   color: #2d3748;
 }
 
+/* Dropdown */
 .user-menu {
   position: absolute;
   top: 100%;
@@ -126,6 +159,7 @@
 .user-menu button {
   display: flex;
   align-items: center;
+  gap: 8px;
   width: 100%;
   padding: 12px 16px;
   color: #4a5568;
@@ -142,27 +176,20 @@
   background: #f7fafc;
 }
 
-.user-menu a:first-child {
-  border-radius: 8px 8px 0 0;
-}
-
 .user-menu button:last-child {
-  border-radius: 0 0 8px 8px;
   border-top: 1px solid #e2e8f0;
   color: #e53e3e;
 }
 
-/* 🔹 Responsividade */
+/* 🔹 Ajuste para telas pequenas */
 @media (max-width: 768px) {
-  .navbar-links {
-    display: none;
-  }
-
-  .navbar-brand h2 {
-    font-size: 16px;
+  .navbar-container {
+    padding: 0 16px;
   }
 
   .user-name {
-    display: none;
+    display: none; /* Oculta nome em telas pequenas */
   }
 }
+
+

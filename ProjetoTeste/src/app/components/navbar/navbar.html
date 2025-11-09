@@ -1,23 +1,77 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <div class="navbar-brand">
+
+    <!-- 🔹 Marca clicável -->
+    <div class="navbar-brand" (click)="goHome()">
+      <mat-icon class="brand-icon">home</mat-icon>
       <h2>Sistema de Demandas</h2>
     </div>
 
+    <!-- 🔹 Navegação com ícones -->
     <div class="navbar-links">
-      <!-- Home/Demandas (lista) → ADMIN e ATTENDANT -->
-      <a routerLink="/home" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])">Demandas</a>
 
-      <!-- Cidadãos (profile-list) → ADMIN e ATTENDANT -->
-      <a routerLink="/profile-list" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])">Cidadãos</a>
+      <!-- Demandas -->
+      <a
+        routerLink="/demands"
+        routerLinkActive="active"
+        *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])"
+        title="Painel de Demandas"
+      >
+        <mat-icon>dashboard</mat-icon>
+      </a>
 
-      <!-- Cadastrar demanda → TODOS (logados) -->
-      <a routerLink="/demand-register" routerLinkActive="active" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])">Cadastrar</a>
+      <!-- Cidadãos -->
+      <a
+        routerLink="/profile-list"
+        routerLinkActive="active"
+        *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT'])"
+        title="Usuários"
+      >
+        <mat-icon>groups</mat-icon>
+      </a>
 
-      <!-- Histórico → somente ADMIN -->
-      <a routerLink="/history" routerLinkActive="active" *ngIf="auth.hasRole('ADMIN')">Histórico</a>
+      <!-- 🧩 Novo: Cadastrar Usuário (somente ADMIN) -->
+      <a
+        routerLink="/register-private"
+        routerLinkActive="active"
+        *ngIf="auth.hasRole('ADMIN')"
+        title="Cadastrar Usuário"
+      >
+        <mat-icon>person_add</mat-icon>
+      </a>
+
+      <!-- Cadastrar demanda -->
+      <a
+        routerLink="/demand-register"
+        routerLinkActive="active"
+        *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT', 'CITIZEN'])"
+        title="Cadastrar Demanda"
+      >
+        <mat-icon>post_add</mat-icon>
+      </a>
+
+      <!-- Minhas Demandas -->
+      <a
+        routerLink="/demands-list"
+        routerLinkActive="active"
+        *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])"
+        title="Minhas Demandas"
+      >
+        <mat-icon>assignment</mat-icon>
+      </a>
+
+      <!-- Histórico -->
+      <a
+        routerLink="/history"
+        routerLinkActive="active"
+        *ngIf="auth.hasRole('ADMIN')"
+        title="Histórico"
+      >
+        <mat-icon>history</mat-icon>
+      </a>
     </div>
 
+    <!-- 🔹 Usuário -->
     <div class="navbar-user">
       <button class="user-button" (click)="toggleMenu()">
         <div class="user-avatar">
@@ -32,9 +86,16 @@
       </button>
 
       <div class="user-menu" [class.open]="menuOpen">
-        <!-- Meu Perfil → TODOS (logados) -->
-        <a routerLink="/profile" (click)="toggleMenu()" *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])">Meu Perfil</a>
-        <button (click)="logout()">Sair</button>
+        <a
+          routerLink="/profile"
+          (click)="toggleMenu()"
+          *ngIf="auth.hasAnyRole(['ADMIN','ATTENDANT','CITIZEN'])"
+        >
+          <mat-icon>account_circle</mat-icon> Meu Perfil
+        </a>
+        <button (click)="logout()">
+          <mat-icon>logout</mat-icon> Sair
+        </button>
       </div>
     </div>
   </div>

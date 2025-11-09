@@ -89,6 +89,16 @@ public class ProfileController {
         return response("Perfil atualizado com sucesso.", updated);
     }
 
+    @PostMapping("/public-register")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Map<String, Object>> publicRegister(@RequestBody Profile profile) {
+        profile.setRole(Profile.Role.CITIZEN); // força o papel do usuário
+        Profile created = profileService.createPublicProfile(profile);
+        URI uri = URI.create("/api/profiles/" + created.getCpf());
+        return ResponseEntity.created(uri)
+                .body(Map.of("message", "Perfil público criado com sucesso.", "data", created));
+    }
+
     // =========================
     // 🔸 ADMIN
     // =========================

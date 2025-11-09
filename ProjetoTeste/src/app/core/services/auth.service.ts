@@ -12,53 +12,37 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<Profile | null>(this.getUserFromStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor() {
-    console.log('🚀 AuthService inicializado.');
-    console.log('📦 Token atual no localStorage:', localStorage.getItem('token'));
-    console.log('👤 Usuário atual no localStorage:', localStorage.getItem('currentUser'));
-  }
+  constructor() {}
 
   private hasToken(): boolean {
-    const has = !!localStorage.getItem('token');
-    console.log(`🔍 Verificando token existente: ${has ? 'ENCONTRADO ✅' : 'NÃO ENCONTRADO ❌'}`);
-    return has;
+    return !!localStorage.getItem('token');
   }
 
   private getUserFromStorage(): Profile | null {
     const userStr = localStorage.getItem('currentUser');
-    console.log('📦 Recuperando usuário do localStorage:', userStr);
     return userStr ? JSON.parse(userStr) : null;
   }
 
   setToken(token: string): void {
-    console.log('💾 Salvando token recebido:', token);
-    if (!token) {
-      console.warn('⚠️ Token vazio ou indefinido!');
-    }
+    if (!token) return;
     localStorage.setItem('token', token);
     this.isAuthenticatedSubject.next(true);
   }
 
   getToken(): string | null {
-    const token = localStorage.getItem('token');
-    console.log('📤 Token obtido do localStorage:', token);
-    return token;
+    return localStorage.getItem('token');
   }
 
   setCurrentUser(user: Profile): void {
-    console.log('💾 Salvando usuário atual:', user);
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
   getCurrentUser(): Profile | null {
-    const user = this.currentUserSubject.value;
-    console.log('👤 Usuário atual em memória:', user);
-    return user;
+    return this.currentUserSubject.value;
   }
 
   logout(): void {
-    console.log('🚪 Logout executado. Removendo token e usuário.');
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.isAuthenticatedSubject.next(false);
@@ -66,42 +50,25 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    const user = this.getCurrentUser();
-    const isAdmin = user?.role === 'ADMIN';
-    console.log(`👑 isAdmin(): ${isAdmin}`);
-    return isAdmin;
+    return this.getCurrentUser()?.role === 'ADMIN';
   }
 
   isAttendant(): boolean {
-    const user = this.getCurrentUser();
-    const isAttendant = user?.role === 'ATTENDANT';
-    console.log(`🎧 isAttendant(): ${isAttendant}`);
-    return isAttendant;
+    return this.getCurrentUser()?.role === 'ATTENDANT';
   }
 
-  /** 👤 Verifica se o usuário é cidadão */
   isCitizen(): boolean {
-    const user = this.getCurrentUser();
-    const isCitizen = user?.role === 'CITIZEN';
-    console.log(`🙋 isCitizen(): ${isCitizen}`);
-    return isCitizen;
+    return this.getCurrentUser()?.role === 'CITIZEN';
   }
 
-  /** ✅ Retorna a role atual (para uso no RoleGuard) */
   getRole(): string | null {
-    const user = this.getCurrentUser();
-    const role = user?.role || null;
-    console.log(`📜 getRole(): ${role}`);
-    return role;
+    return this.getCurrentUser()?.role || null;
   }
 
-  /** ✅ Verifica se o usuário tem uma role específica */
   hasRole(role: string): boolean {
-    const currentRole = this.getRole();
-    return currentRole === role;
+    return this.getRole() === role;
   }
 
-  /** ✅ Verifica se o usuário tem alguma das roles da lista */
   hasAnyRole(roles: string[]): boolean {
     const currentRole = this.getRole();
     return !!currentRole && roles.includes(currentRole);
