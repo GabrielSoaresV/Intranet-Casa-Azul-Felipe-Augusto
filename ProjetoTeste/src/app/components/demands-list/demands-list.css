@@ -114,6 +114,28 @@ h1 {
   margin-top: 8px;
 }
 
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 8px;
+}
+
+.delete-btn:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+}
+
+
 .chat-btn {
   display: inline-flex;
   align-items: center;

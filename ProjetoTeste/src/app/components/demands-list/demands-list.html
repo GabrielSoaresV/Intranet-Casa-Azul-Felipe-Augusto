@@ -31,14 +31,25 @@
 
       <div class="demand-actions">
         <button
-          class="chat-btn"
-          title="Abrir chat"
-          (click)="openChat(demand.id!, $event)"
+            class="chat-btn"
+            title="Abrir chat"
+            (click)="openChat(demand.id!, $event)"
         >
-          <mat-icon>chat</mat-icon>
-          <span>Chat</span>
+            <mat-icon>chat</mat-icon>
+            <span>Chat</span>
         </button>
-      </div>
+
+        <!-- 🗑️ Excluir -->
+        <button
+            *ngIf="canDelete(demand.status)"
+            class="delete-btn"
+            title="Excluir demanda"
+            (click)="deleteDemand(demand, $event)"
+        >
+            <mat-icon>delete</mat-icon>
+            <span>Excluir</span>
+        </button>
+        </div>
 
       <!-- 🔽 Expansão -->
       <div class="demand-details" *ngIf="expandedDemand === demand">

@@ -37,7 +37,7 @@ public class DemandController {
 
     /** 🔹 Excluir uma demanda (somente criador ou admin) */
     @DeleteMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated()")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
         demandService.deletarDemanda(id);
         return ResponseEntity.ok(Map.of(

@@ -2,10 +2,14 @@ package com.controle.demandas.api.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "demands")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Demand {
 
     @Id
@@ -13,13 +17,13 @@ public class Demand {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    // 🔹 Agora, quem cria a demanda é um Profile (ex-citizen)
+    // 🔹 Quem criou a demanda
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_cpf", referencedColumnName = "cpf")
     private Profile creator;
 
-    // 🔹 Quem atende a demanda (funcionário, atendente, etc.)
-    @ManyToOne
+    // 🔹 Quem foi designado para atender a demanda
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assigned_user_cpf", referencedColumnName = "cpf")
     private Profile assignedUser;
 
@@ -45,6 +49,11 @@ public class Demand {
     @JoinColumn(name = "updated_by_id")
     private Profile updatedBy;
 
+    // 🔹 Relacionamento com mensagens (chat)
+    @OneToMany(mappedBy = "demand", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"demand"}) // evita loop: Demand -> Message -> Demand
+    private List<Message> messages = new ArrayList<>();
+
     // 🔹 Enum de status
     public enum Status {
         PENDING,
@@ -60,7 +69,7 @@ public class Demand {
         HIGH
     }
 
-    // Getters e setters
+    // 🔹 Getters e Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -93,6 +102,12 @@ public class Demand {
 
     public Profile getCreatedBy() { return createdBy; }
     public void setCreatedBy(Profile createdBy) { this.createdBy = createdBy; }
+
+    public Profile getUpdatedBy() { return updatedBy; }
+    public void setUpdatedBy(Profile updatedBy) { this.updatedBy = updatedBy; }
+
+    public List<Message> getMessages() { return messages; }
+    public void setMessages(List<Message> messages) { this.messages = messages; }
 
     @PrePersist
     public void prePersist() {

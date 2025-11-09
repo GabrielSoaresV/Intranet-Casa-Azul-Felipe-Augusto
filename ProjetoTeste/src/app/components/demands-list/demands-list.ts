@@ -3,6 +3,8 @@ import { DemandService } from '../../core/services/demand.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Demand } from '../../models/demand.model';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog, ConfirmDialogData } from '../table-demands/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-demands-list',
@@ -20,7 +22,8 @@ export class DemandsList implements OnInit {
   constructor(
     private demandService: DemandService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +60,42 @@ export class DemandsList implements OnInit {
   openChat(demandId: string, event: MouseEvent): void {
     event.stopPropagation();
     this.router.navigate(['/chat', demandId]);
+  }
+
+  // ✅ NOVO: confirmação + exclusão da demanda
+  deleteDemand(demand: Demand, event: MouseEvent): void {
+    event.stopPropagation();
+
+    const dialogData: ConfirmDialogData = {
+      title: 'Excluir Demanda',
+      message: `Tem certeza de que deseja excluir a demanda? Esta ação é irreversível.`,
+      confirmText: 'Excluir',
+    };
+
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      width: '360px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return; // cancelado pelo usuário
+
+      this.demandService.deleteDemand(demand.id!).subscribe({
+        next: () => {
+          this.demands = this.demands.filter(d => d.id !== demand.id);
+        },
+        error: (err) => {
+          console.error('❌ Erro ao excluir demanda:', err);
+          this.errorMessage = err?.error?.message || 'Não foi possível excluir a demanda.';
+        }
+      });
+    });
+  }
+
+  // ✅ Exibe o botão de exclusão apenas se o status for COMPLETED ou CANCELLED
+  canDelete(status?: string): boolean {
+    const s = status?.toUpperCase();
+    return s === 'COMPLETED' || s === 'CANCELLED';
   }
 
   formatDate(date?: string | Date): string {

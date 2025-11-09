@@ -7,17 +7,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "message")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    // 🔹 Cada mensagem pertence a uma demanda
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "demand_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"messages"}) // evita loop: Demand -> Message -> Demand
     private Demand demand;
 
+    // 🔹 Usuário que enviou a mensagem
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_cpf", referencedColumnName = "cpf", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -27,9 +30,9 @@ public class Message {
     private String message;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
 
-    // ✅ Getters e Setters
+    // 🔹 Getters e Setters
     public String getId() {
         return id;
     }
