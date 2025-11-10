@@ -5,7 +5,8 @@
         {{ data.icon || (data.color === 'warn' ? 'warning' : data.color === 'accent' ? 'info' : 'help_outline') }}
       </mat-icon>
     </div>
-    <div>
+
+    <div class="dialog__header-text">
       <h2 class="dialog__title">{{ data.title || 'Confirmação' }}</h2>
       <p *ngIf="data.subtitle" class="dialog__subtitle">{{ data.subtitle }}</p>
     </div>
