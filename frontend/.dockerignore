@@ -1,0 +1,26 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Build
+dist/
+.tmp/
+coverage/
+
+# IDEs e configs locais
+.vscode/
+.idea/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Outros
+.env

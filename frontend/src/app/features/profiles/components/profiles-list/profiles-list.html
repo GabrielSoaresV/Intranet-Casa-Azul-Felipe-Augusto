@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+
+<div class="citizens-container">
+  <div class="citizens-header">
+    <h1>Usuários</h1>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Buscar por nome ou CPF..."
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="searchProfiles()"
+      />
+      <button class="btn-search" (click)="searchProfiles()">Buscar</button>
+      <button class="btn-clear" (click)="clearSearch()">Limpar</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Carregando usuários...</div>
+
+  <div class="citizens-grid" *ngIf="!loading">
+    <div
+      *ngFor="let profile of filteredProfiles"
+      class="citizen-card"
+      (click)="viewProfile(profile)"
+    >
+      <div class="citizen-avatar">
+        <img
+          [src]="getAvatarUrl(profile)"
+          alt="{{ profile.name }}"
+          class="avatar-img"
+        />
+      </div>
+
+      <div class="citizen-info">
+        <h3 class="citizen-name">{{ profile.name }}</h3>
+        <p class="citizen-email">{{ profile.email }}</p>
+        <p class="citizen-cpf" *ngIf="profile.cpf">CPF: {{ profile.cpf }}</p>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredProfiles.length === 0">
+      <p>Nenhum usuário encontrado</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Detalhes de {{ selectedProfile?.name }}</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="flex flex-col items-center mb-4">
+        <img
+          [src]="getAvatarUrl(selectedProfile)"
+          alt="{{ selectedProfile?.name }}"
+          class="avatar-large"
+        />
+      </div>
+
+      <div class="citizen-details">
+        <div class="detail-item"><strong>Nome:</strong> {{ selectedProfile?.name }}</div>
+        <div class="detail-item"><strong>Email:</strong> {{ selectedProfile?.email }}</div>
+        <div class="detail-item" *ngIf="selectedProfile?.cpf"><strong>CPF:</strong> {{ selectedProfile?.cpf }}</div>
+        <div class="detail-item"><strong>Função:</strong> {{ selectedProfile?.role }}</div>
+      </div>
+
+      <h3 class="demands-title">Demandas Criadas</h3>
+
+      <div *ngIf="loadingDemands" class="loading-demands">Carregando demandas...</div>
+
+      <div *ngIf="!loadingDemands && demands.length > 0" class="demands-list">
+        <div class="demand-item" *ngFor="let demand of demands">
+          <div class="demand-content">
+            <h4>{{ demand.title }}</h4>
+            <p>{{ demand.description }}</p>
+            <p class="demand-date">Criada em: {{ formatDate(demand.createdAt) }}</p>
+            <p>
+              <strong>Status:</strong>
+              <span class="demand-status {{ demand.status.toLowerCase() }}">
+                {{ demand.status }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!loadingDemands && demands.length === 0" class="empty-demands">
+        Nenhuma demanda vinculada a este usuário.
+      </div>
+    </div>
+  </div>
+</div>
