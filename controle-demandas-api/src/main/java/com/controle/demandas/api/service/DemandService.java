@@ -123,15 +123,23 @@ public class DemandService {
     }
 
 
-    /** 🔹 Atribui usuário a uma demanda e registra histórico */
-    public Demand atribuirDemanda(String id, Profile usuarioDesignado) {
+    /** 🔹 Atribui o usuário autenticado como responsável e registra histórico */
+    public Demand atribuirDemanda(String id) {
         Demand demanda = buscarPorId(id);
         Demand.Status statusAntigo = demanda.getStatus();
 
-        demanda.setAssignedUser(usuarioDesignado);
+        // 🔹 Pega o usuário autenticado (atendente que está logado)
+        Profile usuarioAutenticado = getUsuarioAutenticado();
+        System.out.println("👤 Atribuindo demanda para: " + usuarioAutenticado.getCpf() + " (" + usuarioAutenticado.getName() + ")");
+
+        // 🔹 Define como responsável e altera status
+        demanda.setAssignedUser(usuarioAutenticado);
         demanda.setStatus(Demand.Status.IN_PROGRESS);
+        demanda.setUpdatedBy(usuarioAutenticado);
         demanda.setUpdatedAt(Instant.now());
-        Demand atualizada = demandRepository.save(demanda);
+
+        // 🔹 Salva no banco
+        demanda = demandRepository.saveAndFlush(demanda);
 
         // 🔹 Cria histórico de atribuição
         DemandHistory historico = new DemandHistory();
@@ -139,15 +147,15 @@ public class DemandService {
         historico.setAction(DemandHistory.Action.ASSIGNED);
         historico.setOldStatus(statusAntigo);
         historico.setNewStatus(Demand.Status.IN_PROGRESS);
-        historico.setNotes("Demanda atribuída para " + usuarioDesignado.getName());
+        historico.setNotes("Demanda atribuída para " + usuarioAutenticado.getName());
+        historico.setPerformedBy(usuarioAutenticado);
+        historico.setUser(usuarioAutenticado);
         historico.setCreatedAt(Instant.now());
-
-        Profile usuario = getUsuarioAutenticado();
-        historico.setPerformedBy(usuario);
 
         historyService.criarHistorico(historico);
 
-        return atualizada;
+        // ✅ Retorna a demanda salva (sem código morto)
+        return demanda;
     }
 
     public List<Demand> searchDemands(String term, String status, String priority) {

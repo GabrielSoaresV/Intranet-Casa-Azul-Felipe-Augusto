@@ -1,8 +1,9 @@
 <app-navbar></app-navbar>
 
 <div class="history-container">
+  <!-- 🔹 Cabeçalho -->
   <div class="history-header">
-    <h1>Histórico de Demandas</h1>
+    <h1>Histórico da Demanda</h1>
 
     <div class="search-bar">
       <input
@@ -15,14 +16,20 @@
     </div>
   </div>
 
-  <div class="loading" *ngIf="loading">Carregando histórico...</div>
+  <!-- 🔹 Estado de carregamento -->
+  <div *ngIf="loading" class="loading">Carregando histórico...</div>
 
+  <!-- 🔹 Timeline principal -->
   <div *ngIf="!loading && allHistory.length > 0" class="history-timeline">
     <div *ngFor="let item of allHistory" class="timeline-item">
-      <div class="timeline-marker" [class]="getActionClass(item.action)"></div>
+      <!-- Ícone fixo e visível -->
+      <div class="timeline-marker" [ngClass]="getActionClass(item.action)">
+        <mat-icon>{{ getActionIcon(item.action) }}</mat-icon>
+      </div>
+
       <div class="timeline-content">
         <div class="timeline-header">
-          <span class="action-badge" [class]="getActionClass(item.action)">
+          <span class="action-badge" [ngClass]="getActionClass(item.action)">
             {{ getActionText(item.action) }}
           </span>
           <span class="timeline-date">{{ formatDateTime(item.createdAt) }}</span>
@@ -30,29 +37,23 @@
 
         <div class="timeline-body">
           <div class="user-info">
-            <strong>{{ item.performedBy?.name || 'Usuário' }}</strong>
+            <strong>{{ item.performedBy?.name || 'Usuário desconhecido' }}</strong>
             <span *ngIf="item.oldStatus && item.newStatus">
               alterou o status de
-              <strong>{{ item.oldStatus }}</strong> para
-              <strong>{{ item.newStatus }}</strong>
+              <strong>{{ translateStatus(item.oldStatus) }}</strong> para
+              <strong>{{ translateStatus(item.newStatus) }}</strong>
             </span>
           </div>
-
-          <p class="timeline-notes" *ngIf="item.notes">
-            {{ item.notes }}
-          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Estado vazio -->
-  <div class="empty-state" *ngIf="!loading && allHistory.length === 0">
+  <!-- 🔹 Estado vazio -->
+  <div class="empty-state" *ngIf="!loading && allHistory.length === 0 && !errorMessage">
     <p>Nenhum histórico encontrado para essa demanda.</p>
   </div>
 
-  <!-- Mensagem de erro -->
-  <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
+  <!-- 🔹 Mensagem de erro -->
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>

@@ -153,21 +153,25 @@ export class TableDemands implements OnInit, AfterViewInit {
   // ----------------------------
 
   /** ✅ Atender demanda (PENDING/RETURNED → IN_PROGRESS) */
+  /** ✅ Atender demanda (PENDING/RETURNED → IN_PROGRESS + atribui responsável) */
   attendDemand(demand: Demand, event: MouseEvent): void {
     event.stopPropagation();
     this.askConfirm('Confirmar atendimento desta demanda?', 'Atender Demanda', 'Atender')
       .subscribe(ok => {
         if (!ok) return;
-        this.demandService.updateDemandStatus(demand.id!, 'IN_PROGRESS', 'Atendida via painel')
+
+        // O backend descobre o usuário autenticado, então não precisa passar CPF
+        this.demandService.assignDemand(demand.id!)
           .subscribe({
             next: (updated) => this.patchRow(updated),
             error: (err) => {
-              console.error('❌ Erro ao atender:', err);
+              console.error('❌ Erro ao atender demanda:', err);
               this.errorMessage = err?.error?.message || 'Não foi possível atender a demanda.';
             }
           });
       });
   }
+
 
   /** 🔁 Devolver demanda (IN_PROGRESS → RETURNED) */
   returnDemand(demand: Demand, event: MouseEvent): void {

@@ -25,9 +25,11 @@ public class Demand {
     // 🔹 Quem foi designado para atender a demanda
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assigned_user_cpf", referencedColumnName = "cpf")
+    @JsonIgnoreProperties({"demands", "hibernateLazyInitializer", "handler"})
     private Profile assignedUser;
 
     private String title;
+    @Column(length = 2000)
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -58,6 +60,7 @@ public class Demand {
     public enum Status {
         PENDING,
         IN_PROGRESS,
+        RETURNED,  
         COMPLETED,
         CANCELLED
     }

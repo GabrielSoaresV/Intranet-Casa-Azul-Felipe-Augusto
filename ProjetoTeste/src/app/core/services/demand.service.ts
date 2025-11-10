@@ -33,8 +33,10 @@ export class DemandService {
     return this.http.patch<Demand>(`${this.apiUrl}/${id}/status`, {}, { params });
   }
 
-  assignDemand(id: string, userId: string): Observable<Demand> {
-    return this.http.put<Demand>(`${this.apiUrl}/${id}/assign`, { userId });
+  assignDemand(demandId: string) {
+    return this.http.put<Demand>(`http://localhost:8080/api/demands/${demandId}/assign`, {
+      userId: '' // O backend usará o usuário autenticado automaticamente
+    });
   }
 
   searchDemands(filters: any): Observable<Demand[]> {
@@ -49,4 +51,5 @@ export class DemandService {
   deleteDemand(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  
 }

@@ -18,11 +18,12 @@ import { DemandsList } from './components/demands-list/demands-list';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: PageLogin },
+  { path: 'history', component: DemandHistoryList, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] }},
+  { path: 'history/:id', component: DemandHistoryList, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] }},  
   { path: 'register-public', component: PageRegisterPublic },
   { path: 'register-private', component: PageRegisterPrivate, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] }},
   { path: 'home', component: PageHome, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ATTENDANT', 'CITIZEN'] } },
   { path: 'demands', component: TableDemands, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ATTENDANT'] } },
-  { path: 'history', component: DemandHistoryList, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN'] } },
   { path: 'profile', component: PageProfile, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ATTENDANT', 'CITIZEN'] } },
   { path: 'profile-list', component: ProfilesList, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ATTENDANT'] } },
   { path: 'demand-register', component: PageDemandRegister, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'ATTENDANT', 'CITIZEN'] } },

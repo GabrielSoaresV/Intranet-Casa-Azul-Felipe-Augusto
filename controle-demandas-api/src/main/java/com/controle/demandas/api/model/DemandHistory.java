@@ -49,6 +49,7 @@ public class DemandHistory {
         CREATED,
         UPDATED,
         ASSIGNED,
+        RETURNED,
         COMPLETED,
         DELETED,
         CANCELLED

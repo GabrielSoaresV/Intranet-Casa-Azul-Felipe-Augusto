@@ -11,6 +11,7 @@ export class DemandHistoryService {
 
   constructor(private http: HttpClient) {}
 
+  /** 🔹 Busca histórico de uma demanda específica */
   getHistoryByDemand(demandId: string): Observable<DemandHistory[]> {
     return this.http.get<DemandHistory[]>(`${this.apiUrl}/demand/${demandId}`);
   }

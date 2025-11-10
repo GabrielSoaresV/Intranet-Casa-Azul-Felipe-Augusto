@@ -77,13 +77,11 @@ public class DemandController {
     }
 
     /** 🔹 Atribuir usuário a uma demanda */
+    /** 🔹 Atribuir a demanda ao usuário autenticado */
     @PutMapping("/{id}/assign")
     @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
-    public ResponseEntity<Demand> assign(@PathVariable String id,
-                                         @RequestBody Map<String, String> body) {
-        String userId = body.get("userId");
-        Profile usuarioDesignado = profileService.getByCpf(userId);
-        return ResponseEntity.ok(demandService.atribuirDemanda(id, usuarioDesignado));
+    public ResponseEntity<Demand> assign(@PathVariable String id) {
+        return ResponseEntity.ok(demandService.atribuirDemanda(id));
     }
 
     @GetMapping("/search")

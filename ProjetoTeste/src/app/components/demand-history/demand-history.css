@@ -1,9 +1,11 @@
+/* 🔹 Container principal */
 .history-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 32px 24px;
 }
 
+/* 🔹 Cabeçalho e busca */
 .history-header {
   margin-bottom: 32px;
 }
@@ -12,172 +14,13 @@
   font-size: 32px;
   font-weight: 700;
   color: #1a202c;
-  margin: 0;
-}
-
-.loading {
-  text-align: center;
-  padding: 48px;
-  color: #718096;
-  font-size: 16px;
-}
-
-.history-timeline {
-  position: relative;
-  padding-left: 40px;
-}
-
-.history-timeline::before {
-  content: '';
-  position: absolute;
-  left: 12px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #e2e8f0;
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 32px;
-}
-
-.timeline-marker {
-  position: absolute;
-  left: -34px;
-  top: 4px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 0 0 2px #e2e8f0;
-}
-
-.timeline-marker.action-created {
-  background: #667eea;
-}
-
-.timeline-marker.action-updated {
-  background: #3498db;
-}
-
-.timeline-marker.action-assigned {
-  background: #f39c12;
-}
-
-.timeline-marker.action-completed {
-  background: #27ae60;
-}
-
-.timeline-marker.action-cancelled {
-  background: #e74c3c;
-}
-
-.timeline-content {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 12px;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.action-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.action-badge.action-created {
-  background: #edf2f7;
-  color: #667eea;
-}
-
-.action-badge.action-updated {
-  background: #e8f4fd;
-  color: #3498db;
-}
-
-.action-badge.action-assigned {
-  background: #fef5e7;
-  color: #f39c12;
-}
-
-.action-badge.action-completed {
-  background: #eafaf1;
-  color: #27ae60;
-}
-
-.action-badge.action-cancelled {
-  background: #fadbd8;
-  color: #e74c3c;
-}
-
-.timeline-date {
-  font-size: 13px;
-  color: #a0aec0;
-}
-
-.timeline-body {
-  color: #4a5568;
-  line-height: 150%;
-}
-
-.user-info {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.user-info strong {
-  color: #2d3748;
-}
-
-.timeline-notes {
-  margin: 8px 0 0 0;
-  padding: 12px;
-  background: #f7fafc;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #4a5568;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 48px;
-  color: #a0aec0;
-}
-
-@media (max-width: 768px) {
-  .history-timeline {
-    padding-left: 30px;
-  }
-
-  .timeline-marker {
-    left: -27px;
-    width: 20px;
-    height: 20px;
-  }
-
-  .timeline-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 .search-bar {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
 }
 
 .search-bar input {
@@ -186,7 +29,6 @@
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   font-size: 14px;
-  margin-top: 18px; 
   transition: all 0.2s;
 }
 
@@ -198,7 +40,6 @@
 
 .btn-search {
   padding: 10px 20px;
-  margin-top: 18px; 
   background: #667eea;
   color: white;
   border: none;
@@ -213,6 +54,140 @@
   transform: translateY(-2px);
 }
 
+/* 🔹 Timeline */
+.history-timeline {
+  position: relative;
+  padding-left: 60px;
+}
+
+.history-timeline::before {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* 🔹 Marcadores com ícones */
+.timeline-marker {
+  position: absolute;
+  left: -45px;
+  top: 32px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px #fff;
+  z-index: 2;
+  transform: translateY(-50%);
+}
+
+.timeline-marker mat-icon {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+/* 🔹 Bloco de conteúdo */
+.timeline-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #edf2f7;
+  position: relative;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.timeline-date {
+  font-size: 13px;
+  color: #a0aec0;
+}
+
+.timeline-body {
+  color: #4a5568;
+  line-height: 150%;
+  font-size: 14px;
+}
+
+.user-info {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.user-info strong {
+  color: #2d3748;
+}
+
+/* 🔹 Cores das ações */
+.action-badge {
+  padding: 5px 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 12px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.action-created   { background-color: #667eea; }
+.action-updated   { background-color: #3498db; }
+.action-assigned  { background-color: #30c2c2; }
+.action-returned  { background-color: #f59e0b; } /* 🟡 devolvida */
+.action-completed { background-color: #2ecc71; }
+.action-cancelled { background-color: #e74c3c; }
+.action-deleted   { background-color: #8e44ad; }
+
+/* 🔹 Marcadores */
+.timeline-marker.action-created   { background-color: #667eea; }
+.timeline-marker.action-updated   { background-color: #3498db; }
+.timeline-marker.action-assigned  { background-color: #30c2c2; }
+.timeline-marker.action-returned  { background-color: #f59e0b; }
+.timeline-marker.action-completed { background-color: #2ecc71; }
+.timeline-marker.action-cancelled { background-color: #e74c3c; }
+.timeline-marker.action-deleted   { background-color: #8e44ad; }
+
+/* 🔹 Animações e estados */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+  text-align: center;
+  padding: 48px;
+  color: #718096;
+  font-size: 16px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px;
+  color: #a0aec0;
+}
+
 .error-message {
   background: #fdecea;
   color: #e74c3c;
@@ -222,4 +197,3 @@
   margin-top: 16px;
   font-weight: 500;
 }
-
