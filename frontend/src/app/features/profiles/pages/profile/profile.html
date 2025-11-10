@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+
+<div class="profile-container">
+  <div class="profile-header text-center">
+    <h1>Meu Perfil</h1>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Carregando perfil...</p>
+  </div>
+
+  <div *ngIf="!loading && profile" class="profile-card">
+    <div class="profile-avatar-section relative" (click)="fileInput.click()" style="cursor: pointer;">
+      <input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" hidden />
+
+      <img [src]="avatarUrl" alt="{{ profile.name }}" class="profile-avatar-img" />
+
+      <div class="avatar-overlay">
+        <span>Trocar foto</span>
+      </div>
+
+      <h2>{{ profile.name }}</h2>
+      <p class="profile-role">{{ getRoleText(profile.role) }}</p>
+    </div>
+
+    <div *ngIf="selectedFile && !saving" class="avatar-actions">
+      <button class="btn-save-avatar" (click)="uploadAvatar()">Salvar Foto</button>
+      <button class="btn-cancel-avatar" (click)="cancelAvatarSelection()">Cancelar</button>
+    </div>
+
+    <div *ngIf="saving" class="uploading-overlay">
+      <mat-spinner diameter="32"></mat-spinner>
+      <p>Enviando imagem...</p>
+    </div>
+
+    <div *ngIf="successMessage && !editing" class="alert-success mt-3">{{ successMessage }}</div>
+    <div *ngIf="errorMessage && !editing" class="alert-error mt-3">{{ errorMessage }}</div>
+
+    <div *ngIf="!editing" class="profile-info">
+      <div class="info-row"><label>Nome:</label><span>{{ profile.name }}</span></div>
+      <div class="info-row"><label>Email:</label><span>{{ profile.email }}</span></div>
+      <div class="info-row"><label>Telefone:</label><span>{{ profile.phone || '-' }}</span></div>
+      <div class="info-row"><label>Função:</label><span>{{ getRoleText(profile.role) }}</span></div>
+      <div class="info-row"><label>Membro desde:</label><span>{{ formatDate(profile.createdAt) }}</span></div>
+
+      <button class="btn-edit mt-4" (click)="toggleEdit()">Editar Perfil</button>
+    </div>
+
+    <form *ngIf="editing && form" [formGroup]="form" class="profile-edit" (ngSubmit)="saveChanges()">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" formControlName="name" placeholder="Seu nome" />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="Seu email" />
+      </div>
+
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" formControlName="phone" placeholder="Ex: 11999999999" />
+      </div>
+
+      <div class="form-group">
+        <label>Senha (opcional)</label>
+        <input type="password" formControlName="password" placeholder="Nova senha" />
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" type="submit" [disabled]="saving">Salvar</button>
+        <button class="btn-cancel" type="button" (click)="toggleEdit()" [disabled]="saving">Cancelar</button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert-success mt-3">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert-error mt-3">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

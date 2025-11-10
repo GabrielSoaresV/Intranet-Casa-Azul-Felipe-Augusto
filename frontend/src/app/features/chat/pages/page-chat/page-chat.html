@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+
+<div class="chat-preview-container" *ngIf="!isLoading; else loading">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-title">
+        <h2>Chat da Demanda:</h2>
+        <p class="demand-title">{{ demandTitle }}</p>
+        <p class="demand-id">ID: #{{ demandId }}</p>
+      </div>
+    </div>
+    <span class="status-badge in_progress">Em andamento</span>
+  </div>
+
+  <div class="chat-card">
+    <div class="chat-box">
+      <div *ngFor="let msg of messages" class="chat-message-wrapper">
+        <ng-container *ngIf="msg.user as user">
+          <div
+            class="chat-message"
+            [ngClass]="user.cpf === currentUserCpf ? 'mine' : 'theirs'"
+          >
+            <img
+              class="msg-avatar"
+              [src]="getAvatarUrlCached(user)"
+              [alt]="user.name || 'Usuário'"
+              [title]="user.name || 'Usuário'"
+            />
+            <div class="msg-bubble" [ngClass]="getBubbleClass(user.cpf)">
+              <div class="msg-header">
+                <span class="msg-sender">{{ user.name || 'Usuário' }}</span>
+                <span class="msg-time">{{ msg.createdAt | date: 'shortTime' }}</span>
+              </div>
+              <div class="msg-content">{{ msg.message }}</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-input">
+      <input
+        type="text"
+        formControlName="message"
+        placeholder="Digite uma mensagem..."
+        autocomplete="off"
+      />
+      <button type="submit" [disabled]="chatForm.invalid">
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading">Carregando mensagens...</div>
+</ng-template>

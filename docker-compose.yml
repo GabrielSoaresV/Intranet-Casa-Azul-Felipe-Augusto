@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    container_name: demandas-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: demandas-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

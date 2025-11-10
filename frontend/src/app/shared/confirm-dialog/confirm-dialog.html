@@ -1,0 +1,47 @@
+<div class="dialog">
+  <div class="dialog__header" [ngClass]="data.color || 'primary'">
+    <div class="dialog__icon">
+      <mat-icon>
+        {{ data.icon || (data.color === 'warn' ? 'warning' : data.color === 'accent' ? 'info' : 'help_outline') }}
+      </mat-icon>
+    </div>
+    <div>
+      <h2 class="dialog__title">{{ data.title || 'Confirmação' }}</h2>
+      <p *ngIf="data.subtitle" class="dialog__subtitle">{{ data.subtitle }}</p>
+    </div>
+  </div>
+
+  <mat-divider class="dialog__divider"></mat-divider>
+
+  <div class="dialog__content">
+    <p class="dialog__message">{{ data.message }}</p>
+
+    <ng-container *ngIf="data.askNotes">
+      <mat-form-field appearance="outline" class="dialog__field">
+        <mat-label>{{ data.notesLabel || 'Observações' }}</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="notes"
+          [placeholder]="data.notesPlaceholder || 'Digite observações (opcional)'"
+          rows="3">
+        </textarea>
+      </mat-form-field>
+    </ng-container>
+  </div>
+
+  <div class="dialog__actions">
+    <button mat-stroked-button mat-dialog-close class="btn--ghost">
+      <mat-icon>close</mat-icon>
+      {{ data.cancelText || 'Cancelar' }}
+    </button>
+
+    <button
+      mat-flat-button
+      class="btn--confirm"
+      [color]="data.color || 'primary'"
+      (click)="confirm()">
+      <mat-icon>check_circle</mat-icon>
+      {{ data.confirmText || 'Confirmar' }}
+    </button>
+  </div>
+</div>
