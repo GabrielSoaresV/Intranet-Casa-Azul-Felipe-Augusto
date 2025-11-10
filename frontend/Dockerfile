@@ -1,14 +1,8 @@
-FROM node:22 AS build
+FROM node:20 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install -g @angular/cli && npm install
+RUN npm install
 COPY . .
-RUN ng build --configuration production
+EXPOSE 4200
 
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
-COPY --from=build /app/dist/demo ./
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["bash", "-c", "npm install -g @angular/cli && ng serve --host 0.0.0.0 --port 4200 --open"]
