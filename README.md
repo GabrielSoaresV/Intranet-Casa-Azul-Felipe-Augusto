@@ -14,7 +14,7 @@ Antes de executar o projeto, verifique se os seguintes programas estão instalad
 - [**Docker Desktop**](https://www.docker.com/get-started/)  
   Necessário para rodar os containers do **frontend (Angular)** e **backend (Spring Boot)**.
 
-> ⚠️ Certifique-se de que o Docker Desktop está **aberto e em execução** antes de continuar.
+> ⚠️ Certifique-se de que o Docker Desktop está **aberto e em execução** e que as portas 8080 e 4200 não estão sendo usadas antes de continuar.
 
 ---
 
