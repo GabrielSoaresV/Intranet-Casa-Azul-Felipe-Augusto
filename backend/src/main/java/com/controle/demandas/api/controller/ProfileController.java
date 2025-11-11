@@ -100,7 +100,7 @@ public class ProfileController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ATTENDANT')")
     public ResponseEntity<Map<String, Object>> getAll() {
         List<Profile> profiles = profileService.getAll();
         return response("Perfis listados com sucesso.", profiles);
