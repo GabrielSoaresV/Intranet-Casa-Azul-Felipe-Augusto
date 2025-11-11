@@ -17,7 +17,7 @@
       <a
         routerLink="/profile-list"
         routerLinkActive="active"
-        *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])"
+        *ngIf="auth.hasAnyRole(['ADMIN')"
         title="Usuários">
         <mat-icon>groups</mat-icon>
       </a>
