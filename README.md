@@ -4,6 +4,20 @@ O **SICD** é um sistema para **gerenciamento de demandas de cidadãos**, permit
 
 ---
 
+## 🧰 Requisitos necessários
+
+Antes de executar o projeto, verifique se os seguintes programas estão instalados no seu computador:
+
+- [**Git**](https://git-scm.com/downloads)  
+  Necessário para clonar o repositório.
+
+- [**Docker Desktop**](https://www.docker.com/get-started/)  
+  Necessário para rodar os containers do **frontend (Angular)** e **backend (Spring Boot)**.
+
+> ⚠️ Certifique-se de que o Docker Desktop está **aberto e em execução** e que as portas 8080 e 4200 não estão sendo usadas antes de continuar.
+
+---
+
 ## 👥 Usuários padrão
 
 Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a vizualização das funções do SICD:
@@ -21,20 +35,6 @@ Durante a inicialização do backend, **três usuários são criados automaticam
 - ✅ **Cidadão:** pode se cadastrar diretamente na tela de login clicando em **Cadastre-se**.  
 - 🔒 **Administrador:** é o único perfil que pode criar novos usuários **Administradores**, **Atendentes** ou **Cidadão** dentro do sistema.  
 - ✏️ Todos os usuários podem **alterar suas informações pessoais e adicionar foto de perfil** após o login.
-
----
-
-## 🧰 Requisitos necessários
-
-Antes de executar o projeto, verifique se os seguintes programas estão instalados no seu computador:
-
-- [**Git**](https://git-scm.com/downloads)  
-  Necessário para clonar o repositório.
-
-- [**Docker Desktop**](https://www.docker.com/get-started/)  
-  Necessário para rodar os containers do **frontend (Angular)** e **backend (Spring Boot)**.
-
-> ⚠️ Certifique-se de que o Docker Desktop está **aberto e em execução** e que as portas 8080 e 4200 não estão sendo usadas antes de continuar.
 
 ---
 
