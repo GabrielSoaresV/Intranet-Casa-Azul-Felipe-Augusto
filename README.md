@@ -1,155 +1,156 @@
-# Controle de Demandas de Cidadãos
+# ⚙️ Sistema Integrado de Controle de Demandas (SICD)
 
-Sistema para gerenciar e organizar demandas de cidadãos, permitindo acompanhamento eficiente de solicitações, cadastros e comunicação entre setores.
+O **SICD** é um sistema para **gerenciamento de demandas de cidadãos**, permitindo o **cadastro, acompanhamento e organização de solicitações públicas** entre diferentes setores de uma instituição.
 
-## Tecnologias utilizadas
+---
 
-- **Frontend: Angular
-- **Backend: Java + Spring Boot
-- **Banco de dados: H2
-- **Controle de versão: Git / GitHub
-- **Outras ferramentas: Node.js, npm, VS Code, Postman
+## 🧰 Requisitos necessários
 
-## Estrutura do projeto
+Antes de executar o projeto, verifique se os seguintes programas estão instalados no seu computador:
 
+- [**Git**](https://git-scm.com/downloads)  
+  Necessário para clonar o repositório.
+
+- [**Docker Desktop**](https://www.docker.com/get-started/)  
+  Necessário para rodar os containers do **frontend (Angular)** e **backend (Spring Boot)**.
+
+> ⚠️ Certifique-se de que o Docker Desktop está **aberto e em execução** antes de continuar.
+
+---
+
+## 🚀 Como executar o projeto
+
+### 🔹 Passo 1 — Abrir o terminal (Prompt de Comando)
+No Windows, pressione:
 ```
-Controle de Demandas de Cidadãos/
-│
-├─ app-controle-demandas/      ← Projeto Angular
-│   ├─ src/
-│   │   ├─ components/
-│   │   │   ├─ componentes-cidadao/
-│   │   │   │   ├─ cidadao-edit/
-│   │   │   │   ├─ cidadao-form/
-│   │   │   │   └─ cidadao-list/
-│   │   │   ├─ componentes-demanda/
-│   │   │   │   ├─ demanda-edit/
-│   │   │   │   ├─ demanda-form/
-│   │   │   │   └─ demanda-list/
-│   │   │   ├─ modals/
-│   │   │   │   ├─ cidadao-editar/
-│   │   │   │   ├─ demanda-editar/
-│   │   │   │   └─ listar-demandas-cidadao/
-│   │   │   └─ navbar/
-│   │   ├─ dtos/
-│   │   │   ├─ dto-cidadaos/
-│   │   │   └─ dto-demandas/
-│   │   ├─ models/
-│   │   ├─ pages/
-│   │   │   ├─ page-home/
-│   │   │   └─ page-register/
-│   │   ├─ pipes/
-│   │   └─ services/
-│   ├─ angular.json
-│   └─ package.json
-│
-├─ controle-demandas-api/                    ← Projeto Spring Boot
-│   ├─ src/
-│   │   ├─ main/
-│   │   │   ├─ java/
-│   │   │   │   └─ com/controle/demandas/api/
-│   │   │   │       ├─ config/
-│   │   │   │       ├─ controller/
-│   │   │   │       ├─ dtoCidadaos/
-│   │   │   │       ├─ dtoDemandas/
-│   │   │   │       ├─ exception/
-│   │   │   │       ├─ model/
-│   │   │   │       ├─ repository/
-│   │   │   │       ├─ response/
-│   │   │   │       ├─ service/
-│   │   │   │       └─ validation/
-│   │   │   │           └─ annotation/
-│   │   │   └─ resources/
-│   │   │       ├─ static/
-│   │   │       └─ templates/
-│   │   └─ test/
-│   │       └─ java/
-│   │           └─ com/controle/demandas/api/
-│   └─ target/
-│       ├─ classes/
-│       │   └─ com/controle/demandas/api/
-│       │       ├─ config/
-│       │       ├─ controller/
-│       │       ├─ dtoCidadaos/
-│       │       ├─ dtoDemandas/
-│       │       ├─ exception/
-│       │       ├─ model/
-│       │       ├─ repository/
-│       │       ├─ response/
-│       │       ├─ service/
-│       │       └─ validation/
-│       │           └─ annotation/
-│       ├─ generated-sources/
-│       │   └─ annotations/
-│       ├─ generated-test-sources/
-│       │   └─ test-annotations/
-│       └─ test-classes/
-│           └─ com/controle/demandas/api/
-│
-└─ README.md
+Win + R → digite cmd → Enter
 ```
-## Como rodar o projeto
 
-### Backend (Spring Boot)
-1. Abra o terminal da pasta do projeto `controle-demandas-api`
-2. Compile e rode o projeto:
+---
+
+### 🔹 Passo 2 — Clonar o repositório
+No terminal, execute o comando abaixo:
+
 ```bash
-mvn spring-boot:run
+git clone https://github.com/GabrielSoaresV/SICD.git
 ```
-3. O servidor vai rodar em `http://localhost:8080`
 
-### Frontend (Angular)
+---
 
-1. Abra o terminal da pasta do projeto.  
-`app-controle-demandas`
-2. Instale as dependências: 
+### 🔹 Passo 3 — Acessar a pasta do projeto
 ```bash
-`npm install` 
+cd SICD
 ```
-3. Entre no diretorio: 
-```bash 
-`cd src/app` 
-```
-4. Inicie o servidor: 
-```bash 
-`ng serve` 
-```
-5. Acesse em no navegador `http://localhost:4200`
----
-
-## Funcionalidades principais
-
-- Cadastro de cidadãos
-- Criação e acompanhamento de demandas
-- Pesquisa e filtragem de registros
-- Atualização de status de demandas
-- Relatórios básicos
 
 ---
 
-## Observações
+### 🔹 Passo 4 — Executar o sistema com Docker
+Agora, execute o script abaixo:
 
-Observações:
-Algumas funcionalidades e melhorias planejadas não puderam ser implementadas nesta versão do projeto.
+```bash
+.\start_docker.bat
+```
 
-- A lógica de alteração de status das demandas (“Aberta” → “Em andamento” → “Concluída”) não está disponível no front-end atual, mas está funcionando no projeto paralelo AppFrontEnd.
+> 🧩 Esse comando irá **construir as imagens Docker** e **iniciar automaticamente o backend e o frontend**.  
+> Durante o processo, pode levar alguns minutos dependendo da velocidade da sua internet e do hardware.
 
-- A validação de CPF e e-mail do backend não está integrada ao front-end deste projeto.
-
-- O layout ainda não está totalmente refinado: algumas tabelas, cores institucionais e ícones não foram aplicados.
-
-- Não deu tempo de criar a tela de login e a logica de Autenticação simulada. 
-
-- Documentação da API (Swagger ou Postman). 
-
-- Deploy local simples (Dockerfile ou Docker Compose).
-
-- Implementar os filtros no front-end (ex.: listar apenas demandas abertas).
-
-- Todas notificações de error para o cliente .
 ---
 
-## Autor
+### 🔹 Passo 5 — Aguardar o carregamento
+Após alguns instantes, o **site será aberto automaticamente no seu navegador padrão** 🚀
 
-Gabriel Soares  
-Email: soaresgabrielvinicius@gmail.com
+| Serviço | Porta | Endereço |
+|----------|--------|-----------|
+| **Frontend (Angular)** | 4200 | [http://localhost:4200](http://localhost:4200) |
+| **Backend (Spring Boot)** | 8080 | [http://localhost:8080](http://localhost:8080) |
+
+---
+
+## 👥 Usuários padrão
+
+Durante a inicialização do backend, **três usuários são criados automaticamente**:
+
+| Perfil | CPF | Email | Senha |
+|---------|-----|--------|--------|
+| 🛡️ **Administrador** | `00000000001` | admin@teste.com | admin |
+| 🧾 **Atendente** | `00000000002` | atendente@teste.com | atendente |
+| 👤 **Cidadão** | `00000000003` | cidadao@teste.com | cidadao |
+
+---
+
+## 🔑 Permissões e Cadastro de Usuários
+
+- ✅ **Cidadão:** pode se cadastrar diretamente na tela de login.  
+- 🔒 **Administrador:** é o único perfil que pode criar novos usuários **Administradores**, **Atendentes** ou **Cidadão** dentro do sistema.  
+- ✏️ Todos os usuários podem **alterar suas informações pessoais e adicionar foto de perfil** após o login.
+
+---
+
+## ⚡ Funcionalidades principais
+
+- Cadastro e edição de cidadãos  
+- Registro e acompanhamento de demandas  
+- Atualização de status (“Aberta”, “Em andamento”, “Concluída”)  
+- Pesquisa e filtragem de registros  
+- Upload de foto de perfil  
+- Comunicação entre setores via chat 
+- Serviço de autentificação via token
+- Rotas dinamicas com nível de acesso
+- Integração total entre frontend (Angular) e backend (Spring Boot)  
+
+---
+
+## 🧱 Estrutura dos containers Docker
+
+| Container | Função | Tecnologia |
+|------------|---------|-------------|
+| **sicd-backend** | API REST (Java + Spring Boot) | Porta 8080 |
+| **sicd-frontend** | Interface do sistema (Angular) | Porta 4200 |
+
+---
+
+## 🧩 Comandos úteis do Docker
+
+Parar os containers:
+```bash
+docker-compose down
+```
+
+Reiniciar:
+```bash
+docker-compose up -d
+```
+
+Ver logs em tempo real:
+```bash
+docker-compose logs -f
+```
+
+Limpar containers e imagens antigas:
+```bash
+docker system prune -a
+```
+
+---
+
+## 🧠 Observações
+
+- O sistema utiliza **banco H2 em memória**.  
+- Planeja-se migração futura para bancos persistentes **(PostgreSQL/MySQL)**.  
+- Layout ainda em aprimoramento e refinamento visual.  
+- Funções de autenticação e relatórios avançados em desenvolvimento.
+- O backend será remodelado seguindo a arquitetura **Hexagonal (Ports and Adapters)** para maior desacoplamento e escalabilidade.
+- Será adicionada a opção de alternar entre tema claro e escuro no frontend.
+- Melhorias planejadas para as telas de login e registro público, com foco em experiência do usuário (UX).
+- Implementação futura de pipelines automatizadas para criação de demandas, usuários e conversas de teste — simulando situações reais para demonstrações. 
+- Separação dos métodos de autenticação e perfil dentro do **ProfileService** no backend, garantindo melhor organização e responsabilidade de código.
+- Inclusão de **DTOs** específicos para aprimorar as respostas do backend e otimizar a comunicação com o frontend.
+
+
+---
+
+## 👤 Autor
+
+**Gabriel Soares**  
+📧 [soaresgabrielvinicius@gmail.com](mailto:soaresgabrielvinicius@gmail.com)  
+💻 Projeto com foco em **aprendizado prático e aplicação real de arquitetura com Angular + Spring Boot + Docker**.
