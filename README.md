@@ -68,7 +68,7 @@ Após alguns instantes, o **site será aberto automaticamente no seu navegador p
 
 ## 👥 Usuários padrão
 
-Durante a inicialização do backend, **três usuários são criados automaticamente**:
+Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a vizualização das funções do SICD:
 
 | Perfil | CPF | Email | Senha |
 |---------|-----|--------|--------|
@@ -80,7 +80,7 @@ Durante a inicialização do backend, **três usuários são criados automaticam
 
 ## 🔑 Permissões e Cadastro de Usuários
 
-- ✅ **Cidadão:** pode se cadastrar diretamente na tela de login.  
+- ✅ **Cidadão:** pode se cadastrar diretamente na tela de login clicando em **Cadastre-se**.  
 - 🔒 **Administrador:** é o único perfil que pode criar novos usuários **Administradores**, **Atendentes** ou **Cidadão** dentro do sistema.  
 - ✏️ Todos os usuários podem **alterar suas informações pessoais e adicionar foto de perfil** após o login.
 
