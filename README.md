@@ -20,7 +20,7 @@ Antes de executar o projeto, verifique se os seguintes programas estão instalad
 
 ## 👥 Usuários padrão
 
-Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a vizualização das funções do SICD:
+Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a interação do SICD:
 
 | Perfil | CPF | Email | Senha |
 |---------|-----|--------|--------|
