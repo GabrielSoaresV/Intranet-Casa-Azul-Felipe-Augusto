@@ -145,6 +145,8 @@ docker system prune -a
 - Implementação futura de pipelines automatizadas para criação de demandas, usuários e conversas de teste — simulando situações reais para demonstrações. 
 - Separação dos métodos de autenticação e perfil dentro do **ProfileService** no backend, garantindo melhor organização e responsabilidade de código.
 - Inclusão de **DTOs** específicos para aprimorar as respostas do backend e otimizar a comunicação com o frontend.
+- Esta sendo feita a melhoria das validações de dados no Backend e Frontend.
+- Não foi adicionado retornos via console para simular um projeto em produção.
 
 
 ---
