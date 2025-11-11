@@ -4,6 +4,26 @@ O **SICD** é um sistema para **gerenciamento de demandas de cidadãos**, permit
 
 ---
 
+## 👥 Usuários padrão
+
+Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a vizualização das funções do SICD:
+
+| Perfil | CPF | Email | Senha |
+|---------|-----|--------|--------|
+| 🛡️ **Administrador** | `00000000001` | admin@teste.com | 123456 |
+| 🧾 **Atendente** | `00000000002` | atendente@teste.com | 123456 |
+| 👤 **Cidadão** | `00000000003` | cidadao@teste.com | 123456 |
+
+---
+
+## 🔑 Permissões e Cadastro de Usuários
+
+- ✅ **Cidadão:** pode se cadastrar diretamente na tela de login clicando em **Cadastre-se**.  
+- 🔒 **Administrador:** é o único perfil que pode criar novos usuários **Administradores**, **Atendentes** ou **Cidadão** dentro do sistema.  
+- ✏️ Todos os usuários podem **alterar suas informações pessoais e adicionar foto de perfil** após o login.
+
+---
+
 ## 🧰 Requisitos necessários
 
 Antes de executar o projeto, verifique se os seguintes programas estão instalados no seu computador:
@@ -63,26 +83,6 @@ Após alguns instantes, o **site será aberto automaticamente no seu navegador p
 |----------|--------|-----------|
 | **Frontend (Angular)** | 4200 | [http://localhost:4200](http://localhost:4200) |
 | **Backend (Spring Boot)** | 8080 | [http://localhost:8080](http://localhost:8080) |
-
----
-
-## 👥 Usuários padrão
-
-Durante a inicialização do backend, **três usuários são criados automaticamente** para facilitar a vizualização das funções do SICD:
-
-| Perfil | CPF | Email | Senha |
-|---------|-----|--------|--------|
-| 🛡️ **Administrador** | `00000000001` | admin@teste.com | 123456 |
-| 🧾 **Atendente** | `00000000002` | atendente@teste.com | 123456 |
-| 👤 **Cidadão** | `00000000003` | cidadao@teste.com | 123456 |
-
----
-
-## 🔑 Permissões e Cadastro de Usuários
-
-- ✅ **Cidadão:** pode se cadastrar diretamente na tela de login clicando em **Cadastre-se**.  
-- 🔒 **Administrador:** é o único perfil que pode criar novos usuários **Administradores**, **Atendentes** ou **Cidadão** dentro do sistema.  
-- ✏️ Todos os usuários podem **alterar suas informações pessoais e adicionar foto de perfil** após o login.
 
 ---
 
