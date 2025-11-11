@@ -72,9 +72,9 @@ Durante a inicialização do backend, **três usuários são criados automaticam
 
 | Perfil | CPF | Email | Senha |
 |---------|-----|--------|--------|
-| 🛡️ **Administrador** | `00000000001` | admin@teste.com | admin |
-| 🧾 **Atendente** | `00000000002` | atendente@teste.com | atendente |
-| 👤 **Cidadão** | `00000000003` | cidadao@teste.com | cidadao |
+| 🛡️ **Administrador** | `00000000001` | admin@teste.com | 123456 |
+| 🧾 **Atendente** | `00000000002` | atendente@teste.com | 123456 |
+| 👤 **Cidadão** | `00000000003` | cidadao@teste.com | 123456 |
 
 ---
 
