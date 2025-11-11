@@ -29,12 +29,13 @@
 }
 
 .citizen-card {
+  position: relative;
   background: #fff;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
   display: flex;
   gap: 16px;
   align-items: center;
@@ -112,6 +113,24 @@
   font-size: 13px;
   color: #a0aec0;
   margin: 0;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #e53e3e;
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out, transform 0.15s ease;
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  color: #9b2c2c;
+  transform: scale(1.1);
 }
 
 .empty-state {
@@ -227,6 +246,29 @@
   gap: 12px;
 }
 
+.demand-content {
+  flex: 1;
+}
+
+.demand-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 4px 0;
+}
+
+.demand-content p {
+  font-size: 14px;
+  color: #718096;
+  margin: 0 0 8px 0;
+  line-height: 150%;
+}
+
+.demand-date {
+  font-size: 12px;
+  color: #a0aec0;
+}
+
 .demand-status {
   display: inline-block;
   padding: 4px 10px;
@@ -254,29 +296,6 @@
 .demand-status.cancelled {
   background-color: #fdecea;
   color: #c0392b;
-}
-
-.demand-content {
-  flex: 1;
-}
-
-.demand-content h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a202c;
-  margin: 0 0 4px 0;
-}
-
-.demand-content p {
-  font-size: 14px;
-  color: #718096;
-  margin: 0 0 8px 0;
-  line-height: 150%;
-}
-
-.demand-date {
-  font-size: 12px;
-  color: #a0aec0;
 }
 
 .empty-demands {
@@ -315,12 +334,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  border: none;
 }
 
 .btn-search {
   background: #667eea;
   color: #fff;
-  border: none;
 }
 
 .btn-search:hover {
@@ -331,7 +350,6 @@
 .btn-clear {
   background: #e2e8f0;
   color: #374151;
-  border: none;
 }
 
 .btn-clear:hover {

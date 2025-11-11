@@ -36,6 +36,15 @@
         <p class="citizen-email">{{ profile.email }}</p>
         <p class="citizen-cpf" *ngIf="profile.cpf">CPF: {{ profile.cpf }}</p>
       </div>
+
+      <button
+        *ngIf="isAdmin"
+        class="delete-btn"
+        (click)="onDelete(profile.cpf, $event)"
+        title="Excluir usuário"
+      >
+        <i class="material-icons">delete</i>
+      </button>
     </div>
 
     <div class="empty-state" *ngIf="filteredProfiles.length === 0">
@@ -61,22 +70,34 @@
       </div>
 
       <div class="citizen-details">
-        <div class="detail-item"><strong>Nome:</strong> {{ selectedProfile?.name }}</div>
-        <div class="detail-item"><strong>Email:</strong> {{ selectedProfile?.email }}</div>
-        <div class="detail-item" *ngIf="selectedProfile?.cpf"><strong>CPF:</strong> {{ selectedProfile?.cpf }}</div>
-        <div class="detail-item"><strong>Função:</strong> {{ selectedProfile?.role }}</div>
+        <div class="detail-item">
+          <strong>Nome:</strong> {{ selectedProfile?.name }}
+        </div>
+        <div class="detail-item">
+          <strong>Email:</strong> {{ selectedProfile?.email }}
+        </div>
+        <div class="detail-item" *ngIf="selectedProfile?.cpf">
+          <strong>CPF:</strong> {{ selectedProfile?.cpf }}
+        </div>
+        <div class="detail-item">
+          <strong>Função:</strong> {{ selectedProfile?.role }}
+        </div>
       </div>
 
       <h3 class="demands-title">Demandas Criadas</h3>
 
-      <div *ngIf="loadingDemands" class="loading-demands">Carregando demandas...</div>
+      <div *ngIf="loadingDemands" class="loading-demands">
+        Carregando demandas...
+      </div>
 
       <div *ngIf="!loadingDemands && demands.length > 0" class="demands-list">
         <div class="demand-item" *ngFor="let demand of demands">
           <div class="demand-content">
             <h4>{{ demand.title }}</h4>
             <p>{{ demand.description }}</p>
-            <p class="demand-date">Criada em: {{ formatDate(demand.createdAt) }}</p>
+            <p class="demand-date">
+              Criada em: {{ formatDate(demand.createdAt) }}
+            </p>
             <p>
               <strong>Status:</strong>
               <span class="demand-status {{ demand.status.toLowerCase() }}">
@@ -87,7 +108,10 @@
         </div>
       </div>
 
-      <div *ngIf="!loadingDemands && demands.length === 0" class="empty-demands">
+      <div
+        *ngIf="!loadingDemands && demands.length === 0"
+        class="empty-demands"
+      >
         Nenhuma demanda vinculada a este usuário.
       </div>
     </div>
