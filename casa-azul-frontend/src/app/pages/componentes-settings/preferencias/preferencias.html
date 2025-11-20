@@ -1,0 +1,29 @@
+<div class="form-card">
+
+  <h2 class="form-title">Preferências</h2>
+
+  <form (ngSubmit)="salvarPreferencias()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Idioma</label>
+      <select [(ngModel)]="preferencias.idioma" name="idioma">
+        <option value="pt">Português</option>
+        <option value="en">Inglês</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label>Tema</label>
+      <select [(ngModel)]="preferencias.tema" name="tema">
+        <option value="claro">Claro</option>
+        <option value="escuro">Escuro</option>
+      </select>
+    </div>
+
+    <div class="form-actions full">
+      <button type="submit" class="btn-primary">Salvar Preferências</button>
+    </div>
+
+  </form>
+
+</div>

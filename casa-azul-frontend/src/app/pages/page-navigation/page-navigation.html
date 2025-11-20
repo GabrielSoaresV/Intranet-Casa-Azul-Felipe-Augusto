@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+
+<div class="home-wrap">
+
+  <header class="hero">
+    <div class="hero-text">
+      <h2>Bem-vindo!</h2>
+      <p>Selecione uma área do sistema para continuar.</p>
+    </div>
+  </header>
+
+  <section class="cards-grid">
+
+    <div class="card" (click)="irPara('')">
+      <div class="card-icon"><mat-icon>login</mat-icon></div>
+      <h3>Login</h3>
+      <p>Acesse o sistema com sua conta.</p>
+      <span class="card-cta">Entrar</span>
+    </div>
+
+    <div class="card" (click)="irPara('setting')">
+      <div class="card-icon"><mat-icon>settings</mat-icon></div>
+      <h3>Configurações</h3>
+      <p>Ajuste opções, preferências e controles.</p>
+      <span class="card-cta">Abrir</span>
+    </div>
+
+    <div class="card" (click)="irPara('gestao')">
+      <div class="card-icon"><mat-icon>business_center</mat-icon></div>
+      <h3>Gestão</h3>
+      <p>Gerencie empresas, aprendizes e processos.</p>
+      <span class="card-cta">Acessar</span>
+    </div>
+
+    <div class="card" (click)="irPara('register')">
+      <div class="card-icon"><mat-icon>app_registration</mat-icon></div>
+      <h3>Cadastros</h3>
+      <p>Cadastre empresas, usuários e aprendizes.</p>
+      <span class="card-cta">Cadastrar</span>
+    </div>
+
+  </section>
+</div>

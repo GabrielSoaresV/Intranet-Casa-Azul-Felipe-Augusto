@@ -1,0 +1,23 @@
+<div class="form-card">
+
+  <h2 class="form-title">Configurar Servidor</h2>
+
+  <form (ngSubmit)="salvarServidor()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>IP do Servidor</label>
+      <input type="text" [(ngModel)]="servidor.ip" name="ipServidor" required />
+    </div>
+
+    <div class="form-field">
+      <label>Porta</label>
+      <input type="number" [(ngModel)]="servidor.porta" name="porta" required />
+    </div>
+
+    <div class="form-actions full">
+      <button type="submit" class="btn-primary">Salvar Servidor</button>
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,49 @@
+<div class="form-card">
+
+  <h2 class="form-title">Cadastrar Empresa</h2>
+
+  <form (ngSubmit)="cadastrarEmpresa()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Nome da Empresa</label>
+      <input type="text" [(ngModel)]="empresa.nomeEmpresa" name="nomeEmpresa" required />
+    </div>
+
+    <div class="form-field">
+      <label>CNPJ</label>
+      <input type="text" [(ngModel)]="empresa.cnpj" name="cnpj" placeholder="00.000.000/0000-00" required />
+    </div>
+
+    <div class="form-field">
+      <label>Telefone</label>
+      <input 
+        type="text"
+        [(ngModel)]="empresa.telefoneEmpresa"
+        name="telefoneEmpresa"
+        (input)="formatarTelefone($event)"
+        placeholder="(XX) XXXXX-XXXX"
+      />
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="empresa.emailEmpresa" name="emailEmpresa" />
+    </div>
+
+    <div class="form-field">
+      <label>Nome do Responsável (RH)</label>
+      <input type="text" [(ngModel)]="empresa.rhNomeResponsavel" name="rhNomeResponsavel" />
+    </div>
+
+    <div class="form-field">
+      <label>Email do Responsável (RH)</label>
+      <input type="email" [(ngModel)]="empresa.rhEmailResponsavel" name="rhEmailResponsavel" />
+    </div>
+
+    <div class="form-actions full">
+      <button class="btn-primary" type="submit">Cadastrar</button>
+    </div>
+
+  </form>
+
+</div>

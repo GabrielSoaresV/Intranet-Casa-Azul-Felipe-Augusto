@@ -1,0 +1,52 @@
+<div class="cadastro-layout">
+
+  <!-- Navbar -->
+  <app-navbar></app-navbar>
+
+  <div class="cadastro-content">
+
+    <!-- Sidebar Classic Premium -->
+    <aside class="sidebar">
+      <h5 class="sidebar-title">Cadastro</h5>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="formSelecionado === 'jovem'"
+        (click)="selecionarFormulario('jovem')">
+        👤 Cadastrar Jovem
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="formSelecionado === 'empresa'"
+        (click)="selecionarFormulario('empresa')">
+        🏢 Cadastrar Empresa
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="formSelecionado === 'usuario'"
+        (click)="selecionarFormulario('usuario')">
+        🔑 Cadastrar Usuário
+      </button>
+    </aside>
+
+    <!-- Painel Premium -->
+    <main class="cadastro-panel animate-panel">
+
+      <app-cadastro-jovem 
+        *ngIf="formSelecionado === 'jovem'">
+      </app-cadastro-jovem>
+
+      <app-cadastro-empresa 
+        *ngIf="formSelecionado === 'empresa'">
+      </app-cadastro-empresa>
+
+      <app-cadastro-usuario 
+        *ngIf="formSelecionado === 'usuario'">
+      </app-cadastro-usuario>
+
+    </main>
+
+  </div>
+</div>

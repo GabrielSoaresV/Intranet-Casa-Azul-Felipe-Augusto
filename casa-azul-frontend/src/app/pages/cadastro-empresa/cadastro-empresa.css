@@ -1,0 +1,85 @@
+.form-title {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+/* GRID EM DUAS COLUNAS */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ← sempre 2 colunas */
+  gap: 22px;
+}
+
+/* Campo que ocupa as duas colunas */
+.full {
+  grid-column: span 2;
+}
+
+/* Mantém inputs bonitos */
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1f2937;
+  font-size: 1.45rem;    /* ↑ AUMENTADO */
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 12px 16px;     /* ↑ mais confortável */
+  border-radius: 10px;
+  border: 1px solid var(--border, #e5e7eb);
+  background: #f9fafb;
+  font-size: 1.35rem;      /* ↑ AUMENTADO */
+  transition: 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--primary, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+  background: #ffffff;
+}
+
+/* Botão centralizado */
+.form-actions {
+  text-align: center;
+}
+
+/* Botão Premium */
+.btn-primary {
+  background: var(--primary, #4f46e5);
+  border: none;
+  padding: 14px 28px;    /* ↑ tamanho melhor */
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;       /* ↑ mais forte */
+  font-size: 1.25rem;     /* ↑ AUMENTADO */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+/* Responsivo (mobile vira 1 coluna automaticamente) */
+@media (max-width: 768px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .full {
+    grid-column: span 1;
+  }
+
+  .btn-primary {
+    width: 100%;           /* mobile mais ergonômico */
+  }
+}

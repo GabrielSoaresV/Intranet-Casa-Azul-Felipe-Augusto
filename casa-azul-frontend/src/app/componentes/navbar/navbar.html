@@ -1,0 +1,53 @@
+<nav class="navbar">
+  <div class="navbar-container">
+
+    <!-- BRAND -->
+    <div class="navbar-brand" (click)="irPara('navigation')">
+      <mat-icon class="brand-icon">home</mat-icon>
+      <h2>Casa Azul</h2>
+    </div>
+
+    <!-- LINKS DO CENTRO -->
+    <div class="navbar-links">
+
+      <a (click)="irPara('register')" 
+         *ngIf="mostrarLink('register')" 
+         routerLinkActive="active"
+         title="Cadastro">
+        <mat-icon>person_add</mat-icon>
+      </a>
+
+      <a (click)="irPara('gestao')" 
+         *ngIf="mostrarLink('gestao')" 
+         routerLinkActive="active"
+         title="Tabelas">
+        <mat-icon>table_chart</mat-icon>
+      </a>
+
+      <a (click)="irPara('setting')" 
+         *ngIf="mostrarLink('setting')" 
+         routerLinkActive="active"
+         title="Configurações">
+        <mat-icon>settings</mat-icon>
+      </a>
+
+      <a (click)="irPara('')" 
+         *ngIf="mostrarLink('')" 
+         routerLinkActive="active"
+         title="Logout">
+        <mat-icon>logout</mat-icon>
+      </a>
+
+    </div>
+
+    <!-- USER AREA (opcional, já deixei preparado) -->
+    <div class="navbar-user">
+
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+      </button>
+
+    </div>
+
+  </div>
+</nav>

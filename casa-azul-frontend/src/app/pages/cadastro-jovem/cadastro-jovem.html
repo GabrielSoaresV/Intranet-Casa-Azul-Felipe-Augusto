@@ -1,0 +1,84 @@
+<div class="form-card">
+
+  <h2 class="form-title">Cadastrar Jovem</h2>
+
+  <form (ngSubmit)="cadastrarJovem()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="jovem.nome" name="nome" required />
+    </div>
+
+    <div class="form-field">
+      <label>Matrícula</label>
+      <input type="text" [(ngModel)]="jovem.matricula" name="matricula" required />
+    </div>
+
+    <div class="form-field">
+      <label>Data de Contratação</label>
+      <input type="date" [(ngModel)]="jovem.contratacao" name="contratacao" required />
+    </div>
+
+    <div class="form-field">
+      <label>Data de Rescisão</label>
+      <input type="date" [(ngModel)]="jovem.rescisao" name="rescisao" />
+    </div>
+
+    <div class="form-field">
+      <label>Período de Avaliação</label>
+      <input type="number" [(ngModel)]="jovem.periodoAvaliacao" name="periodoAvaliacao" required />
+    </div>
+
+    <div class="form-field">
+      <label>Empresa</label>
+      <select [(ngModel)]="jovem.empresa" name="empresa" required>
+        <option *ngFor="let emp of empresas" [ngValue]="emp">
+          {{ emp.nomeEmpresa }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label>Nome do Responsável</label>
+      <input type="text" [(ngModel)]="jovem.nomeresponsavel" name="nomeresponsavel" />
+    </div>
+
+    <div class="form-field">
+      <label>Telefone do Responsável</label>
+      <input 
+        type="text"
+        [(ngModel)]="jovem.telefoneresponsavel"
+        name="telefoneresponsavel"
+        (input)="formatarTelefone($event, 'responsavel')"
+        placeholder="(XX) XXXXX-XXXX"
+      />
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="jovem.email" name="email" />
+    </div>
+
+    <div class="form-field">
+      <label>Telefone</label>
+      <input 
+        type="text"
+        [(ngModel)]="jovem.telefone"
+        name="telefone"
+        (input)="formatarTelefone($event, 'jovem')"
+        placeholder="(XX) XXXXX-XXXX"
+      />
+    </div>
+
+    <div class="form-field full">
+      <label>Observações</label>
+      <textarea [(ngModel)]="jovem.observacoes" name="observacoes" rows="3"></textarea>
+    </div>
+
+    <div class="form-actions full">
+      <button class="btn-primary" type="submit">Cadastrar</button>
+    </div>
+
+  </form>
+
+</div>

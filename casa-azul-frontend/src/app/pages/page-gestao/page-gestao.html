@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+
+<div class="layout">
+  <div class="afastamento">
+
+    <!-- LINHA COM PESQUISA + BOTÕES -->
+    <div class="top-table">
+      <app-search-bar></app-search-bar>
+
+      <div class="buttons">
+        <button class="btn-custom" (click)="mostrarTabelaJovens()">Jovens</button>
+        <button class="btn-custom" (click)="mostrarTabelaEmpresas()">Empresas</button>
+      </div>
+    </div>
+
+    <!-- TABELAS EMBAIXO -->
+    <app-table-jovens *ngIf="tabelaAtiva === 'jovens'"></app-table-jovens>
+    <app-table-empresas *ngIf="tabelaAtiva === 'empresas'"></app-table-empresas>
+    
+  </div>
+</div>

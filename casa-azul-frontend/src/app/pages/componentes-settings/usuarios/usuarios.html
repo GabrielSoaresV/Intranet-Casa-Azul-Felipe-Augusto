@@ -1,0 +1,31 @@
+<div class="form-card">
+
+  <h2 class="form-title">Gerenciar Usuário</h2>
+
+  <form (ngSubmit)="salvarUsuario()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="usuario.nome" name="nomeUsuario" />
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="usuario.email" name="emailUsuario" />
+    </div>
+
+    <div class="form-field full">
+      <label>Perfil</label>
+      <select [(ngModel)]="usuario.perfil" name="perfil">
+        <option value="admin">Administrador</option>
+        <option value="user">Usuário</option>
+      </select>
+    </div>
+
+    <div class="form-actions full">
+      <button type="submit" class="btn-primary">Salvar Usuário</button>
+    </div>
+
+  </form>
+
+</div>

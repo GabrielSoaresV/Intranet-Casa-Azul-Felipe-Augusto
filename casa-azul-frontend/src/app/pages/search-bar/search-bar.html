@@ -1,0 +1,19 @@
+<div class="search-container">
+  <div class="search-wrapper">
+    
+    <mat-icon class="search-icon">search</mat-icon>
+
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar..."
+      [(ngModel)]="textoDigitado"
+      (keydown.enter)="onEnter()"
+    />
+
+    <button class="clear-btn" *ngIf="textoDigitado" (click)="textoDigitado = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+
+  </div>
+</div>

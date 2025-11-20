@@ -1,0 +1,125 @@
+/* ============================= */
+/*      TEMA LIGHT / DARK        */
+/* ============================= */
+
+:root {
+  --bg: #ffffff;
+  --text: #1a202c;
+  --text-light: #4a5568;
+  --primary: #4f46e5;
+  --primary-light: #667eea;
+  --hover: #f7fafc;
+  --border: #e2e8f0;
+}
+
+body.dark {
+  --bg: #111827;
+  --text: #f1f5f9;
+  --text-light: #cbd5e1;
+  --primary: #818cf8;
+  --primary-light: #a5b4fc;
+  --hover: #1e293b;
+  --border: #273449;
+}
+
+/* ============================= */
+/*            NAVBAR             */
+/* ============================= */
+
+.navbar {
+  background: var(--bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar-container {
+  height: 64px;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* BRAND */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.navbar-brand h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+.brand-icon {
+  font-size: 26px;
+  color: var(--primary);
+}
+
+.navbar-brand:hover {
+  transform: scale(1.03);
+}
+
+/* LINKS */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.navbar-links a {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-light);
+  transition: 0.2s;
+}
+
+.navbar-links a:hover {
+  background: var(--hover);
+  color: var(--primary);
+}
+
+.navbar-links a.active {
+  background: #e0e7ff;
+  color: var(--primary);
+}
+
+/* ICONES */
+.navbar-links mat-icon {
+  font-size: 24px;
+}
+
+/* USER AREA */
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* BOTAO DARK/LIGHT */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text);
+  transition: 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--hover);
+}

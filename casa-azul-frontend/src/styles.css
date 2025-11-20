@@ -1,0 +1,99 @@
+/* ===== FONT & RESET ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+html, body {
+  background: #f5f8ff;   /* Azul bem claro */
+  color: #1e293b;        /* Texto azul-escuro */
+  height: 100%;
+}
+
+/* ===== SCROLLBAR ===== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;   /* Azul médio */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #dbeafe;   /* Azul claro */
+}
+
+/* ===== CARDS GLOBAIS ===== */
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+}
+
+/* ===== ÍCONES MATERIAL ===== */
+
+mat-icon {
+  font-size: 26px !important;
+  color: #2563eb !important;  /* Azul vibrante */
+}
+
+/* ===== BOTÕES GLOBAIS ===== */
+
+button {
+  border-radius: 10px;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.15s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+}
+/* Tema claro (padrão) */
+:root {
+  --bg: #ffffff;
+  --text: #1a202c;
+  --text-light: #4a5568;
+  --primary: #4f46e5;
+  --primary-light: #667eea;
+  --hover: #f7fafc;
+  --border: #e2e8f0;
+}
+
+/* Tema escuro */
+body.dark {
+  --bg: #111827;
+  --text: #f1f5f9;
+  --text-light: #cbd5e1;
+  --primary: #818cf8;
+  --primary-light: #a5b4fc;
+  --hover: #1e293b;
+  --border: #273449;
+}

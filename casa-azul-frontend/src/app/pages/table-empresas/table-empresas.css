@@ -1,0 +1,170 @@
+/* ========== CONTAINER GERAL ========== */
+
+.table-container {
+  max-width: 92%;
+  margin: 24px auto;
+}
+
+/* ========== TABELA PADRÃO ========== */
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border, #e5e7eb);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+  background: var(--surface, #ffffff);
+}
+
+caption {
+  caption-side: top;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--text, #111827);
+  text-align: left;
+}
+
+thead {
+  background: var(--hover, #f9fafb);
+}
+
+th {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-light, #6b7280);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  font-weight: 600;
+}
+
+td {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  color: var(--text, #111827);
+  text-align: center;
+}
+
+.hover-row {
+  transition: background 0.15s ease;
+}
+
+.hover-row:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+/* ========== AÇÕES ========== */
+
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions-cell button {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.16s ease;
+}
+
+.actions-cell button:hover {
+  transform: scale(1.15);
+}
+
+/* Caso use mat-icon */
+.actions-cell mat-icon {
+  font-size: 22px;
+  color: var(--text-light, #6b7280);
+  transition: 0.15s ease;
+}
+
+.actions-cell button:hover mat-icon {
+  color: var(--primary, #4f46e5);
+}
+
+/* ========== DETALHES EXPANDIDOS ========== */
+
+.details-box {
+  background: var(--hover, #f9fafb);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 8px 10px 14px;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06);
+  animation: expand 0.25s ease-out;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px 20px;
+  text-align: center;
+}
+
+.details-item strong {
+  font-weight: 600;
+}
+
+/* ========== MODAL PADRÃO ========== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal-dialog-custom {
+  background: var(--surface, #ffffff);
+  border-radius: 16px;
+  max-width: 720px;
+  width: 100%;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+  border: 1px solid var(--border, #e5e7eb);
+}
+
+.modal-header,
+.modal-footer {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border, #e5e7eb);
+  border-bottom: none;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text, #111827);
+}
+
+/* ========== ANIMAÇÕES ========== */
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: scaleY(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

@@ -1,0 +1,93 @@
+.home-wrap {
+  max-width: 80%;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.hero {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+}
+
+.hero-text h2 {
+  margin: 0 0 6px 0;
+  font-size: 1.7rem;
+  color: #1e3a8a; /* azul forte */
+}
+
+.hero-text p {
+  margin: 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+/* GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* CARD */
+.card {
+  display: block;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  border-color: #93c5fd;
+}
+
+/* Ícone do card */
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #eff6ff; /* azul claro */
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+
+.card-icon mat-icon {
+  font-size: 28px;
+  color: #2563eb; /* azul vibrante */
+}
+
+/* Títulos */
+.card h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: #1e3a8a;
+}
+
+/* Texto */
+.card p {
+  margin: 0 0 14px 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  min-height: 40px;
+}
+
+/* CTA */
+.card-cta {
+  display: inline-block;
+  font-weight: 700;
+  color: #1d4ed8; /* azul escuro */
+  font-size: 0.9rem;
+}

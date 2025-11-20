@@ -1,0 +1,65 @@
+<div class="settings-layout">
+
+  <!-- NAVBAR -->
+  <app-navbar></app-navbar>
+
+  <div class="settings-content">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h5 class="sidebar-title">Configurações</h5>
+
+      <button 
+        class="sidebar-btn" 
+        [class.active]="secaoAtiva === 'email'"
+        (click)="selecionarSecao('email')">
+        📧 Email
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="secaoAtiva === 'servidor'"
+        (click)="selecionarSecao('servidor')">
+        🖥️ Servidor / BD
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="secaoAtiva === 'usuarios'"
+        (click)="selecionarSecao('usuarios')">
+        👥 Usuários
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="secaoAtiva === 'preferencias'"
+        (click)="selecionarSecao('preferencias')">
+        ⚙️ Preferências
+      </button>
+
+      <button 
+        class="sidebar-btn"
+        [class.active]="secaoAtiva === 'seguranca'"
+        (click)="selecionarSecao('seguranca')">
+        🔒 Segurança
+      </button>
+    </aside>
+
+    <!-- PAINEL PRINCIPAL -->
+    <main class="settings-panel animate-panel">
+
+      <app-email *ngIf="secaoAtiva === 'email'"></app-email>
+
+      <app-servidor *ngIf="secaoAtiva === 'servidor'"></app-servidor>
+
+      <app-usuarios *ngIf="secaoAtiva === 'usuarios'"></app-usuarios>
+
+      <app-preferencias *ngIf="secaoAtiva === 'preferencias'"></app-preferencias>
+
+      <app-seguranca *ngIf="secaoAtiva === 'seguranca'"></app-seguranca>
+
+    </main>
+
+  </div>
+
+</div>

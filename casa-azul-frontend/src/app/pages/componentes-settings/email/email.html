@@ -1,0 +1,33 @@
+<div class="form-card">
+
+  <h2 class="form-title">Configurar Email</h2>
+
+  <form (ngSubmit)="salvarEmail()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Email Remetente</label>
+      <input type="email" [(ngModel)]="email.remetente" name="emailRemetente" required />
+    </div>
+
+    <div class="form-field">
+      <label>Senha</label>
+      <input type="password" [(ngModel)]="email.senha" name="senha" required />
+    </div>
+
+    <div class="form-field">
+      <label>Assunto Padrão</label>
+      <input type="text" [(ngModel)]="email.assuntoPadrao" name="assuntoPadrao" />
+    </div>
+
+    <div class="form-field">
+      <label>Corpo Padrão</label>
+      <textarea [(ngModel)]="email.corpoPadrao" name="corpoPadrao" rows="4"></textarea>
+    </div>
+
+    <div class="form-actions full">
+      <button type="submit" class="btn-primary">Salvar Email</button>
+    </div>
+
+  </form>
+
+</div>

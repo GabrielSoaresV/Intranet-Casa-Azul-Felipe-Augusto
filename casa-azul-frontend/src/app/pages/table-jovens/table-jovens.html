@@ -1,0 +1,168 @@
+<div class="table-container">
+  <table class="table tabela-registros">
+    <caption class="table-caption">Lista de Jovens</caption>
+
+    <thead>
+      <tr>
+        <th style="width: 10px;"></th>
+        <th class="text-center">Nome</th>
+        <th class="text-center">Matrícula</th>
+        <th class="text-center">Contratação</th>
+        <th class="text-center">Rescisão</th>
+        <th class="text-center">Empresa</th>
+        <th class="text-center">Período</th>
+        <th class="text-center">Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let jovem of jovens; let i = index; trackBy: trackByMatricula">
+
+        <tr class="hover-row" (click)="toggleDetalhes(i)">
+
+          <!-- STATUS LATERAL -->
+          <td class="status-cell">
+           <div class="status-wrapper">
+              <div class="status-bar status-anim" [ngClass]="getStatusClass(jovem)"></div>
+            </div>
+          </td>
+          
+          <td class="text-center">{{ jovem.nome }}</td>
+          <td class="text-center">{{ jovem.matricula }}</td>
+          <td class="text-center">{{ jovem.contratacao | date:'dd/MM/yyyy' }}</td>
+          <td class="text-center">{{ jovem.rescisao | date:'dd/MM/yyyy' }}</td>
+          <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
+          <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
+
+          <td class="actions-cell">
+            <button mat-icon-button matTooltip="Criar uma Avaliação" (click)="$event.stopPropagation(); confirmar(jovem)">
+              <mat-icon>send</mat-icon>
+            </button>
+
+            <button mat-icon-button matTooltip="Enviar Email" (click)="$event.stopPropagation(); enviarEmail(jovem)">
+              <mat-icon>mail</mat-icon>
+            </button>
+
+            <button mat-icon-button matTooltip="Editar Registro" (click)="$event.stopPropagation(); editarRegistro(jovem)">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button color="warn" matTooltip="Excluir Jovem" (click)="$event.stopPropagation(); excluir(jovem.matricula)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+
+        <!-- DETALHES -->
+        <tr *ngIf="registroExpandido === i">
+          <td colspan="8" class="p-0">
+            <div class="details-box animate-expand">
+
+              <div class="details-grid">
+
+                <div class="details-item">
+                  <strong>Telefone do Jovem</strong>
+                  <span>{{ jovem.telefone || 'Não informado' }}</span>
+                </div>
+
+                <div class="details-item">
+                  <strong>Email do Jovem</strong>
+                  <span>{{ jovem.email || 'Não informado' }}</span>
+                </div>
+
+                <div class="details-item">
+                  <strong>Responsável</strong>
+                  <span>{{ jovem.nomeresponsavel || 'Não informado' }}</span>
+                </div>
+
+                <div class="details-item">
+                  <strong>Telefone Responsável</strong>
+                  <span>{{ jovem.telefoneresponsavel || 'Não informado' }}</span>
+                </div>
+
+                <div class="details-item wide">
+                  <strong>Observações</strong>
+                  <p class="details-observacoes">
+                    {{ jovem.observacoes || 'Não informado' }}
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+          </td>
+        </tr>
+
+      </ng-container>
+
+      <tr *ngIf="jovens.length === 0">
+        <td colspan="8" class="text-center py-3">Nenhum jovem encontrado.</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- MODAL -->
+<div *ngIf="registroEditando" class="modal-backdrop" (click)="fecharModal()">
+  <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h5 class="modal-title"><b>Editar Registro - Jovem</b></h5>
+    </div>
+
+    <div class="modal-body">
+
+      <form>
+
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" class="form-control" [(ngModel)]="registroEditando.nome" name="nome">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Matrícula</label>
+          <input type="text" class="form-control" [(ngModel)]="registroEditando.matricula" name="matricula">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Contratação</label>
+          <input type="date" class="form-control" [(ngModel)]="registroEditando.contratacao" name="contratacao">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Rescisão</label>
+          <input type="date" class="form-control" [(ngModel)]="registroEditando.rescisao" name="rescisao">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Período Avaliação</label>
+          <input type="number" class="form-control" [(ngModel)]="registroEditando.periodoAvaliacao" name="periodoAvaliacao">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Responsável</label>
+          <input type="text" class="form-control" [(ngModel)]="registroEditando.nomeresponsavel" name="resp">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Telefone Responsável</label>
+          <input type="text" class="form-control" [(ngModel)]="registroEditando.telefoneresponsavel" name="telresp">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Observações</label>
+          <textarea class="form-control" [(ngModel)]="registroEditando.observacoes" name="obs"></textarea>
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="salvarEdicao()">Salvar</button>
+      <button class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+    </div>
+
+  </div>
+</div>
