@@ -6,23 +6,24 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+
+// 🔥 PROXY PARA O BACKEND NO DOCKER
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: 'http://backend:8080', // Nome do serviço do docker-compose
+    changeOrigin: true,
+    pathRewrite: { '^/api': '/api' },
+  }),
+);
+
 
 /**
  * Serve static files from /browser
@@ -48,8 +49,7 @@ app.use((req, res, next) => {
 });
 
 /**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ * Start the server
  */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
@@ -62,7 +62,4 @@ if (isMainModule(import.meta.url)) {
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
 export const reqHandler = createNodeRequestHandler(app);
