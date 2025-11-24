@@ -1,0 +1,46 @@
+<div class="modal-backdrop" *ngIf="aberto">
+
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+    <h3 class="modal-title">{{ titulo }}</h3>
+
+    <div class="modal-body">
+
+      <ng-container [ngSwitch]="tipo">
+
+        <!-- SUCESSO -->
+        <ng-container *ngSwitchCase="'sucesso'">
+          <p class="success-text">{{ mensagem }}</p>
+        </ng-container>
+
+        <!-- ERRO -->
+        <ng-container *ngSwitchCase="'erro'">
+          <p class="error-text">{{ mensagem }}</p>
+        </ng-container>
+
+        <!-- CONFIRMAÇÃO -->
+        <ng-container *ngSwitchCase="'confirmar'">
+          <p>{{ mensagem }}</p>
+        </ng-container>
+
+        <!-- INFO -->
+        <ng-container *ngSwitchDefault>
+          <p>{{ mensagem }}</p>
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+    <div class="modal-actions">
+      <button *ngIf="tipo === 'confirmar'" class="btn-primary" (click)="onConfirmar()">
+        {{ textoConfirmar }}
+      </button>
+
+      <button class="btn-secondary" (click)="onFechar()">
+        {{ textoFechar }}
+      </button>
+    </div>
+
+  </div>
+</div>

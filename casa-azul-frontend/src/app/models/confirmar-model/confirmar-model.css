@@ -1,0 +1,94 @@
+/* FUNDO DO MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.584);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn .25s ease;
+  z-index: 9999;
+}
+
+/* CAIXA DO MODAL */
+.modal-card {
+  background: #ffffff;
+  width: 520px; /* Aumentado */
+  padding: 32px; /* Mais espaço */
+  border-radius: 18px;
+  animation: scaleIn .3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* TÍTULO */
+.modal-title {
+  font-weight: 700;
+  font-size: 1.8rem; /* Aumentado */
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* CORPO DO TEXTO */
+.modal-body p {
+  font-size: 1.65rem; /* Aumentado */
+  line-height: 1.55;
+  color: #374151;
+}
+
+/* SUCESSO / ERRO */
+.success-text {
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 1.65rem;
+}
+
+.error-text {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 1.65rem;
+}
+
+/* BOTÕES */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+/* BOTÃO PRIMÁRIO */
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  padding: 14px 26px; /* Maior */
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.15rem; /* Aumentado */
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0px 4px 10px rgba(99,102,241,0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4338ca, #4f46e5);
+  transform: translateY(-2px);
+}
+
+/* BOTÃO SECUNDÁRIO */
+.btn-secondary {
+  background: #e5e7eb;
+  border: none;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 1.15rem; /* Aumentado */
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+

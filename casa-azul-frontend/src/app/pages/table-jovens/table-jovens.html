@@ -1,162 +1,230 @@
 <div class="table-container">
+
+  <!-- Cabeçalho fixo (não rola) -->
   <table class="table tabela-registros">
     <caption class="table-caption">Lista de Jovens</caption>
 
     <thead>
       <tr>
-        <th style="width: 10px;"></th>
         <th class="text-center">Nome</th>
         <th class="text-center">Matrícula</th>
         <th class="text-center">Contratação</th>
-        <th class="text-center">Rescisão</th>
         <th class="text-center">Empresa</th>
         <th class="text-center">Período</th>
         <th class="text-center">Ações</th>
       </tr>
     </thead>
+  </table>
 
-    <tbody>
-      <ng-container *ngFor="let jovem of jovens; let i = index; trackBy: trackByMatricula">
+  <!-- 🔥 Scroll SOMENTE AQUI -->
+  <div class="tbody-scroll">
+    <table class="table tabela-registros">
 
-        <tr class="hover-row" (click)="toggleDetalhes(i)">
-
-          <!-- STATUS LATERAL -->
-          <td class="status-cell">
-           <div class="status-wrapper">
-              <div class="status-bar status-anim" [ngClass]="getStatusClass(jovem)"></div>
-            </div>
-          </td>
+      <tbody>
+        <ng-container *ngFor="let jovem of jovens; let i = index; trackBy: trackByMatricula">
           
-          <td class="text-center">{{ jovem.nome }}</td>
-          <td class="text-center">{{ jovem.matricula }}</td>
-          <td class="text-center">{{ jovem.contratacao | date:'dd/MM/yyyy' }}</td>
-          <td class="text-center">{{ jovem.rescisao | date:'dd/MM/yyyy' }}</td>
-          <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
-          <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
+          <!-- LINHA PRINCIPAL -->
+          <tr class="hover-row" (click)="toggleDetalhes(i)">
+            <td class="status-cell">
+              <div class="status-wrapper">
+                <div class="status-bar status-anim" [ngClass]="getStatusClass(jovem)"></div>
+              </div>
+            </td>
 
-          <td class="actions-cell">
-            <button mat-icon-button matTooltip="Criar uma Avaliação" (click)="$event.stopPropagation(); confirmar(jovem)">
-              <mat-icon>send</mat-icon>
-            </button>
+            <td class="text-center">{{ jovem.nome }}</td>
+            <td class="text-center">{{ jovem.matricula }}</td>
+            <td class="text-center">{{ jovem.contratacao | date:'dd/MM/yyyy' }}</td>
+            <td class="text-center">{{ jovem.empresa?.nomeEmpresa || 'Não informado' }}</td>
+            <td class="text-center">{{ jovem.periodoAvaliacao }} meses</td>
 
-            <button mat-icon-button matTooltip="Enviar Email" (click)="$event.stopPropagation(); enviarEmail(jovem)">
-              <mat-icon>mail</mat-icon>
-            </button>
+            <td class="actions-cell">
+              <button mat-icon-button matTooltip="Criar uma Avaliação"
+                      (click)="$event.stopPropagation(); irParaAvaliacao(jovem)">
+                <mat-icon>send</mat-icon>
+              </button>
 
-            <button mat-icon-button matTooltip="Editar Registro" (click)="$event.stopPropagation(); editarRegistro(jovem)">
-              <mat-icon>edit</mat-icon>
-            </button>
+              <button mat-icon-button matTooltip="Enviar Email"
+                      (click)="$event.stopPropagation(); enviarEmail(jovem)">
+                <mat-icon>mail</mat-icon>
+              </button>
 
-            <button mat-icon-button color="warn" matTooltip="Excluir Jovem" (click)="$event.stopPropagation(); excluir(jovem.matricula)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </tr>
+              <button mat-icon-button matTooltip="Editar Registro"
+                      (click)="$event.stopPropagation(); editarRegistro(jovem)">
+                <mat-icon>edit</mat-icon>
+              </button>
 
-        <!-- DETALHES -->
-        <tr *ngIf="registroExpandido === i">
-          <td colspan="8" class="p-0">
-            <div class="details-box animate-expand">
+              <button mat-icon-button color="warn" matTooltip="Excluir Jovem"
+                      (click)="$event.stopPropagation(); excluir(jovem.matricula)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
 
-              <div class="details-grid">
+          <!-- DETALHES EXPANDIDOS -->
+          <tr *ngIf="registroExpandido === i">
+            <td colspan="8" class="p-0">
+              
+              <div class="details-box animate-expand">
+                <div class="details-grid">
 
-                <div class="details-item">
-                  <strong>Telefone do Jovem</strong>
-                  <span>{{ jovem.telefone || 'Não informado' }}</span>
+                  <!-- ROW 1 (3 itens) -->
+                  <div class="details-row row-3">
+                    <div class="details-item">
+                      <strong>Rescisão:</strong>
+                      <span>{{ jovem.rescisao || 'Não informado' }}</span>
+                    </div>
+
+                    <div class="details-item">
+                      <strong>Telefone do Jovem:</strong>
+                      <span>{{ jovem.telefone || 'Não informado' }}</span>
+                    </div>
+
+                    <div class="details-item">
+                      <strong>Email do Jovem:</strong>
+                      <span>{{ jovem.email || 'Não informado' }}</span>
+                    </div>
+                  </div>
+
+                  <!-- ROW 2 (2 itens) -->
+                  <div class="details-row row-2">
+                    <div class="details-item">
+                      <strong>Responsável:</strong>
+                      <span>{{ jovem.nomeresponsavel || 'Não informado' }}</span>
+                    </div>
+
+                    <div class="details-item">
+                      <strong>Telefone Responsável:</strong>
+                      <span>{{ jovem.telefoneresponsavel || 'Não informado' }}</span>
+                    </div>
+                  </div>
+
+                  <!-- ROW OBSERVAÇÕES -->
+                  <div class="details-row row-full">
+                    <div class="details-item">
+                      <strong>Observações:</strong>
+                      <p class="details-observacoes">
+                        {{ jovem.observacoes || 'Não informado' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- ROW NOVA: Próxima Avaliação -->
+                  <div class="details-row row-2">
+                    <div class="details-item">
+                      <strong>Próxima Avaliação:</strong>
+
+                      <span *ngIf="getDiasParaProximaAvaliacao(jovem) as dias">
+
+                      <!-- Não definido -->
+                      <ng-container *ngIf="dias === null">
+                        Não definido
+                      </ng-container>
+
+                      <!-- Vence hoje -->
+                      <ng-container *ngIf="dias === 0">
+                        Vence hoje
+                      </ng-container>
+
+                      <!-- Em dias -->
+                      <ng-container *ngIf="dias > 0">
+                        {{ dias }} dias restantes
+                      </ng-container>
+
+                      <!-- Atrasado -->
+                      <ng-container *ngIf="dias < 0">
+                        Atrasado há {{ -dias }} dias
+                      </ng-container>
+
+                    </span>
+
+
+                    </div>
+                  </div>
+
                 </div>
-
-                <div class="details-item">
-                  <strong>Email do Jovem</strong>
-                  <span>{{ jovem.email || 'Não informado' }}</span>
-                </div>
-
-                <div class="details-item">
-                  <strong>Responsável</strong>
-                  <span>{{ jovem.nomeresponsavel || 'Não informado' }}</span>
-                </div>
-
-                <div class="details-item">
-                  <strong>Telefone Responsável</strong>
-                  <span>{{ jovem.telefoneresponsavel || 'Não informado' }}</span>
-                </div>
-
-                <div class="details-item wide">
-                  <strong>Observações</strong>
-                  <p class="details-observacoes">
-                    {{ jovem.observacoes || 'Não informado' }}
-                  </p>
-                </div>
-
               </div>
 
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
 
-      </ng-container>
+        </ng-container>
+      </tbody>
 
-      <tr *ngIf="jovens.length === 0">
-        <td colspan="8" class="text-center py-3">Nenhum jovem encontrado.</td>
-      </tr>
-
-    </tbody>
-  </table>
+    </table>
+  </div>
 </div>
 
-<!-- MODAL -->
+
+<!-- ============================
+      🔥 MODAL DE EDIÇÃO — FORA DA TABELA
+============================= -->
 <div *ngIf="registroEditando" class="modal-backdrop" (click)="fecharModal()">
   <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
 
     <div class="modal-header">
-      <h5 class="modal-title"><b>Editar Registro - Jovem</b></h5>
+      <h5 class="modal-title"><strong>Editar Registro - Jovem</strong></h5>
     </div>
 
     <div class="modal-body">
-
       <form>
 
         <div class="mb-3">
           <label class="form-label">Nome</label>
-          <input type="text" class="form-control" [(ngModel)]="registroEditando.nome" name="nome">
+          <input type="text" class="form-control"
+                 [(ngModel)]="registroEditando.nome"
+                 name="nome" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Matrícula</label>
-          <input type="text" class="form-control" [(ngModel)]="registroEditando.matricula" name="matricula">
+          <input type="text" class="form-control"
+                 [(ngModel)]="registroEditando.matricula"
+                 name="matricula" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Contratação</label>
-          <input type="date" class="form-control" [(ngModel)]="registroEditando.contratacao" name="contratacao">
+          <input type="date" class="form-control"
+                 [(ngModel)]="registroEditando.contratacao"
+                 name="contratacao" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Rescisão</label>
-          <input type="date" class="form-control" [(ngModel)]="registroEditando.rescisao" name="rescisao">
+          <input type="date" class="form-control"
+                 [(ngModel)]="registroEditando.rescisao"
+                 name="rescisao" />
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Período Avaliação</label>
-          <input type="number" class="form-control" [(ngModel)]="registroEditando.periodoAvaliacao" name="periodoAvaliacao">
+          <label class="form-label">Período Avaliação (meses)</label>
+          <input type="number" class="form-control"
+                 [(ngModel)]="registroEditando.periodoAvaliacao"
+                 name="periodoAvaliacao" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Responsável</label>
-          <input type="text" class="form-control" [(ngModel)]="registroEditando.nomeresponsavel" name="resp">
+          <input type="text" class="form-control"
+                 [(ngModel)]="registroEditando.nomeresponsavel"
+                 name="resp" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Telefone Responsável</label>
-          <input type="text" class="form-control" [(ngModel)]="registroEditando.telefoneresponsavel" name="telresp">
+          <input type="text" class="form-control"
+                 [(ngModel)]="registroEditando.telefoneresponsavel"
+                 name="telresp" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Observações</label>
-          <textarea class="form-control" [(ngModel)]="registroEditando.observacoes" name="obs"></textarea>
+          <textarea class="form-control"
+                    [(ngModel)]="registroEditando.observacoes"
+                    name="obs"></textarea>
         </div>
 
       </form>
-
     </div>
 
     <div class="modal-footer">
@@ -166,3 +234,16 @@
 
   </div>
 </div>
+
+
+<!-- ============================
+      🔥 MODAL UNIVERSAL
+============================= -->
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()">
+</app-confirmar-model>

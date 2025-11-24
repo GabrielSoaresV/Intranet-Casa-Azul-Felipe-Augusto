@@ -1,61 +1,40 @@
 /* ============================= */
-/*      TEMA LIGHT / DARK        */
-/* ============================= */
-
-:root {
-  --bg: #ffffff;
-  --text: #1a202c;
-  --text-light: #4a5568;
-  --primary: #4f46e5;
-  --primary-light: #667eea;
-  --hover: #f7fafc;
-  --border: #e2e8f0;
-}
-
-body.dark {
-  --bg: #111827;
-  --text: #f1f5f9;
-  --text-light: #cbd5e1;
-  --primary: #818cf8;
-  --primary-light: #a5b4fc;
-  --hover: #1e293b;
-  --border: #273449;
-}
-
-/* ============================= */
-/*            NAVBAR             */
+/*          NAVBAR BASE          */
 /* ============================= */
 
 .navbar {
   background: var(--bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   position: sticky;
   top: 0;
-  z-index: 1000;
   width: 100%;
+  z-index: 1000;
 }
 
+/* Container sem padding para encostar nas bordas */
 .navbar-container {
   height: 64px;
-  padding: 0 30px;
+  width: 95%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 0;
 }
 
-/* BRAND */
+/* ============================= */
+/*           LOGO LEFT           */
+/* ============================= */
+
 .navbar-brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding-left: 16px;  /* 🔥 leve respirada sem soltar da borda */
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .navbar-brand h2 {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 700;
-  margin: 0;
   color: var(--text);
 }
 
@@ -64,30 +43,33 @@ body.dark {
   color: var(--primary);
 }
 
-.navbar-brand:hover {
-  transform: scale(1.03);
-}
+/* ============================= */
+/*          ICONES RIGHT         */
+/* ============================= */
 
-/* LINKS */
 .navbar-links {
+  margin-left: auto;      /* empurra para direita */
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-grow: 1;
-  justify-content: center;
+  padding-right: 12px;    /* 🔥 encostado porém elegante */
 }
 
-.navbar-links a {
+.navbar-links a,
+.navbar-links button {
   display: grid;
   place-items: center;
   padding: 8px;
   border-radius: 10px;
-  text-decoration: none;
+  background: transparent;
   color: var(--text-light);
-  transition: 0.2s;
+  border: none;
+  cursor: pointer;
+  transition: .2s;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-links button:hover {
   background: var(--hover);
   color: var(--primary);
 }
@@ -97,29 +79,17 @@ body.dark {
   color: var(--primary);
 }
 
-/* ICONES */
 .navbar-links mat-icon {
   font-size: 24px;
 }
 
-/* USER AREA */
-.navbar-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* BOTAO DARK/LIGHT */
+/* Botão de tema */
 .theme-toggle {
-  background: transparent;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 6px;
-  cursor: pointer;
-  color: var(--text);
-  transition: 0.2s;
 }
-
-.theme-toggle:hover {
-  background: var(--hover);
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -7,23 +7,33 @@ import { InterfaceEmpresa } from '../models/interface-empresa.model';
   providedIn: 'root'
 })
 export class EmpresaService {
-  private readonly API = 'http://localhost:8080/api/empresas';
+
+  private readonly API = 'http://backend:8080/api/empresas';
 
   constructor(private http: HttpClient) {}
 
+  /** LISTAR TODAS AS EMPRESAS */
   listar(): Observable<InterfaceEmpresa[]> {
     return this.http.get<InterfaceEmpresa[]>(this.API);
   }
 
-  excluir(cnpj: string) {
-    return this.http.delete(`${this.API}/${encodeURIComponent(cnpj)}`);
+  /** BUSCAR EMPRESA PELO CNPJ */
+  buscarPorCnpj(cnpj: string): Observable<InterfaceEmpresa> {
+    return this.http.get<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(cnpj)}`);
   }
 
-  atualizarEmpresa(empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
-    return this.http.put<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(empresa.cnpj)}`, empresa);
-  }
-
-  cadastrarEmpresa(empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
+  /** CADASTRAR NOVA EMPRESA */
+  cadastrar(empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
     return this.http.post<InterfaceEmpresa>(this.API, empresa);
+  }
+
+  /** ATUALIZAR EMPRESA EXISTENTE */
+  atualizar(cnpj: string, empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
+    return this.http.put<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(cnpj)}`, empresa);
+  }
+
+  /** EXCLUIR EMPRESA */
+  excluir(cnpj: string): Observable<void> {
+    return this.http.delete<void>(`${this.API}/${encodeURIComponent(cnpj)}`);
   }
 }

@@ -3,6 +3,8 @@ package com.projetoavaliacao.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "AVALIACOES")
 public class Avaliacoes {
@@ -11,6 +13,7 @@ public class Avaliacoes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAvaliacao;
 
+    @Lob
     private String avaliacao;
     private LocalDate dataAvaliacao;
 
@@ -30,6 +33,7 @@ public class Avaliacoes {
     @Enumerated(EnumType.STRING)
     private TipoAvaliacao numeroAvaliacao;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "matricula_jovem", referencedColumnName = "matricula")
     private JovemAprendiz jovem;

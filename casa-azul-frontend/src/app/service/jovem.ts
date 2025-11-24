@@ -7,7 +7,7 @@ import { InterfaceJovem } from '../models/interface-jovem.model';
   providedIn: 'root'
 })
 export class JovemService {
-  private readonly API = 'http://localhost:8080/api/jovens';
+  private readonly API = 'http://backend:8080/api/jovens';
 
   constructor(private http: HttpClient) {}
 

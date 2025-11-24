@@ -2,6 +2,7 @@ package com.projetoavaliacao.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class JovemAprendiz {
@@ -16,22 +17,49 @@ public class JovemAprendiz {
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "cnpj")
     private Empresa empresa;
+
     private String periodoAvaliacao;
 
     @Column(unique = true)
     private String email;
-    
+
     private String telefone;
     private String nomeresponsavel;
     private String telefoneresponsavel;
     private String observacoes;
+
+    // =============================
+    // RELAÇÃO COM AVALIAÇÕES
+    // =============================
+    @OneToMany(mappedBy = "jovem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Avaliacoes> avaliacoes;
+
+    // Campo calculado
+    @Transient
+    private LocalDate ultimaAvaliacao;
 
     @Transient
     public String getNomeEmpresa() {
         return empresa != null ? empresa.getNomeEmpresa() : null;
     }
 
-    // Getters e Setters
+    // 🔥 Retorna automaticamente a última avaliação registrada
+    @Transient
+    public LocalDate getUltimaAvaliacao() {
+        if (avaliacoes == null || avaliacoes.isEmpty())
+            return null;
+
+        return avaliacoes.stream()
+                .map(Avaliacoes::getDataAvaliacao)
+                .max(LocalDate::compareTo)
+                .orElse(null);
+    }
+
+
+    // =============================
+    // GETTERS E SETTERS COMPLETOS
+    // =============================
+
     public String getMatricula() { return matricula; }
     public void setMatricula(String matricula) { this.matricula = matricula; }
 
@@ -64,4 +92,7 @@ public class JovemAprendiz {
 
     public String getObservacoes() { return observacoes; }
     public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
+
+    public List<Avaliacoes> getAvaliacoes() { return avaliacoes; }
+    public void setAvaliacoes(List<Avaliacoes> avaliacoes) { this.avaliacoes = avaliacoes; }
 }

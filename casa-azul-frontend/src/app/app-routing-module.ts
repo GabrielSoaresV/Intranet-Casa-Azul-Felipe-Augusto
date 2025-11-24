@@ -7,6 +7,7 @@ import { PageSettings } from './pages/page-settings/page-settings';
 import { PageRegister } from './pages/page-register/page-register'; 
 import { Email } from './pages/componentes-settings/email/email';
 import { Usuarios } from './pages/componentes-settings/usuarios/usuarios';
+import { AvaliacaoForm } from './pages/avaliacao-form/avaliacao-form';
 
 const routes: Routes = [
   { path: '', component: PageLogin },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'setting', component: PageSettings },
   { path: 'register', component: PageRegister },
   { path: 'email', component: Email},
+  { path: 'avaliacao/:matricula', component: AvaliacaoForm},
   { path: 'usuario', component: Usuarios}
 ];
 

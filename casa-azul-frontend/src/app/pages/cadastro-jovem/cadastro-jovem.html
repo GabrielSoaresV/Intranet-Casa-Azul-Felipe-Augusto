@@ -15,6 +15,11 @@
     </div>
 
     <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="jovem.email" name="email" />
+    </div>
+
+    <div class="form-field">
       <label>Data de Contratação</label>
       <input type="date" [(ngModel)]="jovem.contratacao" name="contratacao" required />
     </div>
@@ -55,11 +60,6 @@
     </div>
 
     <div class="form-field">
-      <label>Email</label>
-      <input type="email" [(ngModel)]="jovem.email" name="email" />
-    </div>
-
-    <div class="form-field">
       <label>Telefone</label>
       <input 
         type="text"
@@ -82,3 +82,11 @@
   </form>
 
 </div>
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()">
+</app-confirmar-model>

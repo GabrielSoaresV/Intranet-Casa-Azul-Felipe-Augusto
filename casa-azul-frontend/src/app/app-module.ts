@@ -33,6 +33,9 @@ import { Seguranca } from './pages/componentes-settings/seguranca/seguranca';
 import { Servidor } from './pages/componentes-settings/servidor/servidor';
 import { Usuarios } from './pages/componentes-settings/usuarios/usuarios';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { ConfirmarModel } from './models/confirmar-model/confirmar-model';
+import { AvaliacaoForm } from './pages/avaliacao-form/avaliacao-form';
 
 @NgModule({
   declarations: [
@@ -63,13 +66,16 @@ import { MatIconModule } from '@angular/material/icon';
     Servidor,
     Preferencias,
     Seguranca,
-    Usuarios
+    Usuarios,
+    ConfirmarModel,
+    AvaliacaoForm
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     MatIconModule,
+    MatCardModule,
     FormsModule
   ],
   providers: [

@@ -8,9 +8,9 @@
 
 /* Wrapper elegante */
 .search-wrapper {
-  width: 60%;
+  width: 100%;
   max-width: 480px;
-  min-width: 260px;
+  min-width: 480px;
 
   background: #fff;
   border-radius: 14px;

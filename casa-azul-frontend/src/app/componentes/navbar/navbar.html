@@ -1,13 +1,12 @@
 <nav class="navbar">
   <div class="navbar-container">
 
-    <!-- BRAND -->
+    <!-- LOGO 100% À ESQUERDA (SEM ÍCONE) -->
     <div class="navbar-brand" (click)="irPara('navigation')">
-      <mat-icon class="brand-icon">home</mat-icon>
-      <h2>Casa Azul</h2>
+      <h3>Intranet Casa Azul</h3>
     </div>
 
-    <!-- LINKS DO CENTRO -->
+    <!-- ÍCONES 100% À DIREITA -->
     <div class="navbar-links">
 
       <a (click)="irPara('register')" 
@@ -38,14 +37,10 @@
         <mat-icon>logout</mat-icon>
       </a>
 
-    </div>
-
-    <!-- USER AREA (opcional, já deixei preparado) -->
-    <div class="navbar-user">
-
+      <!-- BOTÃO DE TEMA 
       <button class="theme-toggle" (click)="toggleTheme()">
         <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
-      </button>
+      </button>-->
 
     </div>
 

@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+
+<div class="avaliacao-container">
+
+  <h2 class="titulo">
+    {{ nomeJovem }} — <span class="tag">{{ proximaAvaliacao }}</span>
+  </h2>
+
+  <!-- Botão Ver Avaliações -->
+  <div class="acoes" style="margin-bottom: 20px; text-align: right;">
+    <button mat-stroked-button color="primary" (click)="abrirListaAvaliacoes()">
+      Ver Avaliações Anteriores
+    </button>
+  </div>
+
+  <!-- Card principal -->
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Nova Avaliação</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <textarea 
+        class="textarea"
+        [(ngModel)]="avaliacaoTexto"
+        placeholder="Cole aqui a avaliação recebida da empresa..."
+        rows="8">
+      </textarea>
+
+      <div class="acoes">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="salvar()" 
+          [disabled]="carregando">
+
+          {{ carregando ? 'Salvando...' : 'Salvar Avaliação' }}
+        </button>
+      </div>
+
+      <p class="erro" *ngIf="erro">{{ erro }}</p>
+
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<!-- ============================
+      MODAL UNIVERSAL
+============================= -->
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()">
+</app-confirmar-model>
+
+
+<!-- ============================
+      MODAL AVALIAÇÕES ANTERIORES
+============================= -->
+<div class="modal-backdrop-avaliacoes" *ngIf="mostrarModalAvaliacoes" (click)="mostrarModalAvaliacoes = false">
+
+  <div class="modal-avaliacoes" (click)="$event.stopPropagation()">
+
+    <h3 class="titulo-modal">
+      Avaliações de {{ nomeJovem }}
+    </h3>
+
+    <div class="lista-avaliacoes">
+      <ng-container *ngFor="let av of avaliacoesDoJovem">
+        <div class="card-av">
+          <strong>Avaliação: {{ av.numeroAvaliacao }}</strong><br>
+          <small>Data: {{ av.dataAvaliacao }}</small>
+          <p>{{ av.avaliacao }}</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <button class="btn-fechar" (click)="mostrarModalAvaliacoes = false">
+      Fechar
+    </button>
+
+  </div>
+
+</div>

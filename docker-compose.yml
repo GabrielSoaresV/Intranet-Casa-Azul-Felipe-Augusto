@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+  backend:
+    container_name: casa-backend
+    build: ./backend
+    ports:
+      - "8080:8080"
+    networks:
+      - casa-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: always
+
+  frontend:
+    container_name: casa-frontend
+    build: ./frontend
+    ports:
+      - "4200:4000"    # Porta externa 4200 → SSR rodando na porta 4000
+    depends_on:
+      - backend
+    networks:
+      - casa-net
+    restart: always
+
+networks:
+  casa-net:
+    driver: bridge

@@ -12,5 +12,6 @@ export interface InterfaceJovem {
   observacoes?: string;
   nomeresponsavel?: string;     
   telefoneresponsavel?: string;  
+  ultimaAvaliacao?: string | null;
 
 }

@@ -17,6 +17,13 @@ export class TableEmpresa implements OnInit {
   registroEditando: InterfaceEmpresa | null = null;
   private buscaSubscription!: Subscription;
 
+  // ------------ MODAL UNIVERSAL ------------
+  modalAberto = false;
+  modalTipo: 'sucesso' | 'erro' | 'confirmar' | 'info' = 'info';
+  modalTitulo = '';
+  modalMensagem = '';
+  callbackConfirmacao: (() => void) | null = null;
+
   constructor(
     private empresaService: EmpresaService,
     private buscaService: BuscaService,
@@ -38,7 +45,9 @@ export class TableEmpresa implements OnInit {
         this.empresas = dados;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Erro ao carregar dados', err)
+      error: () => {
+        this.abrirModal('erro', 'Erro ao Carregar', 'Não foi possível carregar as empresas.');
+      }
     });
   }
 
@@ -60,34 +69,29 @@ export class TableEmpresa implements OnInit {
   }
 
   confirmar(empresa: InterfaceEmpresa) {
-    console.log('Enviar:', empresa);
   }
 
   editarRegistro(empresa: InterfaceEmpresa) {
-    console.log('função editarRegistro, chamada');
     this.registroEditando = { ...empresa };
   }
 
   carregarRegistros(): void {
-    console.log('função carregarRegistros, chamada');
     this.carregarDados();
   }
 
   salvarEdicao() {
-    console.log('função salvarEdicao, chamada');
-    if (this.registroEditando) {
-      this.empresaService.atualizarEmpresa(this.registroEditando).subscribe({
-        next: () => {
-          alert(`Alterações salvas com sucesso para ${this.registroEditando?.nomeEmpresa}!`);
-          this.fecharModal();
-          this.carregarRegistros();
-        },
-        error: (erro) => {
-          console.error('Erro ao atualizar:', erro);
-          alert('Erro ao salvar as alterações.');
-        }
-      });
-    }
+    if (!this.registroEditando) return;
+
+    this.empresaService.atualizar(this.registroEditando.cnpj, this.registroEditando).subscribe({
+      next: () => {
+        this.abrirModal('sucesso', 'Alterações Salvas', 'Os dados foram atualizados.');
+        this.fecharModal();
+        this.carregarRegistros();
+      },
+      error: () => {
+        this.abrirModal('erro', 'Erro ao Salvar', 'Não foi possível atualizar a empresa.');
+      }
+    });
   }
 
   fecharModal() {
@@ -95,22 +99,36 @@ export class TableEmpresa implements OnInit {
   }
 
   excluir(cnpj: string): void {
-    if (confirm(`Confirma exclusão do registro ${cnpj}?`)) {
-      this.empresaService.excluir(cnpj).subscribe({
-        next: () => {
-          this.empresas = this.empresas.filter(j => j.cnpj !== cnpj);
-          this.todasEmpresas = this.todasEmpresas.filter(j => j.cnpj !== cnpj);
-          this.cdr.detectChanges();
-          alert('Registro excluído com sucesso!');
-        },
-        error: (err) => {
-          console.error('Erro ao excluir registro', err);
-          alert('Erro ao excluir o registro.');
-        }
-      });
-    }
+    this.abrirModal(
+      'confirmar',
+      'Excluir Empresa',
+      `Deseja realmente excluir a empresa de CNPJ ${cnpj}?`,
+      () => this.excluirConfirmado(cnpj)
+    );
   }
 
+  excluirConfirmado(cnpj: string) {
+    this.empresaService.excluir(cnpj).subscribe({
+      next: () => {
+        this.empresas = this.empresas.filter(e => e.cnpj !== cnpj);
+        this.todasEmpresas = this.todasEmpresas.filter(e => e.cnpj !== cnpj);
+
+        this.cdr.detectChanges();
+
+        setTimeout(() => {
+          this.abrirModal('sucesso', 'Excluído', 'A empresa foi removida.');
+          this.carregarDados(); // recarregar dados depois de excluir
+        });
+      },
+      error: () => {
+        setTimeout(() => {
+          this.abrirModal('erro', 'Erro ao Excluir', 'Não foi possível remover a empresa.');
+        });
+      }
+    });
+  }
+
+  // FORMATAR CNPJ
   formatarCnpj(cnpj: string): string {
     if (!cnpj) return '';
     let v = cnpj.replace(/\D/g, '');
@@ -121,7 +139,33 @@ export class TableEmpresa implements OnInit {
     return v;
   }
 
+  // TRACKBY
   trackByCnpj(index: number, item: InterfaceEmpresa) {
     return item.cnpj;
+  }
+
+  // ------------ MÉTODOS DO MODAL UNIVERSAL ------------
+  abrirModal(
+    tipo: 'sucesso' | 'erro' | 'confirmar' | 'info',
+    titulo: string,
+    mensagem: string,
+    callback?: () => void
+  ) {
+    this.modalTipo = tipo;
+    this.modalTitulo = titulo;
+    this.modalMensagem = mensagem;
+    this.modalAberto = true;
+    this.callbackConfirmacao = callback || null;
+  }
+
+  fecharModalGenerico() {
+    this.modalAberto = false;
+    this.callbackConfirmacao = null; // Cancela a ação
+  }
+
+  executarConfirmacao() {
+    if (this.callbackConfirmacao) {
+      this.callbackConfirmacao();  // só executa ao confirmar
+    }
   }
 }

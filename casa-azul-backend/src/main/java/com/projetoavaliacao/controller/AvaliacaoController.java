@@ -8,9 +8,10 @@ import com.projetoavaliacao.service.AvaliacaoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/avaliacoes")
 public class AvaliacaoController {
@@ -35,23 +36,37 @@ public class AvaliacaoController {
 
     @PostMapping("/{matricula}")
     public ResponseEntity<?> salvar(@PathVariable String matricula, @RequestBody Avaliacoes avaliacao) {
+
         JovemAprendiz jovem = jovemRepository.findById(matricula)
                 .orElseThrow(() -> new RuntimeException("Jovem não encontrado"));
 
-        // Busca todas as avaliações do jovem
+        // Verifica se texto da avaliação veio vazio
+        if (avaliacao.getAvaliacao() == null || avaliacao.getAvaliacao().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("O texto da avaliação não pode estar vazio");
+        }
+
+        // Define a data automaticamente se vier nula
+        if (avaliacao.getDataAvaliacao() == null) {
+            avaliacao.setDataAvaliacao(LocalDate.now());
+        }
+
+        // Busca todas as avaliações já existentes
         List<Avaliacoes> avaliacoesExistentes = service.listarPorJovem(matricula);
 
-        // Verifica se já atingiu a última avaliação
+        // Bloqueia caso já tenha 4
         if (avaliacoesExistentes.size() >= 4) {
             return ResponseEntity.badRequest().body("Não é possível cadastrar mais avaliações para este jovem");
         }
 
-        // Define automaticamente o número da avaliação
+        // Define automaticamente o número da avaliação (UM, DOIS, TRES ou FINAL)
         TipoAvaliacao proxima;
         if (avaliacoesExistentes.isEmpty()) {
             proxima = TipoAvaliacao.UM;
         } else {
-            TipoAvaliacao ultima = avaliacoesExistentes.get(avaliacoesExistentes.size() - 1).getNumeroAvaliacao();
+            TipoAvaliacao ultima = avaliacoesExistentes
+                    .get(avaliacoesExistentes.size() - 1)
+                    .getNumeroAvaliacao();
+
             proxima = TipoAvaliacao.proximo(ultima);
         }
 
@@ -59,8 +74,10 @@ public class AvaliacaoController {
         avaliacao.setNumeroAvaliacao(proxima);
 
         Avaliacoes salva = service.salvar(avaliacao);
+
         return ResponseEntity.ok(salva);
     }
+
 
     @DeleteMapping("/{id}")
     public void excluir(@PathVariable Long id) {

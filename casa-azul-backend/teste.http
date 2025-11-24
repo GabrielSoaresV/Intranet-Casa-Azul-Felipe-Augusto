@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/emails
+POST http://backend:8080/api/emails
 Content-Type: application/json
 
 {

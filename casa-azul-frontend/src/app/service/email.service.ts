@@ -13,7 +13,7 @@ export interface Email {
 })
 export class EmailService {
 
-  private apiUrl = 'http://localhost:8080/api/email';
+  private apiUrl = 'http://backend:8080/api/email';
 
   constructor(private http: HttpClient) {}
 

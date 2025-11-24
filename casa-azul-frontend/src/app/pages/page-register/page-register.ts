@@ -12,7 +12,6 @@ export class PageRegister {
 
   selecionarFormulario(tipo: string) {
     this.formSelecionado = tipo;
-    console.log(`Formulário selecionado: ${tipo}`);
   }
 }
 
