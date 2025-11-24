@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InterfaceEmpresa } from '../models/interface-empresa.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpresaService {
 
-  private readonly API = 'http://backend:8080/api/empresas';
+  private readonly API = `${environment.apiUrl}/api/empresas`;
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +20,9 @@ export class EmpresaService {
 
   /** BUSCAR EMPRESA PELO CNPJ */
   buscarPorCnpj(cnpj: string): Observable<InterfaceEmpresa> {
-    return this.http.get<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(cnpj)}`);
+    return this.http.get<InterfaceEmpresa>(
+      `${this.API}/${encodeURIComponent(cnpj)}`
+    );
   }
 
   /** CADASTRAR NOVA EMPRESA */
@@ -29,11 +32,16 @@ export class EmpresaService {
 
   /** ATUALIZAR EMPRESA EXISTENTE */
   atualizar(cnpj: string, empresa: InterfaceEmpresa): Observable<InterfaceEmpresa> {
-    return this.http.put<InterfaceEmpresa>(`${this.API}/${encodeURIComponent(cnpj)}`, empresa);
+    return this.http.put<InterfaceEmpresa>(
+      `${this.API}/${encodeURIComponent(cnpj)}`,
+      empresa
+    );
   }
 
   /** EXCLUIR EMPRESA */
   excluir(cnpj: string): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${encodeURIComponent(cnpj)}`);
+    return this.http.delete<void>(
+      `${this.API}/${encodeURIComponent(cnpj)}`
+    );
   }
 }

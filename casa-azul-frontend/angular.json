@@ -54,13 +54,19 @@
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
-            "outputMode": "browser",
+            "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
             }
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",

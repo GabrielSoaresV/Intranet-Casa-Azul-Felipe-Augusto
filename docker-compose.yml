@@ -28,4 +28,4 @@ services:
 
 networks:
   casa-net:
-    driver: br
+    driver: bridge
