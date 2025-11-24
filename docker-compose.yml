@@ -4,7 +4,8 @@ services:
 
   backend:
     container_name: casa-backend
-    build: ./backend
+    build:
+      context: ./casa-azul-backend
     ports:
       - "8080:8080"
     networks:
@@ -15,9 +16,10 @@ services:
 
   frontend:
     container_name: casa-frontend
-    build: ./frontend
+    build:
+      context: ./casa-azul-frontend
     ports:
-      - "4200:4000"    # Porta externa 4200 → SSR rodando na porta 4000
+      - "4200:4000"   # Externo 4200 → interno 4000 (SSR)
     depends_on:
       - backend
     networks:
@@ -26,4 +28,4 @@ services:
 
 networks:
   casa-net:
-    driver: bridge
+    driver: br
