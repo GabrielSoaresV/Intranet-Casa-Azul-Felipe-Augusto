@@ -148,6 +148,9 @@
           </tr>
 
         </ng-container>
+        <tr *ngIf="jovens.length === 0">
+          <td colspan="5" class="text-center py-3">Nenhum Jovem Aprendiz cadastrado.</td>
+        </tr>
       </tbody>
 
     </table>

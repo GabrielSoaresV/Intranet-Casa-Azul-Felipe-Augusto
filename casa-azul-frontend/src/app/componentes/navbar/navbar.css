@@ -4,7 +4,7 @@
 
 .navbar {
   background: var(--bg);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.233);
   position: sticky;
   top: 0;
   width: 100%;
@@ -92,4 +92,17 @@
 .h1, .h2, .h3, h1, h2, h3 {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.logo-inca {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.logo-inca span {
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 36px;
 }

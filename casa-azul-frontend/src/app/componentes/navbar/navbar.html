@@ -3,7 +3,7 @@
 
     <!-- LOGO 100% À ESQUERDA (SEM ÍCONE) -->
     <div class="navbar-brand" (click)="irPara('navigation')">
-      <h3>Intranet Casa Azul</h3>
+      <h1 class="logo-inca"><span>I</span>NCA</h1>
     </div>
 
     <!-- ÍCONES 100% À DIREITA -->
@@ -23,7 +23,7 @@
         <mat-icon>table_chart</mat-icon>
       </a>
 
-      <a (click)="irPara('setting')" 
+      <!--<a (click)="irPara('setting')" 
          *ngIf="mostrarLink('setting')" 
          routerLinkActive="active"
          title="Configurações">
@@ -35,7 +35,7 @@
          routerLinkActive="active"
          title="Logout">
         <mat-icon>logout</mat-icon>
-      </a>
+      </a> -->
 
       <!-- BOTÃO DE TEMA 
       <button class="theme-toggle" (click)="toggleTheme()">
