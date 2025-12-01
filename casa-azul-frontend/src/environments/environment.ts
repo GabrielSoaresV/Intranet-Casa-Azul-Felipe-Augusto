@@ -1,5 +1,9 @@
 export const environment = {
   production: false,
-  apiUrl: "http://backend:8080"
 
+  // backend AUTH SERVICE
+  authApiUrl: 'http://localhost:8081',
+  
+  // backend principal (se existir)
+  apiUrl: 'http://localhost:8080'
 };

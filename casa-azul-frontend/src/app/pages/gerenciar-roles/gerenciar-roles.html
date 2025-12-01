@@ -1,0 +1,32 @@
+<div class="form-card">
+
+  <h2 class="form-title">Gerenciar Roles - {{ usernameParam }}</h2>
+
+  <div class="form-field full">
+    <label>Adicionar Role</label>
+    <select [(ngModel)]="roleSelecionada" name="role">
+      <option *ngFor="let r of todasRoles" [value]="r.name">{{ r.name }}</option>
+    </select>
+
+    <button class="btn-primary mt-2" (click)="adicionarRole()">Adicionar Role</button>
+  </div>
+
+  <h3 class="form-title">Roles atuais</h3>
+
+  <div class="role-container">
+    <div class="role-item" *ngFor="let r of rolesUsuario">
+      {{ r }}
+      <button class="btn-sm danger" (click)="removerRole(r)">Remover</button>
+    </div>
+  </div>
+
+</div>
+
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()"
+></app-confirmar-model>

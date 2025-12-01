@@ -1,0 +1,22 @@
+Rodar em produção usar: 
+
+Ir para a pasta target: cd .\target\
+
+Comando para rodar: java -jar auth-service-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+
+antes de tudo criar o banco no mysql
+
+CREATE DATABASE authservice CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+use authservice;
+
+drop database authservice;
+
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin123';
+GRANT ALL PRIVILEGES ON authservice.* TO 'admin'@'%';
+FLUSH PRIVILEGES;
+
+ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin123';
+FLUSH PRIVILEGES;
+
+select * from users

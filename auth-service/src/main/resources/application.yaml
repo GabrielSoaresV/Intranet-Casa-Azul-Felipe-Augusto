@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev   # Perfil padrão
+
+server:
+  port: 8081
+
+jwt:
+  secret: MUDE_ESSA_CHAVE_AQUI_PARA_ALGO_GRANDE_E_SEGURO
+  expiration-ms: 3600000          # 1h
+  refresh-expiration-ms: 86400000 # 24h

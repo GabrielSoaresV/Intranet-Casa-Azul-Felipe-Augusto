@@ -1,46 +1,62 @@
 <nav class="navbar">
   <div class="navbar-container">
 
-    <!-- LOGO 100% À ESQUERDA (SEM ÍCONE) -->
+    <!-- LOGO -->
     <div class="navbar-brand" (click)="irPara('navigation')">
-      <h1 class="logo-inca"><span>I</span>NCA</h1>
+      <mat-icon class="brand-icon">home</mat-icon>
+      <h2>Intranet INCA</h2>
     </div>
 
-    <!-- ÍCONES 100% À DIREITA -->
+    <!-- LINKS CENTRAIS -->
     <div class="navbar-links">
 
-      <a (click)="irPara('register')" 
-         *ngIf="mostrarLink('register')" 
+      <a routerLink="/register"
          routerLinkActive="active"
+         *ngIf="usuario"
          title="Cadastro">
         <mat-icon>person_add</mat-icon>
       </a>
 
-      <a (click)="irPara('gestao')" 
-         *ngIf="mostrarLink('gestao')" 
+      <a routerLink="/gestao"
          routerLinkActive="active"
+         *ngIf="usuario"
          title="Tabelas">
         <mat-icon>table_chart</mat-icon>
       </a>
 
-      <!--<a (click)="irPara('setting')" 
-         *ngIf="mostrarLink('setting')" 
-         routerLinkActive="active"
-         title="Configurações">
-        <mat-icon>settings</mat-icon>
-      </a>
+    </div>
 
-      <a (click)="irPara('')" 
-         *ngIf="mostrarLink('')" 
-         routerLinkActive="active"
-         title="Logout">
-        <mat-icon>logout</mat-icon>
-      </a> -->
+    <!-- PERFIL DO USUÁRIO -->
+    <div class="navbar-user" *ngIf="usuario">
 
-      <!-- BOTÃO DE TEMA 
-      <button class="theme-toggle" (click)="toggleTheme()">
-        <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
-      </button>-->
+      <button class="user-button" (click)="toggleMenu()" aria-label="menu do usuário">
+        <div class="user-avatar">
+          <img [src]="avatarUrl"
+               class="avatar-img"
+               alt="Foto do usuário"
+               (error)="avatarUrl = 'assets/profile/default.png'">
+        </div>
+        <span class="user-name">{{ usuario.username }}</span>
+        <mat-icon class="arrow">{{ menuOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </button>
+
+      <!-- DROPDOWN -->
+      <div class="user-menu" [class.open]="menuOpen">
+        <a (click)="irPara('perfil')">
+          <mat-icon>account_circle</mat-icon>
+          Meu Perfil
+        </a>
+
+        <a (click)="irPara('alterar-senha')">
+          <mat-icon>lock</mat-icon>
+          Alterar Senha
+        </a>
+
+        <button (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Sair
+        </button>
+      </div>
 
     </div>
 

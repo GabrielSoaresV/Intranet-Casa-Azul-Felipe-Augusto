@@ -1,0 +1,85 @@
+<div class="form-card">
+
+  <h2 class="form-title">Cadastrar Usuário</h2>
+
+  <form (ngSubmit)="cadastrarUsuario()" class="form-grid-2" #form="ngForm">
+
+    <div class="form-field">
+      <label>Username</label>
+      <input
+        type="text"
+        name="username"
+        required
+        [(ngModel)]="usuario.username"
+      />
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        required
+        [(ngModel)]="usuario.email"
+      />
+    </div>
+
+    <div class="form-field">
+      <label>CPF</label>
+      <input
+        type="text"
+        name="cpf"
+        required
+        maxlength="14"
+        placeholder="000.000.000-00"
+        (input)="formatarCPF($event)"
+        [(ngModel)]="usuario.cpf"
+      />
+    </div>
+
+    <div class="form-field">
+      <label>Senha</label>
+      <input
+        type="password"
+        name="password"
+        required
+        [(ngModel)]="usuario.password"
+      />
+    </div>
+
+    <div class="form-field full">
+      <label>Confirmar Senha</label>
+      <input
+        type="password"
+        name="confirm"
+        required
+        [(ngModel)]="confirmarSenha"
+      />
+    </div>
+
+    <div class="form-actions full">
+      <button class="btn-primary" type="submit" [disabled]="loading || !form.valid">
+        {{ loading ? 'Cadastrando...' : 'Cadastrar Usuário' }}
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Modal Universal -->
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()">
+</app-confirmar-model>
+
+<!-- Loading Overlay -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-wrapper">
+    <span class="spinner-border"></span>
+    <span>Processando...</span>
+  </div>
+</div>

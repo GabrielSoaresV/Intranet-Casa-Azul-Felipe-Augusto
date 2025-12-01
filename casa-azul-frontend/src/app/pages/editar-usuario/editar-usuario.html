@@ -1,0 +1,44 @@
+<div class="form-card">
+
+  <h2 class="form-title">Editar Usuário</h2>
+
+  <form (ngSubmit)="salvarAlteracoes()" class="form-grid-2">
+
+    <div class="form-field">
+      <label>Username</label>
+      <input type="text" [(ngModel)]="dados.username" name="username" required />
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="dados.email" name="email" required />
+    </div>
+
+    <div class="form-field">
+      <label>CPF</label>
+      <input
+        type="text"
+        [(ngModel)]="dados.cpf"
+        name="cpf"
+        maxlength="14"
+        (input)="formatarCPF($event)"
+        required
+      />
+    </div>
+
+    <div class="form-actions full">
+      <button class="btn-primary" type="submit">Salvar Alterações</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()"
+></app-confirmar-model>

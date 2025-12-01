@@ -5,7 +5,6 @@
 
 <div class="wrapper fadeInDown">
   <div id="formContent">
-    <!-- Tabs Titles -->
 
     <!-- Icon -->
     <div class="fadeIn first">
@@ -13,13 +12,43 @@
     </div>
 
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-      <input type="submit" (click)="irParaNavigation()" class="fadeIn fourth" value="Log In">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+      <input
+        type="text"
+        id="login"
+        class="fadeIn second"
+        placeholder="Usuário, email ou CPF"
+        name="userlogin"
+        required
+        [(ngModel)]="model.userlogin"
+      >
+
+      <input
+        type="password"
+        id="password"
+        class="fadeIn third"
+        placeholder="Senha"
+        name="password"
+        required
+        [(ngModel)]="model.password"
+      >
+
+      <input
+        type="submit"
+        class="fadeIn fourth"
+        value="Log In"
+        [disabled]="loginForm.invalid || loading"
+      >
+
     </form>
 
-    <!-- Remind Passowrd -->
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="text-danger mt-2">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Footer -->
     <div id="formFooter">
       <a class="underlineHover" href="#">Forgot Password?</a>
     </div>

@@ -1,0 +1,58 @@
+<div class="form-card">
+
+  <h2 class="form-title">Lista de Usuários</h2>
+
+  <table class="tabela-registros">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>CPF</th>
+        <th>Status</th>
+        <th>Roles</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ formatarCPF(u.cpf) }}</td>
+        <td>
+          <span class="status" [class.disabled]="!u.enabled">
+            {{ u.enabled ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
+
+        <td>
+          <span class="role-tag" *ngFor="let r of u.roles">{{ r }}</span>
+        </td>
+
+        <td>
+          <button class="btn-sm" (click)="editar(u)">Editar</button>
+          <button class="btn-sm alt" (click)="gerenciarRoles(u)">Roles</button>
+
+          <button
+            class="btn-sm danger"
+            (click)="alternarStatus(u)"
+          >
+            {{ u.enabled ? 'Desativar' : 'Ativar' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal universal -->
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()"
+></app-confirmar-model>

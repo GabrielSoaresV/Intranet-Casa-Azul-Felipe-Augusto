@@ -1,0 +1,35 @@
+<div class="form-card">
+
+  <h2 class="form-title">Alterar Senha</h2>
+
+  <form (ngSubmit)="confirmarTroca()" class="form-grid-2">
+
+    <div class="form-field full">
+      <label>Senha Atual</label>
+      <input type="password" [(ngModel)]="senhaAtual" name="senhaAtual" required />
+    </div>
+
+    <div class="form-field full">
+      <label>Nova Senha</label>
+      <input type="password" [(ngModel)]="novaSenha" name="novaSenha" required />
+    </div>
+
+    <div class="form-field full">
+      <label>Confirmar Nova Senha</label>
+      <input type="password" [(ngModel)]="confirmarSenha" name="confirmarSenha" required />
+    </div>
+
+    <div class="form-actions full">
+      <button class="btn-primary" type="submit">Alterar Senha</button>
+    </div>
+  </form>
+</div>
+
+<app-confirmar-model
+  [aberto]="modalAberto"
+  [tipo]="modalTipo"
+  [titulo]="modalTitulo"
+  [mensagem]="modalMensagem"
+  (fechar)="fecharModalGenerico()"
+  (confirmar)="executarConfirmacao()"
+></app-confirmar-model>

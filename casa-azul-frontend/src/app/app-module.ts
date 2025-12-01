@@ -1,6 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { FormsModule } from '@angular/forms';
 import { App } from './app';
@@ -36,6 +36,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ConfirmarModel } from './models/confirmar-model/confirmar-model';
 import { AvaliacaoForm } from './pages/avaliacao-form/avaliacao-form';
+import { AuthInterceptor } from './service/auth.interceptor';
+import { AuthGuard } from './service/auth.guard';
+import { ListarUsuarios } from './pages/listar-usuarios/listar-usuarios';
+import { EditarUsuario } from './pages/editar-usuario/editar-usuario';
+import { GerenciarRoles } from './pages/gerenciar-roles/gerenciar-roles';
+import { AlterarSenha } from './pages/alterar-senha/alterar-senha';
+import { PerfilUsuario } from './pages/perfil-usuario/perfil-usuario';
 
 @NgModule({
   declarations: [
@@ -68,7 +75,12 @@ import { AvaliacaoForm } from './pages/avaliacao-form/avaliacao-form';
     Seguranca,
     Usuarios,
     ConfirmarModel,
-    AvaliacaoForm
+    AvaliacaoForm,
+    ListarUsuarios,
+    EditarUsuario,
+    GerenciarRoles,
+    AlterarSenha,
+    PerfilUsuario
   ],
   imports: [
     BrowserModule,
@@ -81,7 +93,9 @@ import { AvaliacaoForm } from './pages/avaliacao-form/avaliacao-form';
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideHttpClient(withFetch())  
+    provideHttpClient(withFetch()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard
   ],
   bootstrap: [App]
 })

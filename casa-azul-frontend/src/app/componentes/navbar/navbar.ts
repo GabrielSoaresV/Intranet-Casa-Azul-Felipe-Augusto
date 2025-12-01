@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { UserService } from '../../service/user.service';
+import { UserResponse } from '../../models/user-response.model';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,39 +12,72 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./navbar.css']
 })
 export class Navbar implements OnInit {
-  currentRoute: string = '';
-  isDarkMode = false;
 
-  toggleTheme() {
-  this.isDarkMode = !this.isDarkMode;
+  usuario: UserResponse | null = null;
+  avatarUrl: string = '';
+  menuOpen = false;
+  currentRoute = '';
 
-  if (this.isDarkMode) {
-    document.body.classList.add('dark');
-  } else {
-    document.body.classList.remove('dark');
-  }
-}
-  constructor(private router: Router) {
-    // Atualiza rota sempre que mudar
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.currentRoute = event.urlAfterRedirects;
-    });
+  constructor(
+    public auth: AuthService,
+    private router: Router,
+    private userService: UserService
+  ) {
+    // Detectar rota atual
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => this.currentRoute = event.urlAfterRedirects);
   }
 
   ngOnInit(): void {
-    // Captura a rota no carregamento inicial (mesmo após F5)
-    this.currentRoute = this.router.url;
+
+    // Se estiver no navegador, buscar usuário
+    if (typeof window !== 'undefined') {
+      this.userService.getCurrentUser().subscribe({
+        next: user => {
+          this.usuario = user;
+          this.avatarUrl = this.getAvatarUrl(user);
+        },
+        error: () => {
+          this.usuario = null;
+        }
+      });
+    }
   }
 
-  irPara(pagina: string) {
-    this.router.navigate([pagina]);
+  irPara(rota: string) {
+    this.router.navigate([rota]);
+    this.menuOpen = false;
   }
 
-  mostrarLink(pagina: string): boolean {
-    // Se estiver na rota alvo, não mostra o link
-    if (pagina === '' && this.currentRoute === '/') return false; // logout
-    return this.currentRoute !== `/${pagina}`;
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  logout() {
+    this.auth.logout().subscribe(() => {
+      this.usuario = null;
+      this.router.navigate(['/login']);
+    });
+  }
+
+  /** Gera avatar baseado no profileImage vindo do backend */
+  getAvatarUrl(user: UserResponse | null): string {
+    if (!user) return '';
+
+    if (user.profileImage) {
+
+      // já URL completa
+      if (user.profileImage.startsWith('http')) {
+        return user.profileImage;
+      }
+
+      // caminho relativo do backend
+      return `http://localhost:8080/${user.profileImage}`;
+    }
+
+    // fallback
+    const name = encodeURIComponent(user.username || 'Usuário');
+    return `https://ui-avatars.com/api/?name=${name}&background=667eea&color=fff&bold=true`;
   }
 }

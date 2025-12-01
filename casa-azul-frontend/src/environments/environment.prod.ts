@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: "/api"
+
+  authApiUrl: 'http://localhost:8081', // para Docker
+  apiUrl: 'http://localhost:8080'
 };

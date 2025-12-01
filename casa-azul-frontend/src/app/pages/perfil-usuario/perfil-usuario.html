@@ -1,0 +1,49 @@
+<div class="perfil-card">
+
+  <div class="perfil-header">
+    <img [src]="usuario?.profileImage" class="perfil-foto-grande" alt="Foto">
+    <h2>{{ usuario?.username }}</h2>
+    <p>{{ usuario?.email }}</p>
+  </div>
+
+  <div class="perfil-info">
+
+    <div class="info-item">
+      <label>Username</label>
+      <span>{{ usuario?.username }}</span>
+    </div>
+
+    <div class="info-item">
+      <label>Email</label>
+      <span>{{ usuario?.email }}</span>
+    </div>
+
+    <div class="info-item">
+      <label>CPF</label>
+      <span>{{ formatarCPF(usuario?.cpf || '') }}</span>
+    </div>
+
+    <div class="info-item">
+      <label>Roles</label>
+      <div class="roles">
+        <span class="role-tag" *ngFor="let r of usuario?.roles">{{ r }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="perfil-actions">
+    <button class="btn-primary" (click)="irPara('editar-usuario/' + usuario?.username)">
+      Editar Dados
+    </button>
+
+    <button class="btn-primary" (click)="irPara('alterar-senha')">
+      Alterar Senha
+    </button>
+
+    <button class="btn-danger" (click)="logout()">
+      Sair
+    </button>
+  </div>
+
+</div>
