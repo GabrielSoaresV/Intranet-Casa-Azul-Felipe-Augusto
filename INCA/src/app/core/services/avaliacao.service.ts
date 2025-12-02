@@ -8,7 +8,7 @@ import { Avaliacao } from '../../models/avaliacao';
 })
 export class AvaliacaoService {
 
-  private api = 'http://localhost:8082/api/avaliacoes';
+  private api = 'http://api-gestao:8082/api/avaliacoes';
 
   constructor(private http: HttpClient) {}
 

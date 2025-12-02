@@ -8,7 +8,7 @@ import { JovemAprendiz } from '../../models/jovem-aprendiz';
 })
 export class JovemService {
 
-  private api = 'http://localhost:8082/api/jovens';
+  private api = 'http://api-gestao:8082/api/jovens';
 
   constructor(private http: HttpClient) {}
 
