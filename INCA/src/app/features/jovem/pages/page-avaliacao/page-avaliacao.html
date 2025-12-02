@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+
+<div class="avaliacao-list-container">
+
+  <h1>Avaliações — Matrícula {{ matricula }}</h1>
+
+  <!-- BOTÃO CERTIFICADO -->
+  <button
+    class="certificado-btn"
+    [class.ativo]="podeGerarCertificado"
+    (click)="gerarCertificado()"
+    [disabled]="!podeGerarCertificado">
+    Gerar Certificado
+  </button>
+
+  <div *ngIf="loading" class="loading">Carregando avaliações...</div>
+  <div *ngIf="errorMessage && !loading" class="error">{{ errorMessage }}</div>
+
+  <!-- CASO NÃO TENHA AVALIAÇÕES -->
+  <div *ngIf="!loading && avaliacoes.length === 0" class="empty">
+    <p>Nenhuma avaliação encontrada para este jovem.</p>
+  </div>
+
+  <!-- LISTA DE AVALIAÇÕES -->
+  <div *ngIf="avaliacoes.length > 0" class="avaliacao-cards">
+
+    <div
+      class="avaliacao-card"
+      *ngFor="let av of avaliacoes"
+      (click)="toggleExpand(av)"
+      [class.expanded]="expandedAvaliacao === av">
+
+      <!-- HEADER -->
+      <div class="avaliacao-header">
+        <div class="avaliacao-info">
+          <h3>Avaliação {{ av.numeroAvaliacao }}</h3>
+          <small class="avaliacao-id">ID: {{ av.idAvaliacao }}</small>
+        </div>
+
+        <span class="data-chip">
+          {{ av.dataAvaliacao | date:'dd/MM/yyyy' }}
+        </span>
+      </div>
+
+      <!-- AÇÕES -->
+      <div class="avaliacao-actions">
+        <button
+          class="delete-btn"
+          title="Excluir avaliação"
+          (click)="excluir(av.idAvaliacao); $event.stopPropagation()">
+          <mat-icon>delete</mat-icon>
+          <span>Excluir</span>
+        </button>
+      </div>
+
+      <!-- EXPANDIDO -->
+      <div class="avaliacao-details" *ngIf="expandedAvaliacao === av">
+        <div class="details-inner animate-expand">
+          <p><strong>Etapa:</strong> {{ av.numeroAvaliacao }}</p>
+          <p><strong>Data:</strong> {{ av.dataAvaliacao | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Descrição:</strong></p>
+          <p class="descricao">{{ av.avaliacao }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO NOVA AVALIAÇÃO -->
+  <hr>
+
+  <h2>Nova Avaliação</h2>
+
+  <form class="form-avaliacao" (ngSubmit)="salvar()">
+
+    <label>Descrição:</label>
+    <textarea [(ngModel)]="novaAvaliacao.avaliacao"
+              name="avaliacao"
+              required></textarea>
+
+    <label>Data:</label>
+    <input type="date"
+           [(ngModel)]="novaAvaliacao.dataAvaliacao"
+           name="data">
+
+    <button type="submit" class="btn-new">
+      Salvar Avaliação
+    </button>
+  </form>
+
+</div>

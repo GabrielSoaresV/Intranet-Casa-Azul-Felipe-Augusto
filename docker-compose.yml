@@ -1,7 +1,9 @@
+version: '3.9'
+
 services:
-  backend:
-    build: ./backend
-    container_name: controle-demandas-api
+  api-demanda:
+    build: ./API-Demanda
+    container_name: api-demanda
     ports:
       - "8080:8080"
     environment:
@@ -9,13 +11,26 @@ services:
     networks:
       - app-network
 
-  frontend:
-    build: ./frontend
-    container_name: controle-demandas-frontend
+  api-gestao:
+    build: ./API-Gestao
+    container_name: api-gestao
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - api-demanda    # só inicia após API-Demanda
+    networks:
+      - app-network
+
+  inca:
+    build: ./INCA
+    container_name: inca-frontend
     ports:
       - "4200:4200"
     depends_on:
-      - backend
+      - api-demanda
+      - api-gestao
     networks:
       - app-network
     stdin_open: true
