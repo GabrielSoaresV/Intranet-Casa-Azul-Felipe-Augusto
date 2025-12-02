@@ -7,7 +7,7 @@ import { Profile } from '../../models/profile.model';
   providedIn: 'root'
 })
 export class ProfileService {
-  private baseUrl = 'http://192.168.1.22:8082/api/profiles';
+  private baseUrl = 'http://192.168.1.22:8080/api/profiles';
   private tokenKey = 'authToken';
 
   constructor(private http: HttpClient) {}
