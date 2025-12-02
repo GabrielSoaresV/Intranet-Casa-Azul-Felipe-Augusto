@@ -5,7 +5,7 @@ import { Demand } from '../../models/demand.model';
 
 @Injectable({ providedIn: 'root' })
 export class DemandService {
-  private apiUrl = 'http://192.168.1.22:8080/api/demands';
+  private apiUrl = 'http://192.168.26.15:8080/api/demands';
 
   constructor(private http: HttpClient) {}
 

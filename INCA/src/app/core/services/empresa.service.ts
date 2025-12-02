@@ -8,7 +8,7 @@ import { Empresa } from '../../models/empresa';
 })
 export class EmpresaService {
 
-  private api = 'http://192.168.1.22:8082/api/empresas';
+  private api = 'http://192.168.26.15:8082/api/empresas';
 
   constructor(private http: HttpClient) {}
 

@@ -8,7 +8,7 @@ import { JovemAprendiz } from '../../models/jovem-aprendiz';
 })
 export class PesquisaService {
 
-  private api = 'http://192.168.1.22:8082/pesquisa';
+  private api = 'http://192.168.26.15:8082/pesquisa';
 
   constructor(private http: HttpClient) {}
 
