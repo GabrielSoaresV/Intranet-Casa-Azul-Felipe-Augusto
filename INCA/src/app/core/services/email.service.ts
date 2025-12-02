@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class EmailService {
 
-  private api = 'http://api-gestao:8082/api/email';
+  private api = 'http://192.168.1.22:8082/api/email';
 
   constructor(private http: HttpClient) {}
 
