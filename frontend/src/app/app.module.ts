@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TableEmpresas } from './features/empresa/components/table-empresas/table-empresas';
+import { TableJovens } from './features/jovem/components/table-jovens/table-jovens';
+import { PageEmpresaRegister } from './features/empresa/pages/page-empresa-register/page-empresa-register';
+import { PageJovemRegister } from './features/jovem/pages/page-jovem-register/page-jovem-register';
 
 @NgModule({
   declarations: [
@@ -42,10 +47,14 @@ import { MatInputModule } from '@angular/material/input';
     PageRegisterPublic,
     PageRegisterPrivate,
     PageDemandRegister,
+    PageEmpresaRegister,
+    PageJovemRegister,
     PageChat,
     Navbar,
     ConfirmDialog,
     TableDemands,
+    TableEmpresas,
+    TableJovens,
     DemandsList,
     DemandHistoryList,
     ProfilesList
@@ -66,6 +75,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatDialogModule,
     MatDividerModule,
+    MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule
   ],

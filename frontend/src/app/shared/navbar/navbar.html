@@ -1,60 +1,106 @@
 <nav class="navbar">
   <div class="navbar-container">
+
+    <!-- BRAND -->
     <div class="navbar-brand" (click)="goHome()">
       <mat-icon class="brand-icon">home</mat-icon>
-      <h2>Sistema de Demandas</h2>
+      <h2>Intranet INCA</h2>
     </div>
 
+    <!-- LINKS -->
     <div class="navbar-links">
-      <a
-        routerLink="/demands"
-        routerLinkActive="active"
-        *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])"
-        title="Painel de Demandas">
-        <mat-icon>dashboard</mat-icon>
-      </a>
 
-      <a
-        routerLink="/profile-list"
-        routerLinkActive="active"
-        *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])"
-        title="Usuários">
-        <mat-icon>groups</mat-icon>
-      </a>
+      <!-- MENU DEMANDAS -->
+      <div class="dropdown" *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT', 'CITIZEN'])">
+        <button class="dropdown-btn" title="Demandas">
+          <mat-icon>list_alt</mat-icon>
+        </button>
 
-      <a
-        routerLink="/register-private"
-        routerLinkActive="active"
-        *ngIf="auth.hasRole('ADMIN')"
-        title="Cadastrar Usuário">
-        <mat-icon>person_add</mat-icon>
-      </a>
+        <div class="dropdown-menu">
 
-      <a
-        routerLink="/demand-register"
-        routerLinkActive="active"
-        *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT', 'CITIZEN'])"
-        title="Cadastrar Demanda">
-        <mat-icon>post_add</mat-icon>
-      </a>
+          <a routerLink="/demands" routerLinkActive="active" 
+            *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])">
+            <mat-icon>dashboard</mat-icon> Tabela de Demandas
+          </a>
 
-      <a
-        routerLink="/demands-list"
-        routerLinkActive="active"
-        *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT', 'CITIZEN'])"
-        title="Minhas Demandas">
-        <mat-icon>assignment</mat-icon>
-      </a>
+          <a routerLink="/demands-list" routerLinkActive="active">
+            <mat-icon>assignment</mat-icon> Minhas Demandas
+          </a>
 
-      <a
-        routerLink="/history"
-        routerLinkActive="active"
-        *ngIf="auth.hasRole('ADMIN')"
-        title="Histórico">
-        <mat-icon>history</mat-icon>
-      </a>
+          <a routerLink="/demand-register" routerLinkActive="active">
+            <mat-icon>post_add</mat-icon> Criar Demanda
+          </a>
+
+          <a routerLink="/history" routerLinkActive="active" 
+            *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])">
+            <mat-icon>history</mat-icon> Histórico
+          </a>
+
+        </div>
+      </div>
+
+
+      <!-- MENU JOVENS -->
+      <div class="dropdown" *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])">
+        <button class="dropdown-btn" title="Jovens Aprendizes">
+          <mat-icon>school</mat-icon>
+        </button>
+
+        <div class="dropdown-menu">
+
+          <a routerLink="/jovens" routerLinkActive="active">
+            <mat-icon>groups</mat-icon> Tabela de Jovens
+          </a>
+
+          <a routerLink="/jovem-register" routerLinkActive="active">
+            <mat-icon>person_add</mat-icon> Criar Jovem
+          </a>
+
+        </div>
+      </div>
+
+      <!-- MENU EMPRESAS -->
+      <div class="dropdown" *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT'])">
+        <button class="dropdown-btn" title="Empresas">
+          <mat-icon>business</mat-icon>
+        </button>
+
+        <div class="dropdown-menu">
+
+          <a routerLink="/empresas" routerLinkActive="active">
+            <mat-icon>business_center</mat-icon> Tabela de Empresas
+          </a>
+
+          <a routerLink="/empresa-register" routerLinkActive="active">
+            <mat-icon>add_business</mat-icon> Criar Empresa
+          </a>
+
+        </div>
+      </div>
+
+      <!-- MENU USUÁRIOS (SOMENTE ADMIN) -->
+      <div class="dropdown" *ngIf="auth.hasRole('ADMIN')">
+        <button class="dropdown-btn" title="Usuários">
+          <mat-icon>manage_accounts</mat-icon>
+        </button>
+
+        <div class="dropdown-menu">
+
+          <a routerLink="/profile-list" routerLinkActive="active">
+            <mat-icon>groups</mat-icon> Lista de Usuários
+          </a>
+
+          <a routerLink="/register-private" routerLinkActive="active">
+            <mat-icon>person_add</mat-icon> Criar Usuário
+          </a>
+
+        </div>
+      </div>
+
     </div>
 
+
+    <!-- USER MENU -->
     <div class="navbar-user">
       <button class="user-button" (click)="toggleMenu()" aria-label="Menu do usuário">
         <div class="user-avatar">
@@ -62,25 +108,28 @@
             [src]="avatarUrl"
             alt="{{ profile?.name || 'Usuário' }}"
             class="avatar-img"
-            (error)="avatarUrl = 'https://ui-avatars.com/api/?name=' + (profile?.name || 'Usuário') + '&background=667eea&color=fff&bold=true'"
+            (error)="avatarUrl = 
+              'https://ui-avatars.com/api/?name=' + 
+              (profile?.name || 'Usuário') + 
+              '&background=667eea&color=fff&bold=true'"
           />
         </div>
         <span class="user-name">{{ profile?.name || 'Usuário' }}</span>
       </button>
 
       <div class="user-menu" [class.open]="menuOpen">
-        <a
-          routerLink="/profile"
-          (click)="toggleMenu()"
-          *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT', 'CITIZEN'])">
-          <mat-icon>account_circle</mat-icon>
-          Meu Perfil
+
+        <a routerLink="/profile" (click)="toggleMenu()"
+           *ngIf="auth.hasAnyRole(['ADMIN', 'ATTENDANT', 'CITIZEN'])">
+          <mat-icon>account_circle</mat-icon> Meu Perfil
         </a>
+
         <button (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          Sair
+          <mat-icon>logout</mat-icon> Sair
         </button>
+
       </div>
     </div>
+
   </div>
 </nav>

@@ -1,0 +1,124 @@
+<app-navbar></app-navbar>
+
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>
+        <mat-icon class="icon-title">person_add</mat-icon>
+        Registrar Jovem Aprendiz
+      </h1>
+      <p>Preencha as informações para cadastrar um novo jovem aprendiz.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
+
+      <!-- ROW 1 -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nome">Nome Completo</label>
+          <input id="nome" type="text" formControlName="nome" placeholder="Ex: João Silva" />
+          <small *ngIf="form.get('nome')?.invalid && form.get('nome')?.touched">
+            O nome é obrigatório.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="matricula">Matrícula</label>
+          <input id="matricula" type="text" formControlName="matricula" placeholder="Ex: 123456" />
+          <small *ngIf="form.get('matricula')?.invalid && form.get('matricula')?.touched">
+            Matrícula é obrigatória.
+          </small>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contratacao">Data de Contratação</label>
+          <input id="contratacao" type="date" formControlName="contratacao" />
+        </div>
+
+        <div class="form-group">
+          <label for="periodoAvaliacao">Período de Avaliação (meses)</label>
+          <input id="periodoAvaliacao" type="number" formControlName="periodoAvaliacao" placeholder="Ex: 6" />
+        </div>
+      </div>
+
+      <!-- ROW 3: Empresa Autocomplete -->
+      <div class="form-group">
+        <label for="empresa">Empresa</label>
+
+        <input
+          id="empresa"
+          type="text"
+          placeholder="Buscar empresa..."
+          [matAutocomplete]="auto"
+          [formControl]="empresaInput"
+        />
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarEmpresa($event.option.value)">
+          <mat-option *ngFor="let e of empresasFiltradas" [value]="e.nomeEmpresa">
+            {{ e.nomeEmpresa }} — {{ e.cnpj }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <small *ngIf="!empresaSelecionada && formSubmitted">
+          Selecione uma empresa da lista.
+        </small>
+      </div>
+
+      <!-- ROW 4 -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="exemplo@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" type="text" formControlName="telefone" placeholder="(11) 99999-9999" />
+        </div>
+      </div>
+
+      <!-- ROW 5 -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nomeresponsavel">Responsável</label>
+          <input id="nomeresponsavel" type="text" formControlName="nomeresponsavel" />
+        </div>
+
+        <div class="form-group">
+          <label for="telefoneresponsavel">Telefone Responsável</label>
+          <input id="telefoneresponsavel" type="text" formControlName="telefoneresponsavel" />
+        </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="form-group">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" rows="3" formControlName="observacoes"></textarea>
+      </div>
+
+      <!-- Error -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+          <mat-icon *ngIf="!isSubmitting">person_add</mat-icon>
+          <mat-progress-spinner *ngIf="isSubmitting" diameter="20" mode="indeterminate" color="accent">
+          </mat-progress-spinner>
+          {{ isSubmitting ? 'Enviando...' : 'Cadastrar Jovem' }}
+        </button>
+
+        <button type="button" routerLink="/jovens" class="btn-cancel">
+          <mat-icon>arrow_back</mat-icon>
+          Voltar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -39,6 +39,34 @@
       <span class="card-cta">Ver lista</span>
     </a>
 
+    <a class="card" routerLink="/empresas" *ngIf="isAdmin || isAttendant">
+      <div class="card-icon"><mat-icon>business</mat-icon></div>
+      <h3>Tabela de Empresas</h3>
+      <p>Visualize e gerencie todas as empresas cadastradas.</p>
+      <span class="card-cta">Acessar</span>
+    </a>
+
+    <a class="card" routerLink="/empresa-register" *ngIf="isAdmin || isAttendant">
+      <div class="card-icon"><mat-icon>add_business</mat-icon></div>
+      <h3>Criar Empresa</h3>
+      <p>Cadastre uma nova empresa rapidamente.</p>
+      <span class="card-cta">Cadastrar</span>
+    </a>
+
+    <a class="card" routerLink="/jovens" *ngIf="isAdmin || isAttendant">
+      <div class="card-icon"><mat-icon>school</mat-icon></div>
+      <h3>Tabela de Jovens</h3>
+      <p>Acompanhe os jovens cadastrados e suas avaliações.</p>
+      <span class="card-cta">Acessar</span>
+    </a>
+
+    <a class="card" routerLink="/jovem-register" *ngIf="isAdmin || isAttendant">
+      <div class="card-icon"><mat-icon>person_add</mat-icon></div>
+      <h3>Registrar Jovem</h3>
+      <p>Cadastre um novo jovem aprendiz no sistema.</p>
+      <span class="card-cta">Cadastrar</span>
+    </a>
+
     <a class="card" routerLink="/history" *ngIf="isAdmin || isAttendant">
       <div class="card-icon"><mat-icon>history</mat-icon></div>
       <h3>Histórico de Demandas</h3>
