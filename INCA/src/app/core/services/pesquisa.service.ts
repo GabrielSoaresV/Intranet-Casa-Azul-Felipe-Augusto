@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { JovemAprendiz } from '../../models/jovem-aprendiz';
 import { environment } from '../../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
