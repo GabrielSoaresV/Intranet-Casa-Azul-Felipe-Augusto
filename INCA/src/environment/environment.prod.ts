@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
 
-  apiDemanda: 'https://dominio-producao.com:8080',
-  apiGestao:  'https://dominio-producao.com:8082'
+  apiDemanda: 'https://192.168.1.53:8080',
+  apiGestao:  'https://192.168.1.53:8082'
 };
