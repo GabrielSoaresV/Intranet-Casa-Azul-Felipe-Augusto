@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Demand } from '../../models/demand.model';
+import { environment } from '../../../environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DemandService {
-  private apiUrl = 'http://192.168.26.15:8080/api/demands';
+
+  private apiUrl = `${environment.apiDemanda}/api/demands`;
 
   constructor(private http: HttpClient) {}
 

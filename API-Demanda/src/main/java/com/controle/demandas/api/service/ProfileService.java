@@ -144,8 +144,6 @@ public class ProfileService {
 
     @PostConstruct
     public void createDefaultProfiles() {
-        createDefaultUser("00000000001", "admin@teste.com", "Administrador", Role.ADMIN);
-        createDefaultUser("00000000002", "atendente@teste.com", "Atendente", Role.ATTENDANT);
-        createDefaultUser("00000000003", "cidadao@teste.com", "Cidadão", Role.CITIZEN);
+        createDefaultUser("00000000001", "admin@gmail.com", "Administrador", Role.ADMIN);
     }
 }

@@ -2,29 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Avaliacao } from '../../models/avaliacao';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvaliacaoService {
 
-  private api = 'http://192.168.26.15:8082/api/avaliacoes';
+  private apiUrl = `${environment.apiGestao}/api/avaliacoes`
 
   constructor(private http: HttpClient) {}
 
   listarTodas(): Observable<Avaliacao[]> {
-    return this.http.get<Avaliacao[]>(this.api);
+    return this.http.get<Avaliacao[]>(this.apiUrl);
   }
 
   listarPorJovem(matricula: string): Observable<Avaliacao[]> {
-    return this.http.get<Avaliacao[]>(`${this.api}/jovem/${matricula}`);
+    return this.http.get<Avaliacao[]>(`${this.apiUrl}/jovem/${matricula}`);
   }
 
   salvar(matricula: string, avaliacao: Avaliacao): Observable<Avaliacao> {
-    return this.http.post<Avaliacao>(`${this.api}/${matricula}`, avaliacao);
+    return this.http.post<Avaliacao>(`${this.apiUrl}/${matricula}`, avaliacao);
   }
 
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DemandHistory } from '../../models/demand-history.model';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DemandHistoryService {
-  private apiUrl = 'http://192.168.26.15:8080/api/history';
+  
+  private apiUrl = `${environment.apiDemanda}/api/history`;
 
   constructor(private http: HttpClient) {}
 
