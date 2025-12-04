@@ -57,13 +57,13 @@
 }
 
 .card-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
-  background: #eef2ff;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  background: #e0e7ff;
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 0 !important;
 }
 
 .card-icon mat-icon {
@@ -78,6 +78,162 @@
 }
 
 .card p {
+  margin: 0 0 12px 0;
+  color: #4b5563;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  min-height: 40px;
+}
+
+.card-cta {
+  display: inline-block;
+  font-weight: 700;
+  color: #4f46e5;
+  font-size: 0.9rem;
+}
+.card {
+  cursor: pointer;
+  overflow: hidden;
+  height: 70px; /* altura pequena quando fechado */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: height 0.25s ease, padding 0.25s ease;
+}
+
+.card.expanded {
+  height: auto;
+  padding: 18px;
+}
+
+.card-content {
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card.expanded .card-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.table-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+.home-wrap {
+  max-width: 1120px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+}
+
+.hero-text h2 {
+  margin: 0 0 6px 0;
+  font-size: 1.6rem;
+  color: #1f2937;
+}
+
+.hero-text p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.98rem;
+}
+
+/* ===== GRID ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* ===== CARD BASE ===== */
+.card {
+  cursor: pointer;
+  overflow: hidden;
+  height: 70px; /* card fechado → só ícone */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition:
+    height 0.25s ease,
+    padding 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Hover quando fechado */
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+/* ===== CARD EXPANDIDO ===== */
+.card.expanded {
+  height: auto;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.go-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.go-btn:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+}
+/* ===== CONTEÚDO ===== */
+.card-content {
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card.expanded .card-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== TIPOGRAFIA DO CONTEÚDO ===== */
+.card-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  color: #111827;
+}
+
+.card-content p {
   margin: 0 0 12px 0;
   color: #4b5563;
   font-size: 0.92rem;

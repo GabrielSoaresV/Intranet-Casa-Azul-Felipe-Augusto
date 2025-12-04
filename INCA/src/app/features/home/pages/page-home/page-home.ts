@@ -13,6 +13,12 @@ export class PageHome implements OnInit {
 
   constructor(public auth: AuthService) {}
 
+  expandedCard: number | null = null;
+
+  toggleCard(index: number) {
+    this.expandedCard = this.expandedCard === index ? null : index;
+  }
+
   ngOnInit(): void {
     const user = this.auth.getCurrentUser();
     this.userName = user?.name || 'Usuário';

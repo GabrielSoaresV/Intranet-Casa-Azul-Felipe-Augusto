@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
 
-  apiDemanda: 'https://192.168.1.47:8080',
-  apiGestao:  'https://192.168.1.47:8082'
+  apiDemanda: 'https://172.16.11.116:8080',
+  apiGestao:  'https://172.16.11.116:8082'
 };

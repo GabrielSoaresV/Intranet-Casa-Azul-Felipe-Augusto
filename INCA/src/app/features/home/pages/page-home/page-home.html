@@ -11,82 +11,173 @@
   </header>
 
   <section class="cards-grid">
-    <a class="card" routerLink="/demands" *ngIf="isAdmin || isAttendant">
+
+    <!-- 1 - Painel de Demandas -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(1)"
+         [class.expanded]="expandedCard === 1">
+
       <div class="card-icon"><mat-icon>dashboard</mat-icon></div>
-      <h3>Painel de Demandas</h3>
-      <p>Gerencie e acompanhe solicitações abertas e encerradas.</p>
-      <span class="card-cta">Acessar</span>
-    </a>
 
-    <a class="card" routerLink="/profile-list" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 1">
+        <h3>Painel de Demandas</h3>
+        <p>Gerencie e acompanhe solicitações abertas e encerradas.</p>
+        <button class="go-btn" routerLink="/demands">IR</button>
+      </div>
+    </div>
+
+    <!-- 2 - Usuários -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(2)"
+         [class.expanded]="expandedCard === 2">
+
       <div class="card-icon"><mat-icon>groups</mat-icon></div>
-      <h3>Usuários</h3>
-      <p>Gerencie atendentes e cidadãos cadastrados.</p>
-      <span class="card-cta">Abrir</span>
-    </a>
 
-    <a class="card" routerLink="/demand-register" *ngIf="isAdmin || isAttendant || isCitizen">
+      <div class="card-content" *ngIf="expandedCard === 2">
+        <h3>Usuários</h3>
+        <p>Gerencie atendentes e cidadãos cadastrados.</p>
+        <button class="go-btn" routerLink="/profile-list">IR</button>
+      </div>
+    </div>
+
+    <!-- 3 - Criar Demanda -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant || isCitizen"
+         (click)="toggleCard(3)"
+         [class.expanded]="expandedCard === 3">
+
       <div class="card-icon"><mat-icon>post_add</mat-icon></div>
-      <h3>Criar Demanda</h3>
-      <p>Registre uma nova solicitação.</p>
-      <span class="card-cta">Começar</span>
-    </a>
 
-    <a class="card" routerLink="/demands-list">
+      <div class="card-content" *ngIf="expandedCard === 3">
+        <h3>Criar Demanda</h3>
+        <p>Registre uma nova solicitação.</p>
+        <button class="go-btn" routerLink="/demand-register">IR</button>
+      </div>
+    </div>
+
+    <!-- 4 - Minhas Demandas -->
+    <div class="card"
+         (click)="toggleCard(4)"
+         [class.expanded]="expandedCard === 4">
+
       <div class="card-icon"><mat-icon>assignment</mat-icon></div>
-      <h3>Minhas Demandas</h3>
-      <p>Veja todas as solicitações que você abriu.</p>
-      <span class="card-cta">Ver lista</span>
-    </a>
 
-    <a class="card" routerLink="/empresas" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 4">
+        <h3>Minhas Demandas</h3>
+        <p>Veja todas as solicitações que você abriu.</p>
+        <button class="go-btn" routerLink="/demands-list">IR</button>
+      </div>
+    </div>
+
+    <!-- 5 - Empresas -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(5)"
+         [class.expanded]="expandedCard === 5">
+
       <div class="card-icon"><mat-icon>business</mat-icon></div>
-      <h3>Tabela de Empresas</h3>
-      <p>Visualize e gerencie todas as empresas cadastradas.</p>
-      <span class="card-cta">Acessar</span>
-    </a>
 
-    <a class="card" routerLink="/empresa-register" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 5">
+        <h3>Tabela de Empresas</h3>
+        <p>Visualize e gerencie todas as empresas cadastradas.</p>
+        <button class="go-btn" routerLink="/empresas">IR</button>
+      </div>
+    </div>
+
+    <!-- 6 - Criar Empresa -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(6)"
+         [class.expanded]="expandedCard === 6">
+
       <div class="card-icon"><mat-icon>add_business</mat-icon></div>
-      <h3>Criar Empresa</h3>
-      <p>Cadastre uma nova empresa rapidamente.</p>
-      <span class="card-cta">Cadastrar</span>
-    </a>
 
-    <a class="card" routerLink="/jovens" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 6">
+        <h3>Criar Empresa</h3>
+        <p>Cadastre uma nova empresa rapidamente.</p>
+        <button class="go-btn" routerLink="/empresa-register">IR</button>
+      </div>
+    </div>
+
+    <!-- 7 - Tabela de Jovens -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(7)"
+         [class.expanded]="expandedCard === 7">
+
       <div class="card-icon"><mat-icon>school</mat-icon></div>
-      <h3>Tabela de Jovens</h3>
-      <p>Acompanhe os jovens cadastrados e suas avaliações.</p>
-      <span class="card-cta">Acessar</span>
-    </a>
 
-    <a class="card" routerLink="/jovem-register" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 7">
+        <h3>Tabela de Jovens</h3>
+        <p>Acompanhe os jovens cadastrados e suas avaliações.</p>
+        <button class="go-btn" routerLink="/jovens">IR</button>
+      </div>
+    </div>
+
+    <!-- 8 - Registrar Jovem -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(8)"
+         [class.expanded]="expandedCard === 8">
+
       <div class="card-icon"><mat-icon>person_add</mat-icon></div>
-      <h3>Registrar Jovem</h3>
-      <p>Cadastre um novo jovem aprendiz no sistema.</p>
-      <span class="card-cta">Cadastrar</span>
-    </a>
 
-    <a class="card" routerLink="/history" *ngIf="isAdmin || isAttendant">
+      <div class="card-content" *ngIf="expandedCard === 8">
+        <h3>Registrar Jovem</h3>
+        <p>Cadastre um novo jovem aprendiz no sistema.</p>
+        <button class="go-btn" routerLink="/jovem-register">IR</button>
+      </div>
+    </div>
+
+    <!-- 9 - Histórico -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant"
+         (click)="toggleCard(9)"
+         [class.expanded]="expandedCard === 9">
+
       <div class="card-icon"><mat-icon>history</mat-icon></div>
-      <h3>Histórico de Demandas</h3>
-      <p *ngIf="isCitizen && !isAdmin">Consulte suas demandas anteriores.</p>
-      <p *ngIf="!isCitizen || isAdmin">Veja registros de todas as atividades do sistema.</p>
-      <span class="card-cta">Ver histórico</span>
-    </a>
 
-    <a class="card" routerLink="/profile" *ngIf="isAdmin || isAttendant || isCitizen">
+      <div class="card-content" *ngIf="expandedCard === 9">
+        <h3>Histórico de Demandas</h3>
+
+        <p *ngIf="isCitizen && !isAdmin">Consulte suas demandas anteriores.</p>
+        <p *ngIf="!isCitizen || isAdmin">Veja registros de todas as atividades do sistema.</p>
+
+        <button class="go-btn" routerLink="/history">IR</button>
+      </div>
+    </div>
+
+    <!-- 10 - Meu Perfil -->
+    <div class="card"
+         *ngIf="isAdmin || isAttendant || isCitizen"
+         (click)="toggleCard(10)"
+         [class.expanded]="expandedCard === 10">
+
       <div class="card-icon"><mat-icon>account_circle</mat-icon></div>
-      <h3>Meu Perfil</h3>
-      <p>Atualize seus dados e preferências.</p>
-      <span class="card-cta">Abrir perfil</span>
-    </a>
 
-    <a class="card" routerLink="/ajuda" *ngIf="isCitizen || isAdmin">
+      <div class="card-content" *ngIf="expandedCard === 10">
+        <h3>Meu Perfil</h3>
+        <p>Atualize seus dados e preferências.</p>
+        <button class="go-btn" routerLink="/profile">IR</button>
+      </div>
+    </div>
+
+    <!-- 11 - Ajuda -->
+    <div class="card"
+         *ngIf="isCitizen || isAdmin"
+         (click)="toggleCard(11)"
+         [class.expanded]="expandedCard === 11">
+
       <div class="card-icon"><mat-icon>help_outline</mat-icon></div>
-      <h3>Ajuda</h3>
-      <p>Como abrir e acompanhar demandas.</p>
-      <span class="card-cta">Ver ajuda</span>
-    </a>
+
+      <div class="card-content" *ngIf="expandedCard === 11">
+        <h3>Ajuda</h3>
+        <p>Como abrir e acompanhar demandas.</p>
+        <button class="go-btn" routerLink="/ajuda">IR</button>
+      </div>
+    </div>
+
   </section>
 </div>
