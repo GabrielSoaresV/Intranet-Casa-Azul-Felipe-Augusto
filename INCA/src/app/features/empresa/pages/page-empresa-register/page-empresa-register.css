@@ -215,3 +215,32 @@ small {
     justify-content: center;
   }
 }
+ .email-add-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.email-list {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.email-chip {
+  background: #e8e8e8;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.email-remove-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #b80000;
+}

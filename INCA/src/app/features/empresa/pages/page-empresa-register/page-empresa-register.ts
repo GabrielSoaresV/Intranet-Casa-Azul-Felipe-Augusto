@@ -16,6 +16,9 @@ export class PageEmpresaRegister {
   isSubmitting = false;
   errorMessage = '';
 
+  // Lista real que será enviada ao backend
+  emailList: string[] = [];
+
   constructor(
     private fb: FormBuilder,
     private empresaService: EmpresaService,
@@ -24,23 +27,55 @@ export class PageEmpresaRegister {
     this.form = this.fb.group({
       nomeEmpresa: ['', Validators.required],
       cnpj: ['', Validators.required],
-      emailEmpresa: [''],
+
+      // Campo apenas para digitar um email por vez
+      emailInput: [''],
+
       telefoneEmpresa: [''],
       rhNomeResponsavel: [''],
       rhEmailResponsavel: ['']
     });
   }
 
+  addEmail(): void {
+    const email = this.form.value.emailInput?.trim();
+
+    if (!email) return;
+
+    // Evita duplicados
+    if (this.emailList.includes(email)) {
+      this.errorMessage = 'Este e-mail já foi adicionado.';
+      return;
+    }
+
+    this.emailList.push(email);
+
+    // Limpa input
+    this.form.patchValue({ emailInput: '' });
+    this.errorMessage = '';
+  }
+
+  removeEmail(email: string): void {
+    this.emailList = this.emailList.filter(e => e !== email);
+  }
+
   submit(): void {
-    if (this.form.invalid) {
-      this.errorMessage = 'Preencha os campos obrigatórios.';
+    if (this.form.invalid || this.emailList.length === 0) {
+      this.errorMessage = 'Preencha os campos obrigatórios e adicione pelo menos 1 e-mail.';
       this.form.markAllAsTouched();
       return;
     }
 
     this.isSubmitting = true;
 
-    const empresa: Empresa = this.form.value;
+    const empresa: Empresa = {
+      cnpj: this.form.value.cnpj,
+      nomeEmpresa: this.form.value.nomeEmpresa,
+      emailEmpresa: this.emailList,   // ← LISTA DE EMAILS
+      telefoneEmpresa: this.form.value.telefoneEmpresa,
+      rhNomeResponsavel: this.form.value.rhNomeResponsavel,
+      rhEmailResponsavel: this.form.value.rhEmailResponsavel
+    };
 
     this.empresaService.salvar(empresa).subscribe({
       next: () => {

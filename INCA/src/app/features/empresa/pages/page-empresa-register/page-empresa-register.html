@@ -12,6 +12,7 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
 
+      <!-- ROW 1 -->
       <div class="form-row">
 
         <div class="form-group">
@@ -32,12 +33,31 @@
 
       </div>
 
-      <div class="form-row">
+      <!-- ROW DOS EMAILS -->
+      <div class="form-group">
+        <label for="emailInput">E-mails da Empresa</label>
 
-        <div class="form-group">
-          <label for="emailEmpresa">Email</label>
-          <input id="emailEmpresa" type="email" formControlName="emailEmpresa" placeholder="empresa@email.com" />
+        <div class="email-add-row">
+          <input
+            id="emailInput"
+            type="email"
+            formControlName="emailInput"
+            placeholder="empresa@email.com"
+          />
+          <button type="button" class="btn-add-email" (click)="addEmail()">Adicionar</button>
         </div>
+
+        <!-- LISTA DE EMAILS -->
+        <div class="email-list">
+          <span class="email-chip" *ngFor="let email of emailList">
+            {{ email }}
+            <button type="button" class="email-remove-btn" (click)="removeEmail(email)">×</button>
+          </span>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="form-row">
 
         <div class="form-group">
           <label for="telefoneEmpresa">Telefone</label>
@@ -46,30 +66,23 @@
 
       </div>
 
+      <!-- RH -->
       <div class="form-group">
         <label for="rhNomeResponsavel">Responsável (RH)</label>
-        <input
-          id="rhNomeResponsavel"
-          type="text"
-          formControlName="rhNomeResponsavel"
-          placeholder="Nome do responsável"
-        />
+        <input id="rhNomeResponsavel" type="text" formControlName="rhNomeResponsavel" placeholder="Nome do responsável" />
       </div>
 
       <div class="form-group">
         <label for="rhEmailResponsavel">Email do Responsável</label>
-        <input
-          id="rhEmailResponsavel"
-          type="email"
-          formControlName="rhEmailResponsavel"
-          placeholder="rh@empresa.com"
-        />
+        <input id="rhEmailResponsavel" type="email" formControlName="rhEmailResponsavel" placeholder="rh@empresa.com" />
       </div>
 
+      <!-- ERROR MESSAGE -->
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
 
+      <!-- ACTIONS -->
       <div class="actions">
 
         <button type="submit" class="btn-primary" [disabled]="isSubmitting">

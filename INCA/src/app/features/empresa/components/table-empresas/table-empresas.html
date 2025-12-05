@@ -15,9 +15,7 @@
     <button class="btn-clear" (click)="clearFilter()">Limpar</button>
   </div>
 
-  <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <div class="overflow-x-auto rounded-lg border border-gray-100 mt-4">
 
@@ -43,7 +41,9 @@
       <ng-container matColumnDef="emailEmpresa">
         <th mat-header-cell *matHeaderCellDef>E-mail</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.emailEmpresa }}
+          <div class="email-chip" *ngFor="let email of element.emailEmpresa">
+            {{ email }}
+          </div>
         </td>
       </ng-container>
 
@@ -73,7 +73,6 @@
             mat-icon-button
             color="primary"
             [routerLink]="['/empresas/editar', element.cnpj]"
-            title="Editar empresa"
             class="icon-btn"
             (click)="$event.stopPropagation()"
           >
@@ -84,7 +83,6 @@
           <button
             mat-icon-button
             color="warn"
-            title="Excluir empresa"
             class="icon-btn"
             (click)="deleteEmpresa(element); $event.stopPropagation()"
           >
@@ -97,31 +95,26 @@
       <!-- 🔽 EXPANDER -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
-
           <div class="expanded-container animate-expand">
-
             <h3 class="expanded-title">Detalhes da Empresa</h3>
 
             <div class="expanded-grid">
 
               <div class="expanded-item">
-                <strong>CNPJ:</strong>
-                <span>{{ row.cnpj }}</span>
+                <strong>CNPJ:</strong> {{ row.cnpj }}
               </div>
 
               <div class="expanded-item">
-                <strong>Empresa:</strong>
-                {{ row.nomeEmpresa }}
+                <strong>Empresa:</strong> {{ row.nomeEmpresa }}
               </div>
 
               <div class="expanded-item">
-                <strong>Email:</strong>
-                {{ row.emailEmpresa }}
+                <strong>E-mails:</strong>
+                <div *ngFor="let email of row.emailEmpresa">• {{ email }}</div>
               </div>
 
               <div class="expanded-item">
-                <strong>Telefone:</strong>
-                {{ row.telefoneEmpresa }}
+                <strong>Telefone:</strong> {{ row.telefoneEmpresa }}
               </div>
 
               <div class="expanded-item wide">
@@ -131,10 +124,8 @@
 
             </div>
           </div>
-
         </td>
       </ng-container>
-
 
       <!-- HEADER -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -147,7 +138,7 @@
         (click)="toggleExpand(row)"
       ></tr>
 
-      <!-- ROW EXPAND -->
+      <!-- EXPANDED ROW -->
       <tr
         mat-row
         *matRowDef="let row; columns: ['expandedDetail']"
@@ -155,12 +146,7 @@
       ></tr>
 
     </table>
-
   </div>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons>
-  </mat-paginator>
-
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

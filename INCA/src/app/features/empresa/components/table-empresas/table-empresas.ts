@@ -42,6 +42,12 @@ export class TableEmpresas implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+
+    // 🔎 Permite filtrar listas (como emailEmpresa[])
+    this.dataSource.filterPredicate = (data: Empresa, filter: string) => {
+      const dataStr = JSON.stringify(data).toLowerCase();
+      return dataStr.includes(filter);
+    };
   }
 
   loadEmpresas(): void {

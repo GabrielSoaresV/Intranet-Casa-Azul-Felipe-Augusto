@@ -30,27 +30,29 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom(fromEmail, "Casa Azul - Sistema de Avaliação"); // Nome do remetente
-            helper.setTo(dto.getEmailDestino());
+            helper.setFrom(fromEmail, "Casa Azul - Sistema de Avaliação");
+
+            // ENVIA PARA TODOS OS E-MAILS DA LISTA
+            helper.setTo(dto.getEmailsDestino().toArray(new String[0]));
+
             helper.setSubject("Formulário de Avaliação - Jovem Aprendiz");
 
-            // Prepara as variáveis do template
             Context context = new Context();
             context.setVariable("nomeJovem", dto.getNomeJovem());
             context.setVariable("telefoneUsuario", dto.getTelefoneUsuario());
             context.setVariable("nomeUsuario", dto.getNomeUsuario());
             context.setVariable("nomeOrientador", dto.getNomeOrientador());
 
-            // Renderiza o template HTML
             String htmlContent = templateEngine.process("email-avaliacao", context);
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
 
-            System.out.println("✅ Email enviado com sucesso para: " + dto.getEmailDestino());
+            System.out.println("📨 Email enviado para: " + dto.getEmailsDestino());
 
         } catch (Exception e) {
             throw new RuntimeException("❌ Erro ao enviar email: " + e.getMessage(), e);
         }
     }
+
 }
