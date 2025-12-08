@@ -37,35 +37,48 @@
           <label for="contratacao">Data de Contratação</label>
           <input id="contratacao" type="date" formControlName="contratacao" />
         </div>
-
-        <div class="form-group">
-          <label for="periodoAvaliacao">Período de Avaliação (meses)</label>
-          <input id="periodoAvaliacao" type="number" formControlName="periodoAvaliacao" placeholder="Ex: 6" />
+      
+      <div class="form-group">
+          <label for="rescisao">Data de Rescisão</label>
+          <input id="rescisao" type="date" formControlName="rescisao" />
         </div>
       </div>
 
-      <!-- ROW 3: Empresa Autocomplete -->
-      <div class="form-group">
-        <label for="empresa">Empresa</label>
+      <!-- ROW 3: Empresa + Período -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="empresa">Empresa</label>
 
-        <input
-          id="empresa"
-          type="text"
-          placeholder="Buscar empresa..."
-          [matAutocomplete]="auto"
-          [formControl]="empresaInput"
-        />
+          <input
+            id="empresa"
+            type="text"
+            placeholder="Buscar empresa..."
+            [matAutocomplete]="auto"
+            [formControl]="empresaInput"
+          />
 
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarEmpresa($event.option.value)">
-          <mat-option *ngFor="let e of empresasFiltradas" [value]="e.nomeEmpresa">
-            {{ e.nomeEmpresa }} — {{ e.cnpj }}
-          </mat-option>
-        </mat-autocomplete>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarEmpresa($event.option.value)">
+            <mat-option *ngFor="let e of empresasFiltradas" [value]="e.nomeEmpresa">
+              {{ e.nomeEmpresa }} — {{ e.cnpj }}
+            </mat-option>
+          </mat-autocomplete>
 
-        <small *ngIf="!empresaSelecionada && formSubmitted">
-          Selecione uma empresa da lista.
-        </small>
+          <small *ngIf="!empresaSelecionada && formSubmitted">
+            Selecione uma empresa da lista.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="periodoAvaliacao">Período de Avaliação (meses)</label>
+          <input
+            id="periodoAvaliacao"
+            type="number"
+            formControlName="periodoAvaliacao"
+            placeholder="Ex: 6"
+          />
+        </div>
       </div>
+
 
       <!-- ROW 4 -->
       <div class="form-row">

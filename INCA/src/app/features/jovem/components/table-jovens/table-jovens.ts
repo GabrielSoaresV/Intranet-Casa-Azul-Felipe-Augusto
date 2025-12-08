@@ -5,6 +5,8 @@ import { JovemService } from '../../../../core/services/jovem.service';
 import { JovemAprendiz } from '../../../../models/jovem-aprendiz';
 import { Router } from '@angular/router';
 import { EmailService } from '../../../../core/services/email.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalEditarJovem } from '../../../../shared/modal-edit-jovem/modal-edit-jovem';
 
 @Component({
   selector: 'app-table-jovens',
@@ -33,6 +35,7 @@ export class TableJovens implements OnInit, AfterViewInit {
 
   constructor(
     private jovemService: JovemService,
+    private dialog: MatDialog,
     private emailService: EmailService,
     private router: Router
   ) {}
@@ -162,10 +165,19 @@ export class TableJovens implements OnInit, AfterViewInit {
     });
   }
 
-  editarRegistro(j: JovemAprendiz) {
-    this.router.navigate(['/jovens/editar', j.matricula]);
-  }
+  editarRegistro(jovem: JovemAprendiz) {
+    const dialogRef = this.dialog.open(ModalEditarJovem, {
+      width: '500px',
+      data: jovem
+    });
 
+    dialogRef.afterClosed().subscribe(atualizou => {
+      if (atualizou) {
+        this.loadJovens(); // recarrega a tabela após salvar
+      }
+    });
+  }
+  
   excluir(matricula: string) {
     if (!confirm('Deseja excluir este jovem?')) return;
 

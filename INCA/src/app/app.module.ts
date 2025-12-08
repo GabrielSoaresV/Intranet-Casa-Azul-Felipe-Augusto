@@ -38,6 +38,7 @@ import { TableJovens } from './features/jovem/components/table-jovens/table-jove
 import { PageEmpresaRegister } from './features/empresa/pages/page-empresa-register/page-empresa-register';
 import { PageJovemRegister } from './features/jovem/pages/page-jovem-register/page-jovem-register';
 import { PageAvaliacao } from './features/jovem/pages/page-avaliacao/page-avaliacao';
+import { ModalEditarJovem } from './shared/modal-edit-jovem/modal-edit-jovem';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { PageAvaliacao } from './features/jovem/pages/page-avaliacao/page-avalia
     DemandsList,
     DemandHistoryList,
     ProfilesList,
-    PageAvaliacao
+    PageAvaliacao,
+    ModalEditarJovem
   ],
   imports: [
     BrowserModule,

@@ -36,6 +36,7 @@ export class PageJovemRegister implements OnInit {
       nome: ['', Validators.required],
       matricula: ['', Validators.required],
       contratacao: [''],
+      rescisao: [''],
       periodoAvaliacao: [''],
       email: [''],
       telefone: [''],

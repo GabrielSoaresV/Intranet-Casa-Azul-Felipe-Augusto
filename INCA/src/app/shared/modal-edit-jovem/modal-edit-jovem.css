@@ -1,0 +1,136 @@
+.dialog {
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.06),
+    0 8px 24px rgba(16, 24, 40, 0.08);
+  overflow: hidden;
+  animation: dialog-in 180ms ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog__header {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: linear-gradient(180deg, #eef2ff, #fff);
+}
+
+.dialog__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 1px 1px rgba(16, 24, 40, 0.04),
+    0 1px 8px rgba(16, 24, 40, 0.06);
+}
+
+.dialog__icon mat-icon {
+  font-size: 22px;
+  color: #3f51b5;
+}
+
+.dialog__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.dialog__subtitle {
+  margin-top: 2px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.dialog__divider {
+  --mdc-divider-color: rgba(16, 24, 40, 0.08);
+}
+
+.dialog__content {
+  padding: 14px 20px 8px;
+}
+
+/* GRID DOS CAMPOS */
+.dialog-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.dialog__field {
+  width: 100%;
+}
+
+.full-span {
+  grid-column: span 2;
+}
+
+.dialog__actions {
+  padding: 14px 20px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn--ghost mat-icon,
+.btn--confirm mat-icon {
+  margin-right: 6px;
+  font-size: 18px;
+}
+
+button[mat-stroked-button].btn--ghost,
+button[mat-flat-button].btn--confirm {
+  border-radius: 24px;
+  padding: 8px 18px;
+  font-weight: 500;
+}
+
+button[mat-flat-button].btn--confirm {
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.06),
+    0 8px 16px rgba(16, 24, 40, 0.08);
+  transition: transform 0.08s ease, box-shadow 0.15s ease;
+}
+
+button[mat-flat-button].btn--confirm:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(16, 24, 40, 0.08),
+    0 10px 20px rgba(16, 24, 40, 0.1);
+}
+
+@keyframes dialog-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .dialog-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-span {
+    grid-column: span 1;
+  }
+}
