@@ -5,6 +5,7 @@ import { Empresa } from '../../../../models/empresa';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/confirm-dialog/confirm-dialog';
+import { ModalEditarEmpresa } from '../modal-edit-empresa/modal-edit-empresa';
 
 @Component({
   selector: 'app-table-empresas',
@@ -70,6 +71,19 @@ export class TableEmpresas implements OnInit, AfterViewInit {
   clearFilter(): void {
     this.searchTerm = '';
     this.dataSource.filter = '';
+  }
+
+  editarEmpresa(empresa: Empresa) {
+    const dialogRef = this.dialog.open(ModalEditarEmpresa, {
+      width: '520px',
+      data: empresa
+    });
+
+    dialogRef.afterClosed().subscribe(atualizou => {
+      if (atualizou) {
+        this.loadEmpresas();
+      }
+    });
   }
 
   deleteEmpresa(empresa: Empresa): void {

@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { JovemService } from '../../core/services/jovem.service';
-import { JovemAprendiz } from '../../models/jovem-aprendiz';
+import { JovemService } from '../../../../core/services/jovem.service';
+import { JovemAprendiz } from '../../../../models/jovem-aprendiz';
 
 @Component({
   selector: 'app-modal-editar-jovem',
@@ -29,8 +29,6 @@ export class ModalEditarJovem implements OnInit {
       email: [this.jovem.email],
       contratacao: [this.jovem.contratacao],
       rescisao: [this.jovem.rescisao],
-      nomeresponsavel: [this.jovem.nomeresponsavel],
-      telefoneresponsavel: [this.jovem.telefoneresponsavel],
       periodoAvaliacao: [this.jovem.periodoAvaliacao],
       observacoes: [this.jovem.observacoes]
     });

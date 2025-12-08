@@ -10,8 +10,6 @@ export interface JovemAprendiz {
   periodoAvaliacao?: string;
   email: string;
   telefone: string;
-  nomeresponsavel: string;
-  telefoneresponsavel: string;
   observacoes?: string;
 
   avaliacoes?: Avaliacao[];

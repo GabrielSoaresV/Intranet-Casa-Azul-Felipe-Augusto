@@ -133,18 +133,23 @@
               </div>
 
               <div class="expanded-item">
-                <strong>Responsável:</strong>
-                {{ jovem.nomeresponsavel || 'Não informado' }}
-              </div>
-
-              <div class="expanded-item">
-                <strong>Telefone Responsável:</strong>
-                {{ jovem.telefoneresponsavel || 'Não informado' }}
-              </div>
-
-              <div class="expanded-item">
                 <strong>Período:</strong>
                 {{ jovem.periodoAvaliacao }} meses
+              </div>
+
+              <div class="expanded-item">
+                <strong>Telefone da Empresa:</strong>
+                {{ jovem.empresa?.telefoneEmpresa || 'Não informado' }}
+              </div>
+
+              <div class="expanded-item">
+                <strong>Telefone RH (Empresa):</strong>
+                {{ jovem.empresa?.rhTelefone || 'Não informado' }}
+              </div>
+
+              <div class="expanded-item">
+                <strong>Email RH (Empresa):</strong>
+                {{ jovem.empresa?.rhEmailResponsavel || 'Não informado' }}
               </div>
 
               <div class="expanded-item">

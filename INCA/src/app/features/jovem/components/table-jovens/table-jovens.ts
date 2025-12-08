@@ -6,7 +6,7 @@ import { JovemAprendiz } from '../../../../models/jovem-aprendiz';
 import { Router } from '@angular/router';
 import { EmailService } from '../../../../core/services/email.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalEditarJovem } from '../../../../shared/modal-edit-jovem/modal-edit-jovem';
+import { ModalEditarJovem } from '../modal-edit-jovem/modal-edit-jovem';
 
 @Component({
   selector: 'app-table-jovens',

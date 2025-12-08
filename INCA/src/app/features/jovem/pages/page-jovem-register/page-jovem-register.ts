@@ -40,8 +40,6 @@ export class PageJovemRegister implements OnInit {
       periodoAvaliacao: [''],
       email: [''],
       telefone: [''],
-      nomeresponsavel: [''],
-      telefoneresponsavel: [''],
       observacoes: ['']
     });
   }

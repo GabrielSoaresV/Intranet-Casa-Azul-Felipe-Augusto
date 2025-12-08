@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Editar Empresa</h2>
+
+<form [formGroup]="form" class="modal-form">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome da Empresa</mat-label>
+    <input matInput formControlName="nomeEmpresa">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Telefone da Empresa</mat-label>
+    <input matInput formControlName="telefoneEmpresa">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome do Responsável RH</mat-label>
+    <input matInput formControlName="rhNomeResponsavel">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Email do Responsável RH</mat-label>
+    <input matInput formControlName="rhEmailResponsavel">
+  </mat-form-field>
+
+  <div formArrayName="emailEmpresa" class="email-list">
+
+  <label class="email-title">Emails da Empresa</label>
+
+  <div
+    class="email-row"
+    *ngFor="let email of emails.controls; let i = index"
+  >
+    <input
+      type="email"
+      class="email-input"
+      [formControlName]="i"
+      placeholder="email@empresa.com"
+    />
+
+    <button
+      type="button"
+      class="btn-remove-email"
+      (click)="removerEmail(i)"
+      *ngIf="emails.length > 1"
+    >
+      ✕
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="btn-add-email"
+    (click)="adicionarEmail()"
+  >
+    + Adicionar email
+  </button>
+
+</div>
+
+
+  <div class="modal-actions">
+    <button mat-stroked-button color="warn" (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+  </div>
+
+</form>
