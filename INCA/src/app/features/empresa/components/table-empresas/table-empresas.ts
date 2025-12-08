@@ -17,7 +17,7 @@ export class TableEmpresas implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'nomeEmpresa',
     'cnpj',
-    'emailEmpresa',
+    //'emailEmpresa',
     'telefoneEmpresa',
     'rhNomeResponsavel',
     'actions'

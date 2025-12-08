@@ -200,7 +200,7 @@ export class TableDemands implements OnInit, AfterViewInit {
 
   cancelDemand(demand: Demand, event: MouseEvent): void {
     event.stopPropagation();
-    this.askConfirm('Confirmar cancelamento desta demanda?', 'Cancelar Demanda', 'Cancelar')
+    this.askConfirm('Confirmar cancelamento desta demanda?', 'Cancelar Demanda', 'Cancelar Demanda')
       .subscribe(ok => {
         if (!ok) return;
         this.demandService.updateDemandStatus(demand.id!, 'CANCELLED', 'Cancelada pelo atendente')

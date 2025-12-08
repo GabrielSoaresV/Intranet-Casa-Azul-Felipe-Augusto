@@ -42,7 +42,6 @@ export class PageEmpresaRegister {
 
     if (!email) return;
 
-    // Evita duplicados
     if (this.emailList.includes(email)) {
       this.errorMessage = 'Este e-mail já foi adicionado.';
       return;
@@ -50,7 +49,6 @@ export class PageEmpresaRegister {
 
     this.emailList.push(email);
 
-    // Limpa input
     this.form.patchValue({ emailInput: '' });
     this.errorMessage = '';
   }
@@ -71,7 +69,7 @@ export class PageEmpresaRegister {
     const empresa: Empresa = {
       cnpj: this.form.value.cnpj,
       nomeEmpresa: this.form.value.nomeEmpresa,
-      emailEmpresa: this.emailList,   // ← LISTA DE EMAILS
+      emailEmpresa: this.emailList,
       telefoneEmpresa: this.form.value.telefoneEmpresa,
       rhNomeResponsavel: this.form.value.rhNomeResponsavel,
       rhEmailResponsavel: this.form.value.rhEmailResponsavel

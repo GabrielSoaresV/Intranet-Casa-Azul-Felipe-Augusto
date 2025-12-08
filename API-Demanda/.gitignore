@@ -17,6 +17,10 @@ data/banco-teste.trace.db
 .springBeans
 .sts4-cache
 
+*.mv.db
+*.trace.db
+/data/
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

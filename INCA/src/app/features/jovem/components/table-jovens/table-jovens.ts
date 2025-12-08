@@ -20,7 +20,6 @@ export class TableJovens implements OnInit, AfterViewInit {
     'matricula',
     'contratacao',
     'empresa',
-    'periodoAvaliacao',
     'actions'
   ];
 
@@ -124,7 +123,7 @@ export class TableJovens implements OnInit, AfterViewInit {
     if (diff <= 7) return `Faltam ${diff} dias (atenção)`;
     if (diff <= 30) return `Próxima em ${diff} dias`;
 
-    return `Dentro do prazo (${diff} dias restantes)`;
+    return `${diff} dias restantes`;
   }
 
   getDiasParaProximaAvaliacao(j: JovemAprendiz): number | null {
