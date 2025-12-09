@@ -31,6 +31,14 @@ export class TableJovens implements OnInit, AfterViewInit {
   searchTerm = '';
   errorMessage = '';
 
+  filters = {
+    term: '',
+    status: '',
+    empresa: ''
+  };
+  
+  empresas: string[] = [];  
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -188,4 +196,27 @@ export class TableJovens implements OnInit, AfterViewInit {
       error: () => this.errorMessage = 'Erro ao excluir registro.'
     });
   }
+
+  searchJovens(): void {
+    this.errorMessage = '';
+  
+    this.jovemService.searchJovens(this.filters).subscribe({
+      next: data => {
+        this.dataSource.data = data;
+        this.expandedElement = null;
+        if (data.length === 0) {
+          this.errorMessage = 'Nenhum jovem encontrado.';
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Erro ao buscar jovens.';
+      }
+    });
+  }
+  
+  clearFilters(): void {
+    this.filters = { term: '', status: '', empresa: '' };
+    this.loadJovens();
+  }
+  
 }

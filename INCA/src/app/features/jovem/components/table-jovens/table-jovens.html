@@ -6,13 +6,26 @@
   <div class="filter-bar">
     <input
       type="text"
-      placeholder="Buscar por nome, matrícula, empresa..."
-      [(ngModel)]="searchTerm"
-      (keyup.enter)="applyFilter()"
+      placeholder="Buscar por nome ou matrícula..."
+      [(ngModel)]="filters.term"
+      (keyup.enter)="searchJovens()"
     />
-
-    <button class="btn-search" (click)="applyFilter()">Buscar</button>
-    <button class="btn-clear" (click)="clearFilter()">Limpar</button>
+  
+    <select [(ngModel)]="filters.status" (change)="searchJovens()">
+      <option value="">Todos os status</option>
+      <option value="ATIVO">Ativo</option>
+      <option value="INATIVO">Inativo</option>
+    </select>
+  
+    <select [(ngModel)]="filters.empresa" (change)="searchJovens()">
+      <option value="">Todas as empresas</option>
+      <option *ngFor="let emp of empresas" [value]="emp">
+        {{ emp }}
+      </option>
+    </select>
+  
+    <button class="btn-search" (click)="searchJovens()">Buscar</button>
+    <button class="btn-clear" (click)="clearFilters()">Limpar</button>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">

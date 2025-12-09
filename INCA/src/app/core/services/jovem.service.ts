@@ -33,4 +33,12 @@ export class JovemService {
   excluir(matricula: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${matricula}`);
   }
+
+  searchJovens(filters: any) {
+    return this.http.post<JovemAprendiz[]>(
+      `${this.apiUrl}/search`,
+      filters
+    );
+  }
+    
 }

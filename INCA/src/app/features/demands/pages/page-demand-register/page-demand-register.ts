@@ -47,7 +47,7 @@ export class PageDemandRegister {
     this.demandService.createDemand(demand).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/demands']);
       },
       error: () => {
         this.isSubmitting = false;
